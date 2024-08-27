@@ -87,6 +87,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const buryTreasure = (x: number, y: number) => {
     if (treasureToBury) {
+      setAvailableTreasures((prev) =>
+        prev.filter((t) => t.id !== treasureToBury?.id)
+      );
       setBuriedTreasures((prev) => [...prev, { x, y, ...treasureToBury }]);
       const { xSize, ySize } = treasureToBury;
       for (let i = 0; i < xSize; i++) {
@@ -106,11 +109,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     console.log("treasureToBury", treasureToBury);
     if (treasureToBury) {
       setTreasureToBury((prev) => {
-        return prev && {
-          ...prev,
-          xSize: prev!.ySize,
-          ySize: prev!.xSize,
-        };
+        return (
+          prev && {
+            ...prev,
+            xSize: prev!.ySize,
+            ySize: prev!.xSize,
+          }
+        );
       });
     }
   };
@@ -139,7 +144,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const pickTreasure = (treasure: ITreasure | undefined) => {
     setTreasureToBury(treasure);
-    setAvailableTreasures((prev) => prev.filter((t) => t.id !== treasure?.id));
   };
 
   return (
