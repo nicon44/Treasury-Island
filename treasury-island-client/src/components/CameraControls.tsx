@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const TOP_LIMIT = 100;
 const BOTTOM_LIMIT = 50;
 const ZOOM_SPEED = 0.5;
-const CAMERA_MOVE_SPEED = 0.25;
+const CAMERA_MOVE_SPEED = 2;
 
 export function CameraControls() {
   const { camera } = useThree();

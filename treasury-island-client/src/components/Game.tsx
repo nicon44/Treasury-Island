@@ -14,11 +14,11 @@ export const Game = () => {
     });
     const handleKeyDown = (event: { key: string; }) => {
       if (event.key === "r" || event.key === "R") {
+        console.log("Rotating");
         rotateTreasure();
       }
     };
 
-    // Add the event listener for the "R" key
     window.addEventListener("keydown", handleKeyDown);
 
     // Cleanup event listener on component unmount

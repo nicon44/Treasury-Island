@@ -1,4 +1,7 @@
-export const Water = () => {
+import { TileProps } from "../../types/TileProps";
+
+
+export const Water = ({ x, y }: TileProps) => {
     return (
       <group>
         {/* Sand tile */}
