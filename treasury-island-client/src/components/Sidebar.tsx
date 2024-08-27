@@ -17,15 +17,17 @@ export const Sidebar = () => {
     >
       <Heading>Treasury Island</Heading>
       <hr />
-      <Heading mb={4} size="sm">Select treasure to bury</Heading>
+      <Heading mb={4} size="sm">
+        {availableTreasures.length
+          ? "Select treasure to bury"
+          : "No more treasures to bury"}
+      </Heading>
       <Flex direction="column" gap={2}>
         {availableTreasures.map((treasure) => (
           <Button
-          variant='outline'
+            variant="outline"
             key={treasure.id}
-            onClick={() =>
-              pickTreasure(treasure)
-            }
+            onClick={() => pickTreasure(treasure)}
           >
             {`Treasure ${treasure.id} (${treasure.xSize}x${treasure.ySize})`}
           </Button>
