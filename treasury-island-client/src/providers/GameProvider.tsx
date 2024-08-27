@@ -19,26 +19,51 @@ const BASE_GRID = [
   [0, 0, 0, 0, 0, 0],
 ];
 
+const AVAILABLE_TREASURES = [
+  {
+    id: 1,
+    xSize: 1,
+    ySize: 1,
+  },
+  {
+    id: 2,
+    xSize: 1,
+    ySize: 2,
+  },
+  {
+    id: 3,
+    xSize: 1,
+    ySize: 2,
+  },
+  {
+    id: 4,
+    xSize: 1,
+    ySize: 4,
+  },
+];
+
 interface IGameContext {
   treasureToBury: ITreasure | undefined;
-  setTreasureToBury: (treasure: ITreasure | undefined) => void;
+  pickTreasure: (treasure: ITreasure | undefined) => void;
   buriedTreasures: IBuriedTreasure[];
   buryTreasure: (x: number, y: number) => void;
   rotateTreasure: () => void;
   grid: Terrain[][];
   updateGridValue: (x: number, y: number, newValue: Terrain) => void;
   checkIfCanBeBuried: (x: number, y: number) => boolean;
+  availableTreasures: ITreasure[];
 }
 
 const GameContext = createContext<IGameContext>({
   treasureToBury: undefined,
-  setTreasureToBury: () => {},
+  pickTreasure: () => {},
   buriedTreasures: [],
   buryTreasure: () => {},
   rotateTreasure: () => {},
   grid: BASE_GRID,
   updateGridValue: () => {},
   checkIfCanBeBuried: () => false,
+  availableTreasures: [],
 });
 export const useGameContext = () => useContext(GameContext);
 
@@ -47,7 +72,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
 
   const [grid, setGrid] = useState<Terrain[][]>(BASE_GRID);
-  console.log("grid", grid);
+
+  const [availableTreasures, setAvailableTreasures] =
+    useState<ITreasure[]>(AVAILABLE_TREASURES);
 
   const updateGridValue = (x: number, y: number, newValue: Terrain) => {
     setGrid((prev) => {
@@ -66,7 +93,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         for (let j = 0; j < ySize; j++) {
           const currentX = x + i;
           const currentY = y + j;
-          console.log("updating grid value", currentX, currentY);
           updateGridValue(currentX, currentY, Terrain.TREASURE);
         }
       }
@@ -80,8 +106,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     console.log("treasureToBury", treasureToBury);
     if (treasureToBury) {
       setTreasureToBury((prev) => {
-        console.log("prev", prev);
-        return {
+        return prev && {
+          ...prev,
           xSize: prev!.ySize,
           ySize: prev!.xSize,
         };
@@ -111,17 +137,23 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     return true; // All cells are Terrain.SAND, so the treasure can be buried here
   };
 
+  const pickTreasure = (treasure: ITreasure | undefined) => {
+    setTreasureToBury(treasure);
+    setAvailableTreasures((prev) => prev.filter((t) => t.id !== treasure?.id));
+  };
+
   return (
     <GameContext.Provider
       value={{
         treasureToBury,
-        setTreasureToBury,
+        pickTreasure,
         buriedTreasures,
         buryTreasure,
         rotateTreasure,
         grid,
         updateGridValue,
         checkIfCanBeBuried,
+        availableTreasures,
       }}
     >
       {children}
