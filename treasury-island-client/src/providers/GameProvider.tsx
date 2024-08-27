@@ -3,19 +3,19 @@ import { IBuriedTreasure, ITreasure } from "../types/Treasure";
 import { Terrain } from "../enums/terrain";
 
 const BASE_GRID = [
+  [0, Terrain.PALM, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [Terrain.STONE, 0, 0, 0, 0, 0],
+  [Terrain.STONE, 0, 0, 0, 0, 0],
+  [0, 0, 0, Terrain.PALM, 0, 0],
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
+  [Terrain.STONE, Terrain.STONE, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, Terrain.PALM, 0],
   [0, 0, 0, 0, 0, 0],
 ]
 

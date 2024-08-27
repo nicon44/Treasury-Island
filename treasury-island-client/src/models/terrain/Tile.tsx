@@ -5,6 +5,8 @@ import { TileProps } from "../../types/TileProps";
 import { Treasure } from "../Treasure";
 import { Sand } from "./Sand";
 import { Water } from "./Water";
+import { Palm } from "./Palm";
+import { Stone } from "./Stone";
 
 export const Tile = ({ x, y }: TileProps) => {
   const { treasureToBury, buryTreasure, buriedTreasures, grid } =
@@ -19,11 +21,11 @@ export const Tile = ({ x, y }: TileProps) => {
       [Terrain.WATER]: (
         <Water x={x} y={y} hovered={hovered} setHovered={setHovered} />
       ),
-      [Terrain.PALM]: ( // TODO: Add palm
-        <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} />
+      [Terrain.PALM]: (
+        <Palm x={x} y={y} hovered={hovered} setHovered={setHovered} />
       ),
-      [Terrain.STONE]: ( // TODO: Add stone
-        <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} />
+      [Terrain.STONE]: ( 
+        <Stone x={x} y={y} hovered={hovered} setHovered={setHovered} />
       ),
     };
   }, [x, y, hovered, setHovered]);
