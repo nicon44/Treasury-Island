@@ -30,7 +30,6 @@ export default function Component() {
     account: { account },
   } = useDojo();
 
-  console.log("account: ", account);
   const navigate = useNavigate();
 
   // entity id we are syncing
@@ -40,22 +39,17 @@ export default function Component() {
 
   // === PLAYER DETAILS ===
   const player = useComponentValue(Player, entityId);
-  console.log("player: ", player);
   const hasPlayers = useEntityQuery([Has(Player)]);
-  console.log(hasPlayers);
   const playersDetails = hasPlayers.map((entity) => {
     const player = getComponentValueStrict(Player, entity);
     return player;
   });
-  console.log("playersDetails: ", playersDetails);
 
   const hasRooms = useEntityQuery([Has(GameRoom)]);
-  console.log(hasRooms);
   const roomsDetails = hasRooms.map((entity) => {
     const room = getComponentValueStrict(GameRoom, entity);
     return room;
   });
-  console.log("roomsDetails: ", roomsDetails);
 
   const [nameValue, setNameValue] = useState("");
   const handleNameTypingInput = (

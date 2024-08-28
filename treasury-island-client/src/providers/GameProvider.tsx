@@ -1,5 +1,7 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { useDojo } from "../dojo/useDojo";
 import { Terrain } from "../enums/terrain";
+import { useRoomId } from "../hooks/useRoomId";
 import { IBuriedTreasure, ITreasure } from "../types/Treasure";
 
 const BASE_GRID = [
@@ -19,28 +21,6 @@ const BASE_GRID = [
   [0, 0, 0, 0, 0, 0],
 ];
 
-const AVAILABLE_TREASURES = [
-  {
-    id: 1,
-    xSize: 1,
-    ySize: 1,
-  },
-  {
-    id: 2,
-    xSize: 1,
-    ySize: 2,
-  },
-  {
-    id: 3,
-    xSize: 2,
-    ySize: 1,
-  },
-  {
-    id: 4,
-    xSize: 1,
-    ySize: 4,
-  },
-];
 
 interface IGameContext {
   treasureToBury: ITreasure | undefined;
@@ -51,7 +31,6 @@ interface IGameContext {
   grid: Terrain[][];
   updateGridValue: (x: number, y: number, newValue: Terrain) => void;
   checkIfCanBeBuried: (x: number, y: number) => boolean;
-  availableTreasures: ITreasure[];
 }
 
 const GameContext = createContext<IGameContext>({
@@ -63,18 +42,24 @@ const GameContext = createContext<IGameContext>({
   grid: BASE_GRID,
   updateGridValue: () => {},
   checkIfCanBeBuried: () => false,
-  availableTreasures: [],
 });
 export const useGameContext = () => useContext(GameContext);
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
+  const {
+      setup: {
+      clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+      client,
+      },
+      account: { account },
+  } = useDojo();
+  const roomId = useRoomId();
+
   const [treasureToBury, setTreasureToBury] = useState<ITreasure | undefined>();
   const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
 
   const [grid, setGrid] = useState<Terrain[][]>(BASE_GRID);
 
-  const [availableTreasures, setAvailableTreasures] =
-    useState<ITreasure[]>(AVAILABLE_TREASURES);
 
   const updateGridValue = (x: number, y: number, newValue: Terrain) => {
     setGrid((prev) => {
@@ -85,11 +70,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  const buryTreasure = (x: number, y: number) => {
+  const buryTreasure = async (x: number, y: number) => {
     if (treasureToBury) {
-      setAvailableTreasures((prev) =>
+      /* setAvailableTreasures((prev) =>
         prev.filter((t) => t.id !== treasureToBury?.id)
-      );
+      ); */
       setBuriedTreasures((prev) => [...prev, { x, y, ...treasureToBury }]);
       const { xSize, ySize } = treasureToBury;
       for (let i = 0; i < xSize; i++) {
@@ -99,6 +84,15 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           updateGridValue(currentX, currentY, Terrain.TREASURE);
         }
       }
+      await client.gameroom.hide_loot({
+        account,
+        game_id: BigInt(roomId??""),
+        loot_id: 1, // 1 is 1x1, 2 is 3x1, 3 is 4x1
+        x0: x,
+        y0: y,
+        x1: x,
+        y1: y,
+    });
     } else {
       console.error("No treasure to bury");
     }
@@ -106,7 +100,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   };
 
   const rotateTreasure = () => {
-    console.log("treasureToBury", treasureToBury);
     if (treasureToBury) {
       setTreasureToBury((prev) => {
         return (
@@ -157,7 +150,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         grid,
         updateGridValue,
         checkIfCanBeBuried,
-        availableTreasures,
       }}
     >
       {children}

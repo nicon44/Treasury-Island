@@ -1,10 +1,13 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
 import { useGameContext } from "../providers/GameProvider";
 
 export const Sidebar = () => {
-  const { pickTreasure, availableTreasures } = useGameContext();
+  const { pickTreasure } = useGameContext();
   const id = useRoomId();
+
+  const availableTreasures = useAvailableTreasures();
 
   return (
     <Flex
@@ -38,6 +41,7 @@ export const Sidebar = () => {
             </Button>
           ))}
         </Flex>
+        <Box></Box>
       </Box>
       <Box m={2}>
         <Text>Room ID: {id}</Text>
