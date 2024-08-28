@@ -55,7 +55,9 @@ export const Tile = ({ x, y }: TileProps) => {
     >
       {TERRAIN_MAP[grid[x][y]]}
       {buriedTreasure && (
-        <Treasure size={[buriedTreasure.xSize, buriedTreasure.ySize]} />
+        <>
+          <Treasure size={[buriedTreasure.xSize, buriedTreasure.ySize]} />
+        </>
       )}
       {hovered && treasureToBury && !buriedTreasure && (
         <Treasure

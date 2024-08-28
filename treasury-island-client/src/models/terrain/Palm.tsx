@@ -13,7 +13,7 @@ export const Palm = ({ x, y, hovered, setHovered }: TileProps) => {
       {scene && (
         <primitive
           object={clonedScene}
-          scale={[2, 2, 2]}
+          scale={[3,3,3]}
           position={[0, 2, 0]} 
         />
       )}
