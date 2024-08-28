@@ -68,8 +68,8 @@ export const Treasure = ({ size = [1, 1], canBeBuried = true }) => {
         {chest1 && (
           <primitive
             object={chest1}
-            scale={[4, 4, 4]}
-            position={[0, 5, 0]}
+            scale={[2, 5, 2.8]}
+            position={[0, 6, 0]}
             rotation={[0, xSize === 1 ? -Math.PI / 2 : 0, 0]}
           />
         )}
@@ -77,15 +77,15 @@ export const Treasure = ({ size = [1, 1], canBeBuried = true }) => {
     );
   }
 
-  if ((xSize === 1 && ySize === 3) || (xSize === 3 && ySize === 1)) {
+  if ((xSize === 1 && ySize === 4) || (xSize === 4 && ySize === 1)) {
     return (
-      <group position={[(xSize * 10) / 2 - 5, -5, (ySize * 10) / 2 - 5]}>
+      <group position={[(xSize * 25) / 2 - 5, -5, (ySize * 3) / 2 - 5]}>
         {chest3 && (
           <primitive
             object={chest3}
-            scale={[4, 4, 4]}
-            position={[0, 5, 0]}
-            rotation={[0, xSize === 3 ? -Math.PI / 2 : 0, 0]}
+            scale={[5, 7, 4]}
+            position={[2.5, 6, 0]}
+            rotation={[0, xSize === 4 ? -Math.PI / 2 : 0, 0]}
           />
         )}
       </group>
