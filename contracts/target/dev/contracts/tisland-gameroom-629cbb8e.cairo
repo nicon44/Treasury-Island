@@ -62,6 +62,7 @@ pub mod gameroom {
     use tisland::models::gameroom::{GameRoomTrait};
     use tisland::models::loot::{LootTrait};
     use tisland::models::islandcoords::{IslandCoordsTrait};
+    use tisland::models::round::{RoundTrait};
     use tisland::libs::utils;
     use tisland::constants;
     //use tisland::libs::seeder::{make_seed};
@@ -91,11 +92,12 @@ pub mod gameroom {
             //suppose to add random obstacles later
 
             // initialize player loot tracker
-            let mut player1_loot = LootTrait::new(game_id, game_room.player1);
-            let mut player2_loot = LootTrait::new(game_id, game_room.player2);
+            let player1_loot = LootTrait::new(game_id, game_room.player1);
+            let player2_loot = LootTrait::new(game_id, game_room.player2);
+            let round = RoundTrait::new(game_id, game_room.round_num);
 
             // [Save] GameRoom
-            set!(self.world(), (game_room, player1_loot, player2_loot));
+            set!(self.world(), (game_room, round, player1_loot, player2_loot));
         }
         fn hide_loot(
             ref self: ContractState, game_id: u128, loot_id: u8, x0: u8, y0: u8, x1: u8, y1: u8
@@ -131,9 +133,7 @@ pub mod gameroom {
                 0 => { assert(false, 'Invalid loot id to hide'); },
                 // 1x1
                 1 => {
-                    assert(
-                        player_loot.one_one - player_loot.one_one_hidden > 0, 'No more 1x1 loot'
-                    );
+                    assert(player_loot.one_one > 0, 'No more 1x1 loot');
 
                     // Bury Loot
                     player_loot.one_one -= 1;
@@ -143,9 +143,7 @@ pub mod gameroom {
                 },
                 // 3x1
                 2 => {
-                    assert(
-                        player_loot.three_one - player_loot.three_one_hidden > 0, 'No more 3x1 loot'
-                    );
+                    assert(player_loot.three_one > 0, 'No more 3x1 loot');
 
                     // === Bury Loot ===
 
@@ -183,9 +181,7 @@ pub mod gameroom {
                 },
                 // 4x1
                 3 => {
-                    assert(
-                        player_loot.four_one - player_loot.four_one_hidden > 0, 'No more 4x1 loot'
-                    );
+                    assert(player_loot.four_one > 0, 'No more 4x1 loot');
 
                     // === Bury Loot ===
 
@@ -300,6 +296,9 @@ pub mod gameroom {
             // check to see if loot was found
             let mut island_coords = get!(self.world(), (game_id, opponent, x, y), IslandCoords);
             let found_loot = (island_coords.terrain == 1);
+
+            // if loot is found, update player loot
+            // else reduce tries
             if (found_loot) {
                 island_coords.terrain = 88;
                 set!(self.world(), (island_coords));
@@ -310,11 +309,13 @@ pub mod gameroom {
                 } else {
                     round.player2_tries -= 1;
                 }
+                set!(self.world(), (round));
             }
 
             // check and return and boolean if loot was entirely found
             if (island_coords.loot_id == 1) {
                 opponent_loot.one_one_hidden -= 1;
+                set!(self.world(), (opponent_loot));
                 return true;
             } else if (island_coords.loot_id == 2) {
                 // check if the entire loot 2 is found
@@ -331,6 +332,11 @@ pub mod gameroom {
                             }
                             check_x += 1;
                         };
+
+                        if (all_found) {
+                            opponent_loot.three_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     } else {
                         // case when y0 != y1
@@ -345,6 +351,10 @@ pub mod gameroom {
                             }
                             check_y += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.three_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     }
                     //return false;
@@ -361,6 +371,10 @@ pub mod gameroom {
                             }
                             check_x += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.three_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     } else {
                         // case when y0 != y1
@@ -375,6 +389,10 @@ pub mod gameroom {
                             }
                             check_y += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.three_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     }
                     //return false;
@@ -395,6 +413,10 @@ pub mod gameroom {
                             }
                             check_x += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.four_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     } else {
                         // case when y0 != y1
@@ -409,6 +431,10 @@ pub mod gameroom {
                             }
                             check_y += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.four_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     }
                     //return false;
@@ -425,6 +451,10 @@ pub mod gameroom {
                             }
                             check_x += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.four_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     } else {
                         // case when y0 != y1
@@ -439,6 +469,10 @@ pub mod gameroom {
                             }
                             check_y += 1;
                         };
+                        if (all_found) {
+                            opponent_loot.four_one_hidden -= 1;
+                            set!(self.world(), (opponent_loot));
+                        }
                         return all_found;
                     }
                     //return false;
@@ -479,6 +513,8 @@ pub mod gameroom {
                 if (game_room.round_num < 3) {
                     game_room.phase = 1;
                     game_room.round_num += 1;
+                    let round = RoundTrait::new(game_id, game_room.round_num);
+                    set!(self.world(), (round));
                 } else {
                     // if round_num == 3 and phase ==2, tabulate score and end game
 

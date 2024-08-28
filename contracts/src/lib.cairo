@@ -10,6 +10,7 @@ mod models {
     mod gameroom;
     mod loot;
     mod islandcoords;
+    mod round;
 }
 
 // mod components {

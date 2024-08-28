@@ -27,6 +27,16 @@ export const GameRoom = () => {
         getEntityIdFromKeys([BigInt(roomId??"")]) as Entity)??"";
     const gameStarted = mapGameState(game?.state) == "InProgress";
     
+    const gameRoundEntity = getEntityIdFromKeys([BigInt(roomId??""),
+        BigInt(game?.round_num??"")])
+    const gameRound = getComponentValue(Round,gameRoundEntity)??"";
+    
+    const hasGameRounds = useEntityQuery([Has(Round)]);
+    console.log("hasGameRounds: ", hasGameRounds);
+    console.log("Game Round Entity: ", gameRoundEntity)
+    console.log("Game Round: ", gameRound)
+
+    
     const player1Address: string = Number(game?.player1) == 0? "": bigintToHex(game?.player1);
     const player1isHere: boolean = player1Address == ""? false: true;
     const player1 = player1isHere ? getComponentValue(Player, getEntityIdFromKeys([game?.player1])??"" as Entity):{};
@@ -90,12 +100,23 @@ export const GameRoom = () => {
         await client.gameroom.hide_loot({
             account,
             game_id: BigInt(roomId??""),
-            loot_id: 2, // 1 is 1x1, 2 is 3x1, 3 is 4x1
+            loot_id: 1, // 1 is 1x1, 2 is 3x1, 3 is 4x1
             x0: x,
             y0: y,
-            x1: x+2,
+            x1: x,
             y1: y,
         });
+    }
+
+    const handleDigToSeek = async ({x,y}) => {
+        console.log("digging for loot..", x,y)
+        const found = await client.gameroom.dig_for_loot({
+            account,
+            game_id: BigInt(roomId??""),
+            x: x,
+            y: y,
+        });
+        console.log("found: ", found);
     }
 
     const handleEndRound = async () => {
@@ -106,6 +127,7 @@ export const GameRoom = () => {
         });
     }
 
+    
     return (
         <div className="flex flex-col items-start p-2 gap-y-1">
             <div className="border p-2 rounded-lg">GameRoom: {roomId}</div>
@@ -176,6 +198,10 @@ export const GameRoom = () => {
             
             <div className="w-full">
                 <p>Loot Stats</p>
+                <p>Number of tries: {
+                    account.address == bigintToHex(game?.player1) ? gameRound?.player1_tries: 
+                    account.address == bigintToHex(game?.player2) ? gameRound?.player2_tries: "Null"
+                    }</p>
                     <p>
                         <span className="mx-2">4x1: </span>
                         <span>{playerLoot?.four_one}</span>
@@ -200,6 +226,8 @@ export const GameRoom = () => {
             </div>
 
             {/* Land */}
+            {
+                mapPhase(game?.phase??"") == "Hide Phase"?
             <div className="m-2 grid gap-2">
                 {
                     Array.from({length: 6}).map((_, y) => {
@@ -218,6 +246,7 @@ export const GameRoom = () => {
                                         
                                         targetTile ?console.log("targetTile: ", targetTile ):null;
                                         const isHiddenLoot = targetTile ? targetTile?.terrain == 1 : false;
+                                        console.log(targetTile?.loot_id);
 
                                         return (
                                             <div key={"square"+x+y} 
@@ -238,6 +267,51 @@ export const GameRoom = () => {
                     })
                 }
             </div>
+            :
+                mapPhase(game?.phase??"") == "Seek Phase"?
+            <div className="m-2 grid gap-2">
+                {
+                    Array.from({length: 6}).map((_, y) => {
+                        return (
+                            <div key={y} className="flex gap-x-1">
+                                {
+                                    Array.from({length: 14}).map((_, x) => {
+
+                                        const targetTile = getComponentValue(IslandCoords, 
+                                            getEntityIdFromKeys([
+                                                BigInt(roomId??""),
+                                                BigInt(account.address),
+                                                BigInt(x),
+                                                BigInt(y)
+                                            ]))
+                                        
+                                        targetTile ?console.log("targetTile: ", targetTile ):null;
+                                        const isHiddenLoot = targetTile ? targetTile?.terrain == 1 : false;
+                                        console.log(targetTile?.loot_id);
+
+                                        return (
+                                            <div key={"square"+x+y} 
+                                            className={`w-10 h-10 border border-gray-400 rounded-md
+                                        
+                                            bg-green-400
+                                            hover:bg-green-300
+                                            hover:cursor-pointer
+                                            `}
+                                            onClick={()=>handleDigToSeek({x,y})}
+                                            >
+                                                {/* {x},{y} */}
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            :
+            <></>
+            }
             
         </div>
     )
