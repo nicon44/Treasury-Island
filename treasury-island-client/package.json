@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate": "sozo build --typescript --manifest-path ../contracts/Scarb.toml --bindings-output ./src/dojo/typescript"
+    "generate": "sozo build --typescript --manifest-path ../contracts/Scarb.toml --bindings-output ./src/dojo"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",

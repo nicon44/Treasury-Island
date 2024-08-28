@@ -1,72 +1,101 @@
 import {
-    Alert,
-    AlertDescription,
-    AlertIcon,
-    AlertTitle,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Container,
-    Flex,
-    Heading,
-    Input,
-    Text,
-    useColorModeValue,
-    VStack,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Container,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  useColorModeValue,
+  VStack,
 } from "@chakra-ui/react";
+import { useComponentValue, useEntityQuery } from "@dojoengine/react";
+import { Entity, getComponentValueStrict, Has } from "@dojoengine/recs";
+import * as torii from "@dojoengine/torii-client";
+import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useState } from "react";
-
-interface Room {
-  id: string;
-  host: string;
-  players: number;
-}
+import { useNavigate } from "react-router-dom";
+import { useDojo } from "../dojo/useDojo";
+import { bigintToHex, feltToString } from "../utils";
 
 export default function Component() {
-  const [rooms, setRooms] = useState<Room[]>([
-    { id: "1", host: "Captain Blackbeard", players: 1 },
-    { id: "2", host: "Anne Bonny", players: 0 },
-    { id: "3", host: "Bartholomew Roberts", players: 1 },
-  ]);
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const {
+    setup: {
+      clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+      client,
+    },
+    account: { account },
+  } = useDojo();
 
-  const createRoom = () => {
-    if (username.trim() === "") {
-      setError("A captain must have a name.");
-      return;
-    }
-    if (
-      rooms.some((room) => room.host.toLowerCase() === username.toLowerCase())
-    ) {
-      setError("That name is already taken by another captain.");
-      return;
-    }
-    const newRoom: Room = {
-      id: (rooms.length + 1).toString(),
-      host: username,
-      players: 1,
-    };
-    setRooms([...rooms, newRoom]);
-    setUsername("");
-    setError(null);
+  console.log("account: ", account);
+  const navigate = useNavigate();
+
+  // entity id we are syncing
+  const entityId = getEntityIdFromKeys([BigInt(account.address)]) as Entity;
+
+  const [playerRegistered, setPlayerRegistered] = useState(false);
+
+  // === PLAYER DETAILS ===
+  const player = useComponentValue(Player, entityId);
+  console.log("player: ", player);
+  const hasPlayers = useEntityQuery([Has(Player)]);
+  console.log(hasPlayers);
+  const playersDetails = hasPlayers.map((entity) => {
+    const player = getComponentValueStrict(Player, entity);
+    return player;
+  });
+  console.log("playersDetails: ", playersDetails);
+
+  const hasRooms = useEntityQuery([Has(GameRoom)]);
+  console.log(hasRooms);
+  const roomsDetails = hasRooms.map((entity) => {
+    const room = getComponentValueStrict(GameRoom, entity);
+    return room;
+  });
+  console.log("roomsDetails: ", roomsDetails);
+
+  const [nameValue, setNameValue] = useState("");
+  const handleNameTypingInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNameValue(String(event.target.value));
   };
 
-  const joinRoom = (roomId: string) => {
-    setRooms(
-      rooms.map((room) =>
-        room.id === roomId ? { ...room, players: room.players + 1 } : room
-      )
-    );
+  const handleRegister = async () => {
+    const response = await client.lobby.register_player({
+      account,
+      name: BigInt(torii.cairoShortStringToFelt(nameValue)),
+      pfp_num: 1,
+    });
+    if (response) {
+      setPlayerRegistered(true);
+    }
+  };
+
+  const handleCreateRoom = async () => {
+    await client.lobby.create_room({
+      account,
+    });
   };
 
   const bg = useColorModeValue("gray.50", "gray.900");
   const cardBg = useColorModeValue("white", "gray.800");
 
+  const getOwnerName = (owner: bigint): string => {
+    const ownerPlayer = playersDetails.find(
+      (player) => player.player_id === owner
+    );
+    return ownerPlayer?.name ? feltToString(ownerPlayer.name) : "";
+  };
+
   return (
     <Box bg={bg} minH="100vh" py={10}>
+      <Box m={2} position="absolute" bottom={0} right={0}>
+        <Text>Wallet Address: {account.address}</Text>
+      </Box>
       <Container maxW="container.xl">
         <Heading
           as="h1"
@@ -87,21 +116,37 @@ export default function Component() {
             </CardHeader>
             <CardBody>
               <VStack spacing={4}>
-                <Input
-                  placeholder="Enter your captain name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <Button colorScheme="orange" onClick={createRoom} width="full">
-                  Set Sail
-                </Button>
-                {error && (
+                {!playerRegistered ? (
+                  <>
+                    <Input
+                      placeholder="Enter your captain name"
+                      value={nameValue}
+                      onChange={handleNameTypingInput}
+                    />
+                    <Button
+                      colorScheme="orange"
+                      onClick={handleRegister}
+                      width="full"
+                    >
+                      Register player
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    colorScheme="orange"
+                    onClick={handleCreateRoom}
+                    width="full"
+                  >
+                    Create Room
+                  </Button>
+                )}
+                {/* {error && (
                   <Alert status="error">
                     <AlertIcon />
                     <AlertTitle mr={2}>Error!</AlertTitle>
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
-                )}
+                )*/}
               </VStack>
             </CardBody>
           </Card>
@@ -114,9 +159,9 @@ export default function Component() {
             </CardHeader>
             <CardBody>
               <VStack spacing={4} align="stretch" maxH="300px" overflowY="auto">
-                {rooms.map((room) => (
+                {roomsDetails.map((room, index) => (
                   <Box
-                    key={room.id}
+                    key={"room-" + index}
                     p={3}
                     borderWidth={1}
                     borderRadius="md"
@@ -125,16 +170,20 @@ export default function Component() {
                     <Flex justify="space-between" align="center">
                       <VStack align="start" spacing={0}>
                         <Text fontWeight="bold" color="orange.400">
-                          {room.host}'s Crew
+                          Room: {bigintToHex(room?.game_id)}
                         </Text>
+
                         <Text fontSize="sm" color="gray.500">
-                          {room.players} sailor{room.players !== 1 ? "s" : ""}
+                          Owner: {getOwnerName(room?.player1 || BigInt(0))}
                         </Text>
                       </VStack>
                       <Button
                         colorScheme="orange"
                         size="sm"
-                        onClick={() => joinRoom(room.id)}
+                        isDisabled={room?.player2 !== BigInt(0) || !playerRegistered}
+                        onClick={() =>
+                          navigate(`/room/${bigintToHex(room?.game_id)}`)
+                        }
                       >
                         Join Crew
                       </Button>

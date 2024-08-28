@@ -9,14 +9,18 @@ function App() {
   return (
     <ChakraProvider>
       <GameProvider>
-      <Routes>
-            <Route path="/" element={<Lobby />} />
-            <Route path="/game" element={<>
-              <Sidebar />
-              <Game />
-            </>} />
-            </Routes>
-        
+        <Routes>
+          <Route path="/" element={<Lobby />} />
+          <Route
+            path="/game"
+            element={
+              <>
+                <Sidebar />
+                <Game />
+              </>
+            }
+          />
+        </Routes>
       </GameProvider>
     </ChakraProvider>
   );
