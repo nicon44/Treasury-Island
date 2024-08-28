@@ -9,7 +9,7 @@ export const Stone = ({ x, y, hovered, setHovered }: TileProps) => {
 
   return (
     <group>
-      <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} />
+      <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} combined />
 
       {scene && (
         <primitive

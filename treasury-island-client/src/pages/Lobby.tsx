@@ -187,7 +187,7 @@ export default function Component() {
                                 game_id: BigInt(room?.game_id ?? ""),
                               });
                             }
-                            navigate(`/room?id=${bigintToHex(room?.game_id)}`);
+                            navigate(`/hide?id=${bigintToHex(room?.game_id)}`);
                           }}
                         >
                           Join Crew

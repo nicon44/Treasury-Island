@@ -2,15 +2,18 @@ import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useComponentValue } from "@dojoengine/react";
 import { Entity, getComponentValue } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
+import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
 import { useGameContext } from "../providers/GameProvider";
+import { PhaseProps } from "../types/PhaseProps";
 import { bigintToHex, feltToString, mapGameState, mapPhase } from "../utils";
 
-export const Sidebar = () => {
-  const { pickTreasure } = useGameContext();
+export const Sidebar = ({ hide, seek }: PhaseProps) => {
+  const { pickTreasure, resetGrid } = useGameContext();
   const id = useRoomId();
+  const navigate = useNavigate();
 
   const availableTreasures = useAvailableTreasures();
 
@@ -83,6 +86,8 @@ export const Sidebar = () => {
         {/* both players are here and I am player 1 */}
         {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
           <Button
+            color="primary"
+            backgroundColor="teal.200"
             onClick={async () => {
               await client.gameroom.start_game({
                 account,
@@ -93,17 +98,21 @@ export const Sidebar = () => {
             Start game
           </Button>
         )}
-        {gameStarted && (
+        {gameStarted && hide && (
           <Heading mb={4} size="sm">
             {availableTreasures.length ? (
               "Select treasure to bury"
             ) : (
               <Button
+                variant="solid"
+                backgroundColor="teal.200"
                 onClick={async () => {
                   await client.gameroom.end_round({
                     account,
                     game_id: BigInt(roomId ?? ""),
                   });
+                  resetGrid();
+                  navigate(`/seek?id=${roomId}`);
                 }}
               >
                 End turn
@@ -111,18 +120,19 @@ export const Sidebar = () => {
             )}
           </Heading>
         )}
-        <Flex direction="column" gap={2}>
-          {availableTreasures.map((treasure) => (
-            <Button
-              variant="outline"
-              key={treasure.id}
-              onClick={() => pickTreasure(treasure)}
-            >
-              {`Treasure ${treasure.id} (${treasure.xSize}x${treasure.ySize})`}
-            </Button>
-          ))}
-        </Flex>
-        <Box></Box>
+        {hide && (
+          <Flex direction="column" gap={2}>
+            {availableTreasures.map((treasure) => (
+              <Button
+                variant="outline"
+                key={treasure.id}
+                onClick={() => pickTreasure(treasure)}
+              >
+                {`Treasure ${treasure.id} (${treasure.xSize}x${treasure.ySize})`}
+              </Button>
+            ))}
+          </Flex>
+        )}
       </Flex>
       <Box m={2}>
         <Text>Player 1: {feltToString(player1?.name ?? "") ?? ""}</Text>

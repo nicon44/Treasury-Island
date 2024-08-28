@@ -30,6 +30,7 @@ interface IGameContext {
   grid: Terrain[][];
   updateGridValue: (x: number, y: number, newValue: Terrain) => void;
   checkIfCanBeBuried: (x: number, y: number) => boolean;
+  resetGrid: () => void;
 }
 
 const GameContext = createContext<IGameContext>({
@@ -41,6 +42,7 @@ const GameContext = createContext<IGameContext>({
   grid: BASE_GRID,
   updateGridValue: () => {},
   checkIfCanBeBuried: () => false,
+  resetGrid: () => {},
 });
 export const useGameContext = () => useContext(GameContext);
 
@@ -58,6 +60,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
 
   const [grid, setGrid] = useState<Terrain[][]>(BASE_GRID);
+
+  const resetGrid = () => {
+    setGrid(BASE_GRID);
+  }
 
   const updateGridValue = (x: number, y: number, newValue: Terrain) => {
     setGrid((prev) => {
@@ -160,6 +166,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         grid,
         updateGridValue,
         checkIfCanBeBuried,
+        resetGrid,
       }}
     >
       {children}

@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { useGameContext } from "../providers/GameProvider";
 import { Grid } from "./Grid";
+import { PhaseProps } from "../types/PhaseProps";
 
-export const Game = () => {
+export const Game = ({hide, seek}: PhaseProps) => {
   const { rotateTreasure } = useGameContext();
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export const Game = () => {
       >
         <ambientLight intensity={0.5} />
         <directionalLight color="white" position={[5, 5, 5]} />
-        <Grid />
+        <Grid hide={hide} seek={seek} />
         <CameraControls />
       </Canvas>
     </div>
