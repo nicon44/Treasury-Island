@@ -12,6 +12,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Lobby />} />
           <Route
+            path="/room"
+            element={
+              <>
+                <Sidebar />
+                <Game />
+              </>
+            }
+          />
+          <Route
             path="/game"
             element={
               <>

@@ -182,7 +182,7 @@ export default function Component() {
                         size="sm"
                         isDisabled={room?.player2 !== BigInt(0) || !playerRegistered}
                         onClick={() =>
-                          navigate(`/room/${bigintToHex(room?.game_id)}`)
+                          navigate(`/room?id=${bigintToHex(room?.game_id)}`)
                         }
                       >
                         Join Crew
