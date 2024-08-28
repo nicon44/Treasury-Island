@@ -21,7 +21,6 @@ const BASE_GRID = [
   [0, 0, 0, 0, 0, 0],
 ];
 
-
 interface IGameContext {
   treasureToBury: ITreasure | undefined;
   pickTreasure: (treasure: ITreasure | undefined) => void;
@@ -47,11 +46,11 @@ export const useGameContext = () => useContext(GameContext);
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
   const {
-      setup: {
+    setup: {
       clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
       client,
-      },
-      account: { account },
+    },
+    account: { account },
   } = useDojo();
   const roomId = useRoomId();
 
@@ -60,7 +59,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const [grid, setGrid] = useState<Terrain[][]>(BASE_GRID);
 
-
   const updateGridValue = (x: number, y: number, newValue: Terrain) => {
     setGrid((prev) => {
       const newGrid = [...prev];
@@ -68,6 +66,18 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       newGrid[x][y] = newValue;
       return newGrid;
     });
+  };
+
+  const getLootId = (xSize: number, ySize: number): number => {
+    if (xSize === 1 && ySize === 1) {
+      return 1;
+    } else if ((xSize === 3 && ySize === 1) || (xSize === 1 && ySize === 3)) {
+      return 2;
+    } else if ((xSize === 4 && ySize === 1) || (xSize === 1 && ySize === 4)) {
+      return 3;
+    } else {
+      return 0;
+    }
   };
 
   const buryTreasure = async (x: number, y: number) => {
@@ -86,13 +96,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       }
       await client.gameroom.hide_loot({
         account,
-        game_id: BigInt(roomId??""),
-        loot_id: 1, // 1 is 1x1, 2 is 3x1, 3 is 4x1
+        game_id: BigInt(roomId ?? ""),
+        loot_id: getLootId(xSize, ySize), // 1 is 1x1, 2 is 3x1, 3 is 4x1
         x0: x,
         y0: y,
-        x1: x,
-        y1: y,
-    });
+        x1: x + xSize - 1,
+        y1: y + ySize - 1,
+      });
     } else {
       console.error("No treasure to bury");
     }
