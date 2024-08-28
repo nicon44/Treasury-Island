@@ -52,7 +52,7 @@ export async function setupWorld(provider: DojoProvider) {
                     "tisland"
                 );
             } catch (error) {
-                console.error("Error executing spawn:", error);
+                console.error("Error executing Hide Loot:", error);
                 throw error;
             }
         };
@@ -96,7 +96,7 @@ export async function setupWorld(provider: DojoProvider) {
                     "tisland"
                 );
             } catch (error) {
-                console.error("Error executing spawn:", error);
+                console.error("Error executing Seeking:", error);
                 throw error;
             }
         };

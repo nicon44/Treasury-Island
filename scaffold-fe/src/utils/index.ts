@@ -5,6 +5,42 @@ import { Component, Entity, getComponentValue } from '@dojoengine/recs'
 export * from "./starknet";
 
 
+export const mapGameState = (state: number): string => {
+    switch(state){
+        case 0:
+            return "NULL";
+        case 1:
+            return "Awaiting";
+        case 2:
+            return "Withdrawn";
+        case 3:
+            return "Refused";
+        case 4:
+            return "Expired";
+        case 5:
+            return "InProgress";
+        case 6:
+            return "Resolved";
+        case 7:
+            return "Draw";
+        default:
+            return "NULL";
+    }
+}
+
+export const mapPhase = (phase: number): string => {
+    switch(phase){
+        case 0:
+            return "NULL";
+        case 1:
+            return "Hide Phase";
+        case 2:
+            return "Seek Phase";
+        default:
+            return "NULL";
+    }
+}
+
 export const formatAddress = (address: string | undefined): string => {
     if (address && address.length >= 8) {
         return `${address.substring(0, 4)}...${address.substring(
