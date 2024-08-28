@@ -14,7 +14,7 @@ export const Stone = ({ x, y, hovered, setHovered }: TileProps) => {
       {scene && (
         <primitive
           object={clonedScene}
-          scale={[20, 20, 20]}
+          scale={[25,25,25]}
           position={[0, 5, -5]}
         />
       )}

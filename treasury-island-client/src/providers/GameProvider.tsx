@@ -32,8 +32,8 @@ const AVAILABLE_TREASURES = [
   },
   {
     id: 3,
-    xSize: 1,
-    ySize: 2,
+    xSize: 2,
+    ySize: 1,
   },
   {
     id: 4,
