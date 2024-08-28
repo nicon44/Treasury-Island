@@ -297,7 +297,7 @@ mod gameroom {
                         };
                         return all_found;
                     }
-                    return false;
+                    //return false;
                 } else
                 { // if hidden is 1 or 0
                     if(opponent_loot.three_long_x0_a != opponent_loot.three_long_x1_a){
@@ -325,10 +325,11 @@ mod gameroom {
                         return all_found;
 
                     }
-                    return false;
+                    //return false;
                 }
-            } else if (island_coords.loot_id == 3){
-                // check if the entire loot 2 is found
+            } else {
+                //(island_coords.loot_id == 3)
+                // check if the entire loot 2 is found 
                 if(opponent_loot.four_one_hidden == 2){
                     if(opponent_loot.four_long_x0_b != opponent_loot.four_long_x1_b){
                         let mut check_x = opponent_loot.four_long_x0_b; //copy
@@ -355,7 +356,7 @@ mod gameroom {
                         return all_found;
 
                     }
-                    return false;
+                    //return false;
                 } else
                 { // if hidden is 1 or 0
                     if(opponent_loot.four_long_x0_a != opponent_loot.four_long_x1_a){
@@ -383,7 +384,7 @@ mod gameroom {
                         return all_found;
 
                     }
-                    return false;
+                    //return false;
                 }
             }
 

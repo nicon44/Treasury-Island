@@ -259,6 +259,192 @@ pub mod gameroom {
             player_loot.traps -= 1;
             set!(self.world(), (island_coords, player_loot));
         }
+        fn dig_for_loot(ref self: ContractState, game_id: u128, x: u8, y: u8) -> bool {
+            let world = self.world_dispatcher.read();
+            let caller: ContractAddress = starknet::get_caller_address();
+
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+            // assert caller is in game
+            assert(
+                caller == game_room.player1 || caller == game_room.player2,
+                'Caller is not in the game'
+            );
+
+            // assert if phase is 2: seek
+            assert(game_room.phase == 2, 'Not in seek phase');
+
+            // check if there is enough tries
+            let mut round = get!(self.world(), (game_id, game_room.round_num), Round);
+            let player = if (game_room.player1 == caller) {
+                game_room.player1
+            } else {
+                game_room.player2
+            };
+            let opponent = if (game_room.player1 == caller) {
+                game_room.player2
+            } else {
+                game_room.player1
+            };
+
+            let mut player_loot = get!(self.world(), (game_id, player), Loot);
+            let mut opponent_loot = get!(self.world(), (game_id, opponent), Loot);
+
+            let player_tries = if (game_room.player1 == caller) {
+                round.player1_tries
+            } else {
+                round.player2_tries
+            };
+
+            assert(player_tries + player_loot.shovels > 0, 'No more chances');
+
+            // check to see if loot was found
+            let mut island_coords = get!(self.world(), (game_id, opponent, x, y), IslandCoords);
+            let found_loot = (island_coords.terrain == 1);
+            if (found_loot) {
+                island_coords.terrain = 88;
+                set!(self.world(), (island_coords));
+            } else {
+                // reduce tries
+                if (game_room.player1 == caller) {
+                    round.player1_tries -= 1;
+                } else {
+                    round.player2_tries -= 1;
+                }
+            }
+
+            // check and return and boolean if loot was entirely found
+            if (island_coords.loot_id == 1) {
+                opponent_loot.one_one_hidden -= 1;
+                return true;
+            } else if (island_coords.loot_id == 2) {
+                // check if the entire loot 2 is found
+                if (opponent_loot.three_one_hidden == 2) {
+                    if (opponent_loot.three_long_x0_b != opponent_loot.three_long_x1_b) {
+                        let mut check_x = opponent_loot.three_long_x0_b; //copy
+                        let mut all_found = true;
+                        while check_x < opponent_loot.three_long_x1_b + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, check_x, y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_x += 1;
+                        };
+                        return all_found;
+                    } else {
+                        // case when y0 != y1
+                        let mut check_y = opponent_loot.three_long_y0_b; //copy
+                        let mut all_found = true;
+                        while check_y < opponent_loot.three_long_y1_b + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, x, check_y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_y += 1;
+                        };
+                        return all_found;
+                    }
+                    //return false;
+                } else { // if hidden is 1 or 0
+                    if (opponent_loot.three_long_x0_a != opponent_loot.three_long_x1_a) {
+                        let mut check_x = opponent_loot.three_long_x0_a; //copy
+                        let mut all_found = true;
+                        while check_x < opponent_loot.three_long_x1_a + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, check_x, y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_x += 1;
+                        };
+                        return all_found;
+                    } else {
+                        // case when y0 != y1
+                        let mut check_y = opponent_loot.three_long_y0_a; //copy
+                        let mut all_found = true;
+                        while check_y < opponent_loot.three_long_y1_a + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, x, check_y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_y += 1;
+                        };
+                        return all_found;
+                    }
+                    //return false;
+                }
+            } else {
+                //(island_coords.loot_id == 3)
+                // check if the entire loot 2 is found
+                if (opponent_loot.four_one_hidden == 2) {
+                    if (opponent_loot.four_long_x0_b != opponent_loot.four_long_x1_b) {
+                        let mut check_x = opponent_loot.four_long_x0_b; //copy
+                        let mut all_found = true;
+                        while check_x < opponent_loot.four_long_x1_b + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, check_x, y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_x += 1;
+                        };
+                        return all_found;
+                    } else {
+                        // case when y0 != y1
+                        let mut check_y = opponent_loot.four_long_y0_b; //copy
+                        let mut all_found = true;
+                        while check_y < opponent_loot.four_long_y1_b + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, x, check_y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_y += 1;
+                        };
+                        return all_found;
+                    }
+                    //return false;
+                } else { // if hidden is 1 or 0
+                    if (opponent_loot.four_long_x0_a != opponent_loot.four_long_x1_a) {
+                        let mut check_x = opponent_loot.four_long_x0_a; //copy
+                        let mut all_found = true;
+                        while check_x < opponent_loot.four_long_x1_a + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, check_x, y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_x += 1;
+                        };
+                        return all_found;
+                    } else {
+                        // case when y0 != y1
+                        let mut check_y = opponent_loot.four_long_y0_a; //copy
+                        let mut all_found = true;
+                        while check_y < opponent_loot.four_long_y1_a + 1 {
+                            let check_island_coords = get!(
+                                self.world(), (game_id, opponent, x, check_y), IslandCoords
+                            );
+                            if (check_island_coords.terrain == 1) {
+                                all_found = false;
+                            }
+                            check_y += 1;
+                        };
+                        return all_found;
+                    }
+                    //return false;
+                }
+            }
+        }
         fn end_round(ref self: ContractState, game_id: u128) {
             let world = self.world_dispatcher.read();
             let caller: ContractAddress = starknet::get_caller_address();
