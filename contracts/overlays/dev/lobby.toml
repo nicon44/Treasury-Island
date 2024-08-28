@@ -1,0 +1,6 @@
+tag = "tisland-lobby"
+writes = ["tisland-Player", "tisland-GameRoom",
+"tisland-Round", "tisland-IslandCoords",
+"tisland-Loot",
+]
+calldata=[]
