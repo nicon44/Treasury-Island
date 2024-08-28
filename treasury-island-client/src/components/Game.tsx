@@ -10,7 +10,6 @@ export const Game = () => {
   useEffect(() => {
     const handleKeyDown = (event: { key: string }) => {
       if (event.key === "r" || event.key === "R") {
-        console.log("Rotating");
         rotateTreasure();
       }
     };

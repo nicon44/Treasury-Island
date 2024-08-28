@@ -1,6 +1,9 @@
 katana:
 	katana --disable-fee --allowed-origins "*"
 
+setup:
+	@./scripts/setup.sh
+	
 build:
 	sozo build && sozo migrate apply
 

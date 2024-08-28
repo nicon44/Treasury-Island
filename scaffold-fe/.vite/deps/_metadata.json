@@ -1,0 +1,88 @@
+{
+  "hash": "be1327d9",
+  "configHash": "734de658",
+  "lockfileHash": "f417b48a",
+  "browserHash": "57bb910e",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "bc2645ac",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "68992d7a",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "1aa3fbd4",
+      "needsInterop": true
+    },
+    "@dojoengine/create-burner": {
+      "src": "../../node_modules/@dojoengine/create-burner/dist/index.js",
+      "file": "@dojoengine_create-burner.js",
+      "fileHash": "5bf2f796",
+      "needsInterop": false
+    },
+    "starknet": {
+      "src": "../../node_modules/starknet/dist/index.mjs",
+      "file": "starknet.js",
+      "fileHash": "261b3924",
+      "needsInterop": false
+    },
+    "@dojoengine/core": {
+      "src": "../../node_modules/@dojoengine/core/dist/index.js",
+      "file": "@dojoengine_core.js",
+      "fileHash": "4ed55962",
+      "needsInterop": false
+    },
+    "@dojoengine/torii-client": {
+      "src": "../../node_modules/@dojoengine/torii-client/dist/index.js",
+      "file": "@dojoengine_torii-client.js",
+      "fileHash": "d79c3b19",
+      "needsInterop": false
+    },
+    "@dojoengine/state": {
+      "src": "../../node_modules/@dojoengine/state/dist/index.js",
+      "file": "@dojoengine_state.js",
+      "fileHash": "cc833fec",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "72b87937",
+      "needsInterop": false
+    },
+    "@dojoengine/recs": {
+      "src": "../../node_modules/@dojoengine/recs/dist/index.js",
+      "file": "@dojoengine_recs.js",
+      "fileHash": "88c6ffdf",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-7PYXG6V7": {
+      "file": "chunk-7PYXG6V7.js"
+    },
+    "chunk-UUYGSPRB": {
+      "file": "chunk-UUYGSPRB.js"
+    },
+    "chunk-NDLG7IOO": {
+      "file": "chunk-NDLG7IOO.js"
+    },
+    "chunk-LGKPTLUX": {
+      "file": "chunk-LGKPTLUX.js"
+    },
+    "chunk-SWITSI4Y": {
+      "file": "chunk-SWITSI4Y.js"
+    },
+    "chunk-OCBYBPSH": {
+      "file": "chunk-OCBYBPSH.js"
+    }
+  }
+}
