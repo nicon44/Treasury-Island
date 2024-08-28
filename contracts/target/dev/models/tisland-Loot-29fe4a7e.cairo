@@ -2072,12 +2072,12 @@ pub impl LootModelImpl of dojo::model::Model<Loot> {
 
     #[inline(always)]
     fn namespace() -> ByteArray {
-        "dojo_starter_rpg"
+        "tisland"
     }
 
     #[inline(always)]
     fn tag() -> ByteArray {
-        "dojo_starter_rpg-Loot"
+        "tisland-Loot"
     }
 
     #[inline(always)]
@@ -2087,7 +2087,7 @@ pub impl LootModelImpl of dojo::model::Model<Loot> {
 
     #[inline(always)]
     fn selector() -> felt252 {
-        3495610882279210057770669429343914255963377977657372782992025060488183573826
+        1187132505461826607017828415151056933174267457001910770935096726302324969193
     }
 
     #[inline(always)]
@@ -2102,7 +2102,7 @@ pub impl LootModelImpl of dojo::model::Model<Loot> {
 
     #[inline(always)]
     fn namespace_hash() -> felt252 {
-        478818318480335965857378696073169770196363091739687234837836645523859370417
+        785100407485574687708722636754133465572252000084726510320129847110016753675
     }
 
     #[inline(always)]

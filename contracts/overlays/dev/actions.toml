@@ -1,2 +1,0 @@
-tag = "dojo_starter_rpg-actions"
-writes = ["dojo_starter_rpg-Player", "dojo_starter_rpg-Dungeon"]

@@ -23,11 +23,11 @@ pub mod lobby {
         }
 
         fn namespace(self: @ContractState) -> ByteArray {
-            "dojo_starter_rpg"
+            "tisland"
         }
 
         fn tag(self: @ContractState) -> ByteArray {
-            "dojo_starter_rpg-lobby"
+            "tisland-lobby"
         }
 
         fn name_hash(self: @ContractState) -> felt252 {
@@ -35,11 +35,11 @@ pub mod lobby {
         }
 
         fn namespace_hash(self: @ContractState) -> felt252 {
-            478818318480335965857378696073169770196363091739687234837836645523859370417
+            785100407485574687708722636754133465572252000084726510320129847110016753675
         }
 
         fn selector(self: @ContractState) -> felt252 {
-            2802226962479351512134971387636205908564969699330108894029013938632005856798
+            1356530951059340259305002851894431900767921315185336276149320848149495622571
         }
     }
 

@@ -1,4 +1,4 @@
-impl RoundIntrospect<> of dojo::model::introspect::Introspect<Round<>> {
+impl IslandCoordsIntrospect<> of dojo::model::introspect::Introspect<IslandCoords<>> {
     #[inline(always)]
     fn size() -> Option<usize> {
         Option::Some(2)
@@ -8,11 +8,11 @@ impl RoundIntrospect<> of dojo::model::introspect::Introspect<Round<>> {
         dojo::model::Layout::Struct(
             array![
                 dojo::model::FieldLayout {
-                    selector: 1184341583898067659689454586138466736838772872405140028653531917023744462787,
+                    selector: 943480028150799433768725176691062332593264118298318849671136844040011965190,
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 },
                 dojo::model::FieldLayout {
-                    selector: 1349074652475883319225046112744816298759803176483728361863534926709211784352,
+                    selector: 819565989059522844259768551623021755126829489938126200284035878187830780312,
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 }
             ]
@@ -24,7 +24,7 @@ impl RoundIntrospect<> of dojo::model::introspect::Introspect<Round<>> {
     fn ty() -> dojo::model::introspect::Ty {
         dojo::model::introspect::Ty::Struct(
             dojo::model::introspect::Struct {
-                name: 'Round',
+                name: 'IslandCoords',
                 attrs: array![].span(),
                 children: array![
                     dojo::model::introspect::Member {
@@ -33,17 +33,27 @@ impl RoundIntrospect<> of dojo::model::introspect::Introspect<Round<>> {
                         ty: dojo::model::introspect::Introspect::<u128>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'round_number',
+                        name: 'player_id',
+                        attrs: array!['key'].span(),
+                        ty: dojo::model::introspect::Introspect::<ContractAddress>::ty()
+                    },
+                    dojo::model::introspect::Member {
+                        name: 'x',
                         attrs: array!['key'].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'player1_tries',
+                        name: 'y',
+                        attrs: array!['key'].span(),
+                        ty: dojo::model::introspect::Introspect::<u8>::ty()
+                    },
+                    dojo::model::introspect::Member {
+                        name: 'terrain',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'player2_tries',
+                        name: 'loot_id',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     }
@@ -55,238 +65,260 @@ impl RoundIntrospect<> of dojo::model::introspect::Introspect<Round<>> {
 }
 
 #[derive(Drop, Serde)]
-pub struct RoundEntity {
+pub struct IslandCoordsEntity {
     __id: felt252, // private field
-    pub player1_tries: u8,
-    pub player2_tries: u8,
+    pub terrain: u8,
+    pub loot_id: u8,
 }
 
 #[generate_trait]
-pub impl RoundEntityStoreImpl of RoundEntityStore {
-    fn get(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> RoundEntity {
-        RoundModelEntityImpl::get(world, entity_id)
+pub impl IslandCoordsEntityStoreImpl of IslandCoordsEntityStore {
+    fn get(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> IslandCoordsEntity {
+        IslandCoordsModelEntityImpl::get(world, entity_id)
     }
 
 
-    fn get_player1_tries(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_terrain(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
         let mut values = dojo::model::ModelEntity::<
-            RoundEntity
+            IslandCoordsEntity
         >::get_member(
             world,
             entity_id,
-            1184341583898067659689454586138466736838772872405140028653531917023744462787
+            943480028150799433768725176691062332593264118298318849671136844040011965190
         );
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Round::player1_tries`: deserialization failed.");
+            panic!("Field `IslandCoords::terrain`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_player1_tries(self: @RoundEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_terrain(self: @IslandCoordsEntity, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1184341583898067659689454586138466736838772872405140028653531917023744462787,
+                943480028150799433768725176691062332593264118298318849671136844040011965190,
                 serialized.span()
             );
     }
 
-    fn get_player2_tries(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_loot_id(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
         let mut values = dojo::model::ModelEntity::<
-            RoundEntity
+            IslandCoordsEntity
         >::get_member(
             world,
             entity_id,
-            1349074652475883319225046112744816298759803176483728361863534926709211784352
+            819565989059522844259768551623021755126829489938126200284035878187830780312
         );
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Round::player2_tries`: deserialization failed.");
+            panic!("Field `IslandCoords::loot_id`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_player2_tries(self: @RoundEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_loot_id(self: @IslandCoordsEntity, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1349074652475883319225046112744816298759803176483728361863534926709211784352,
+                819565989059522844259768551623021755126829489938126200284035878187830780312,
                 serialized.span()
             );
     }
 }
 
 #[generate_trait]
-pub impl RoundStoreImpl of RoundStore {
-    fn entity_id_from_keys(game_id: u128, round_number: u8) -> felt252 {
+pub impl IslandCoordsStoreImpl of IslandCoordsStore {
+    fn entity_id_from_keys(game_id: u128, player_id: ContractAddress, x: u8, y: u8) -> felt252 {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@round_number, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+        core::serde::Serde::serialize(@x, ref serialized);
+        core::serde::Serde::serialize(@y, ref serialized);
 
         core::poseidon::poseidon_hash_span(serialized.span())
     }
 
-    fn from_values(ref keys: Span<felt252>, ref values: Span<felt252>) -> Round {
+    fn from_values(ref keys: Span<felt252>, ref values: Span<felt252>) -> IslandCoords {
         let mut serialized = core::array::ArrayTrait::new();
         serialized.append_span(keys);
         serialized.append_span(values);
         let mut serialized = core::array::ArrayTrait::span(@serialized);
 
-        let entity = core::serde::Serde::<Round>::deserialize(ref serialized);
+        let entity = core::serde::Serde::<IslandCoords>::deserialize(ref serialized);
 
-        if core::option::OptionTrait::<Round>::is_none(@entity) {
+        if core::option::OptionTrait::<IslandCoords>::is_none(@entity) {
             panic!(
-                "Model `Round`: deserialization failed. Ensure the length of the keys tuple is matching the number of #[key] fields in the model struct."
+                "Model `IslandCoords`: deserialization failed. Ensure the length of the keys tuple is matching the number of #[key] fields in the model struct."
             );
         }
 
-        core::option::OptionTrait::<Round>::unwrap(entity)
+        core::option::OptionTrait::<IslandCoords>::unwrap(entity)
     }
 
-    fn get(world: dojo::world::IWorldDispatcher, game_id: u128, round_number: u8) -> Round {
+    fn get(
+        world: dojo::world::IWorldDispatcher,
+        game_id: u128,
+        player_id: ContractAddress,
+        x: u8,
+        y: u8
+    ) -> IslandCoords {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@round_number, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+        core::serde::Serde::serialize(@x, ref serialized);
+        core::serde::Serde::serialize(@y, ref serialized);
 
-        dojo::model::Model::<Round>::get(world, serialized.span())
+        dojo::model::Model::<IslandCoords>::get(world, serialized.span())
     }
 
 
-    fn get_player1_tries(
-        world: dojo::world::IWorldDispatcher, game_id: u128, round_number: u8
+    fn get_terrain(
+        world: dojo::world::IWorldDispatcher,
+        game_id: u128,
+        player_id: ContractAddress,
+        x: u8,
+        y: u8
     ) -> u8 {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@round_number, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+        core::serde::Serde::serialize(@x, ref serialized);
+        core::serde::Serde::serialize(@y, ref serialized);
 
         let mut values = dojo::model::Model::<
-            Round
+            IslandCoords
         >::get_member(
             world,
             serialized.span(),
-            1184341583898067659689454586138466736838772872405140028653531917023744462787
+            943480028150799433768725176691062332593264118298318849671136844040011965190
         );
 
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Round::player1_tries`: deserialization failed.");
+            panic!("Field `IslandCoords::terrain`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_player1_tries(self: @Round, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_terrain(self: @IslandCoords, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1184341583898067659689454586138466736838772872405140028653531917023744462787,
+                943480028150799433768725176691062332593264118298318849671136844040011965190,
                 serialized.span()
             );
     }
 
-    fn get_player2_tries(
-        world: dojo::world::IWorldDispatcher, game_id: u128, round_number: u8
+    fn get_loot_id(
+        world: dojo::world::IWorldDispatcher,
+        game_id: u128,
+        player_id: ContractAddress,
+        x: u8,
+        y: u8
     ) -> u8 {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@round_number, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+        core::serde::Serde::serialize(@x, ref serialized);
+        core::serde::Serde::serialize(@y, ref serialized);
 
         let mut values = dojo::model::Model::<
-            Round
+            IslandCoords
         >::get_member(
             world,
             serialized.span(),
-            1349074652475883319225046112744816298759803176483728361863534926709211784352
+            819565989059522844259768551623021755126829489938126200284035878187830780312
         );
 
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Round::player2_tries`: deserialization failed.");
+            panic!("Field `IslandCoords::loot_id`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_player2_tries(self: @Round, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_loot_id(self: @IslandCoords, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1349074652475883319225046112744816298759803176483728361863534926709211784352,
+                819565989059522844259768551623021755126829489938126200284035878187830780312,
                 serialized.span()
             );
     }
 }
 
-pub impl RoundModelEntityImpl of dojo::model::ModelEntity<RoundEntity> {
-    fn id(self: @RoundEntity) -> felt252 {
+pub impl IslandCoordsModelEntityImpl of dojo::model::ModelEntity<IslandCoordsEntity> {
+    fn id(self: @IslandCoordsEntity) -> felt252 {
         *self.__id
     }
 
-    fn values(self: @RoundEntity) -> Span<felt252> {
+    fn values(self: @IslandCoordsEntity) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(self.player1_tries, ref serialized);
-        core::serde::Serde::serialize(self.player2_tries, ref serialized);
+        core::serde::Serde::serialize(self.terrain, ref serialized);
+        core::serde::Serde::serialize(self.loot_id, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }
 
-    fn from_values(entity_id: felt252, ref values: Span<felt252>) -> RoundEntity {
+    fn from_values(entity_id: felt252, ref values: Span<felt252>) -> IslandCoordsEntity {
         let mut serialized = array![entity_id];
         serialized.append_span(values);
         let mut serialized = core::array::ArrayTrait::span(@serialized);
 
-        let entity_values = core::serde::Serde::<RoundEntity>::deserialize(ref serialized);
-        if core::option::OptionTrait::<RoundEntity>::is_none(@entity_values) {
-            panic!("ModelEntity `RoundEntity`: deserialization failed.");
+        let entity_values = core::serde::Serde::<IslandCoordsEntity>::deserialize(ref serialized);
+        if core::option::OptionTrait::<IslandCoordsEntity>::is_none(@entity_values) {
+            panic!("ModelEntity `IslandCoordsEntity`: deserialization failed.");
         }
-        core::option::OptionTrait::<RoundEntity>::unwrap(entity_values)
+        core::option::OptionTrait::<IslandCoordsEntity>::unwrap(entity_values)
     }
 
-    fn get(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> RoundEntity {
+    fn get(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> IslandCoordsEntity {
         let mut values = dojo::world::IWorldDispatcherTrait::entity(
             world,
-            dojo::model::Model::<Round>::selector(),
+            dojo::model::Model::<IslandCoords>::selector(),
             dojo::model::ModelIndex::Id(entity_id),
-            dojo::model::Model::<Round>::layout()
+            dojo::model::Model::<IslandCoords>::layout()
         );
         Self::from_values(entity_id, ref values)
     }
 
-    fn update(self: @RoundEntity, world: dojo::world::IWorldDispatcher) {
+    fn update(self: @IslandCoordsEntity, world: dojo::world::IWorldDispatcher) {
         dojo::world::IWorldDispatcherTrait::set_entity(
             world,
-            dojo::model::Model::<Round>::selector(),
+            dojo::model::Model::<IslandCoords>::selector(),
             dojo::model::ModelIndex::Id(self.id()),
             self.values(),
-            dojo::model::Model::<Round>::layout()
+            dojo::model::Model::<IslandCoords>::layout()
         );
     }
 
-    fn delete(self: @RoundEntity, world: dojo::world::IWorldDispatcher) {
+    fn delete(self: @IslandCoordsEntity, world: dojo::world::IWorldDispatcher) {
         dojo::world::IWorldDispatcherTrait::delete_entity(
             world,
-            dojo::model::Model::<Round>::selector(),
+            dojo::model::Model::<IslandCoords>::selector(),
             dojo::model::ModelIndex::Id(self.id()),
-            dojo::model::Model::<Round>::layout()
+            dojo::model::Model::<IslandCoords>::layout()
         );
     }
 
@@ -294,12 +326,12 @@ pub impl RoundModelEntityImpl of dojo::model::ModelEntity<RoundEntity> {
         world: dojo::world::IWorldDispatcher, entity_id: felt252, member_id: felt252,
     ) -> Span<felt252> {
         match dojo::utils::find_model_field_layout(
-            dojo::model::Model::<Round>::layout(), member_id
+            dojo::model::Model::<IslandCoords>::layout(), member_id
         ) {
             Option::Some(field_layout) => {
                 dojo::world::IWorldDispatcherTrait::entity(
                     world,
-                    dojo::model::Model::<Round>::selector(),
+                    dojo::model::Model::<IslandCoords>::selector(),
                     dojo::model::ModelIndex::MemberId((entity_id, member_id)),
                     field_layout
                 )
@@ -309,18 +341,18 @@ pub impl RoundModelEntityImpl of dojo::model::ModelEntity<RoundEntity> {
     }
 
     fn set_member(
-        self: @RoundEntity,
+        self: @IslandCoordsEntity,
         world: dojo::world::IWorldDispatcher,
         member_id: felt252,
         values: Span<felt252>,
     ) {
         match dojo::utils::find_model_field_layout(
-            dojo::model::Model::<Round>::layout(), member_id
+            dojo::model::Model::<IslandCoords>::layout(), member_id
         ) {
             Option::Some(field_layout) => {
                 dojo::world::IWorldDispatcherTrait::set_entity(
                     world,
-                    dojo::model::Model::<Round>::selector(),
+                    dojo::model::Model::<IslandCoords>::selector(),
                     dojo::model::ModelIndex::MemberId((self.id(), member_id)),
                     values,
                     field_layout
@@ -331,17 +363,17 @@ pub impl RoundModelEntityImpl of dojo::model::ModelEntity<RoundEntity> {
     }
 }
 
-pub impl RoundModelImpl of dojo::model::Model<Round> {
-    fn get(world: dojo::world::IWorldDispatcher, keys: Span<felt252>) -> Round {
+pub impl IslandCoordsModelImpl of dojo::model::Model<IslandCoords> {
+    fn get(world: dojo::world::IWorldDispatcher, keys: Span<felt252>) -> IslandCoords {
         let mut values = dojo::world::IWorldDispatcherTrait::entity(
             world, Self::selector(), dojo::model::ModelIndex::Keys(keys), Self::layout()
         );
         let mut _keys = keys;
 
-        RoundStore::from_values(ref _keys, ref values)
+        IslandCoordsStore::from_values(ref _keys, ref values)
     }
 
-    fn set(self: @Round, world: dojo::world::IWorldDispatcher) {
+    fn set(self: @IslandCoords, world: dojo::world::IWorldDispatcher) {
         dojo::world::IWorldDispatcherTrait::set_entity(
             world,
             Self::selector(),
@@ -351,7 +383,7 @@ pub impl RoundModelImpl of dojo::model::Model<Round> {
         );
     }
 
-    fn delete(self: @Round, world: dojo::world::IWorldDispatcher) {
+    fn delete(self: @IslandCoords, world: dojo::world::IWorldDispatcher) {
         dojo::world::IWorldDispatcherTrait::delete_entity(
             world, Self::selector(), dojo::model::ModelIndex::Keys(Self::keys(self)), Self::layout()
         );
@@ -375,7 +407,7 @@ pub impl RoundModelImpl of dojo::model::Model<Round> {
     }
 
     fn set_member(
-        self: @Round,
+        self: @IslandCoords,
         world: dojo::world::IWorldDispatcher,
         member_id: felt252,
         values: Span<felt252>
@@ -396,17 +428,17 @@ pub impl RoundModelImpl of dojo::model::Model<Round> {
 
     #[inline(always)]
     fn name() -> ByteArray {
-        "Round"
+        "IslandCoords"
     }
 
     #[inline(always)]
     fn namespace() -> ByteArray {
-        "dojo_starter_rpg"
+        "tisland"
     }
 
     #[inline(always)]
     fn tag() -> ByteArray {
-        "dojo_starter_rpg-Round"
+        "tisland-IslandCoords"
     }
 
     #[inline(always)]
@@ -416,54 +448,56 @@ pub impl RoundModelImpl of dojo::model::Model<Round> {
 
     #[inline(always)]
     fn selector() -> felt252 {
-        843144519799099223241126280769278211888763376034782950829142948159995414948
+        2512957174791300833955826396084708012883806657930573301427503542014662241279
     }
 
     #[inline(always)]
-    fn instance_selector(self: @Round) -> felt252 {
+    fn instance_selector(self: @IslandCoords) -> felt252 {
         Self::selector()
     }
 
     #[inline(always)]
     fn name_hash() -> felt252 {
-        2378486611045206855997904784098937388259087684245781916590707192397164472429
+        848234890212472166388692293708012987469332215557259924980439640871586261339
     }
 
     #[inline(always)]
     fn namespace_hash() -> felt252 {
-        478818318480335965857378696073169770196363091739687234837836645523859370417
+        785100407485574687708722636754133465572252000084726510320129847110016753675
     }
 
     #[inline(always)]
-    fn entity_id(self: @Round) -> felt252 {
+    fn entity_id(self: @IslandCoords) -> felt252 {
         core::poseidon::poseidon_hash_span(self.keys())
     }
 
     #[inline(always)]
-    fn keys(self: @Round) -> Span<felt252> {
+    fn keys(self: @IslandCoords) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(self.game_id, ref serialized);
-        core::serde::Serde::serialize(self.round_number, ref serialized);
+        core::serde::Serde::serialize(self.player_id, ref serialized);
+        core::serde::Serde::serialize(self.x, ref serialized);
+        core::serde::Serde::serialize(self.y, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }
 
     #[inline(always)]
-    fn values(self: @Round) -> Span<felt252> {
+    fn values(self: @IslandCoords) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(self.player1_tries, ref serialized);
-        core::serde::Serde::serialize(self.player2_tries, ref serialized);
+        core::serde::Serde::serialize(self.terrain, ref serialized);
+        core::serde::Serde::serialize(self.loot_id, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }
 
     #[inline(always)]
     fn layout() -> dojo::model::Layout {
-        dojo::model::introspect::Introspect::<Round>::layout()
+        dojo::model::introspect::Introspect::<IslandCoords>::layout()
     }
 
     #[inline(always)]
-    fn instance_layout(self: @Round) -> dojo::model::Layout {
+    fn instance_layout(self: @IslandCoords) -> dojo::model::Layout {
         Self::layout()
     }
 
@@ -474,14 +508,14 @@ pub impl RoundModelImpl of dojo::model::Model<Round> {
 }
 
 #[starknet::interface]
-pub trait Iround<T> {
-    fn ensure_abi(self: @T, model: Round);
+pub trait Iisland_coords<T> {
+    fn ensure_abi(self: @T, model: IslandCoords);
 }
 
 #[starknet::contract]
-pub mod round {
-    use super::Round;
-    use super::Iround;
+pub mod island_coords {
+    use super::IslandCoords;
+    use super::Iisland_coords;
 
     #[storage]
     struct Storage {}
@@ -489,52 +523,52 @@ pub mod round {
     #[abi(embed_v0)]
     impl DojoModelImpl of dojo::model::IModel<ContractState> {
         fn name(self: @ContractState) -> ByteArray {
-            dojo::model::Model::<Round>::name()
+            dojo::model::Model::<IslandCoords>::name()
         }
 
         fn namespace(self: @ContractState) -> ByteArray {
-            dojo::model::Model::<Round>::namespace()
+            dojo::model::Model::<IslandCoords>::namespace()
         }
 
         fn tag(self: @ContractState) -> ByteArray {
-            dojo::model::Model::<Round>::tag()
+            dojo::model::Model::<IslandCoords>::tag()
         }
 
         fn version(self: @ContractState) -> u8 {
-            dojo::model::Model::<Round>::version()
+            dojo::model::Model::<IslandCoords>::version()
         }
 
         fn selector(self: @ContractState) -> felt252 {
-            dojo::model::Model::<Round>::selector()
+            dojo::model::Model::<IslandCoords>::selector()
         }
 
         fn name_hash(self: @ContractState) -> felt252 {
-            dojo::model::Model::<Round>::name_hash()
+            dojo::model::Model::<IslandCoords>::name_hash()
         }
 
         fn namespace_hash(self: @ContractState) -> felt252 {
-            dojo::model::Model::<Round>::namespace_hash()
+            dojo::model::Model::<IslandCoords>::namespace_hash()
         }
 
         fn unpacked_size(self: @ContractState) -> Option<usize> {
-            dojo::model::introspect::Introspect::<Round>::size()
+            dojo::model::introspect::Introspect::<IslandCoords>::size()
         }
 
         fn packed_size(self: @ContractState) -> Option<usize> {
-            dojo::model::Model::<Round>::packed_size()
+            dojo::model::Model::<IslandCoords>::packed_size()
         }
 
         fn layout(self: @ContractState) -> dojo::model::Layout {
-            dojo::model::Model::<Round>::layout()
+            dojo::model::Model::<IslandCoords>::layout()
         }
 
         fn schema(self: @ContractState) -> dojo::model::introspect::Ty {
-            dojo::model::introspect::Introspect::<Round>::ty()
+            dojo::model::introspect::Introspect::<IslandCoords>::ty()
         }
     }
 
     #[abi(embed_v0)]
-    impl roundImpl of Iround<ContractState> {
-        fn ensure_abi(self: @ContractState, model: Round) {}
+    impl island_coordsImpl of Iisland_coords<ContractState> {
+        fn ensure_abi(self: @ContractState, model: IslandCoords) {}
     }
 }

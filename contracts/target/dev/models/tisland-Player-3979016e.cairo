@@ -534,12 +534,12 @@ pub impl PlayerModelImpl of dojo::model::Model<Player> {
 
     #[inline(always)]
     fn namespace() -> ByteArray {
-        "dojo_starter_rpg"
+        "tisland"
     }
 
     #[inline(always)]
     fn tag() -> ByteArray {
-        "dojo_starter_rpg-Player"
+        "tisland-Player"
     }
 
     #[inline(always)]
@@ -549,7 +549,7 @@ pub impl PlayerModelImpl of dojo::model::Model<Player> {
 
     #[inline(always)]
     fn selector() -> felt252 {
-        513103688242339697851777745481086804649935147625853056575045547048345030761
+        1624726921138899962098022608797713867938480936720740886224417615040375804968
     }
 
     #[inline(always)]
@@ -564,7 +564,7 @@ pub impl PlayerModelImpl of dojo::model::Model<Player> {
 
     #[inline(always)]
     fn namespace_hash() -> felt252 {
-        478818318480335965857378696073169770196363091739687234837836645523859370417
+        785100407485574687708722636754133465572252000084726510320129847110016753675
     }
 
     #[inline(always)]

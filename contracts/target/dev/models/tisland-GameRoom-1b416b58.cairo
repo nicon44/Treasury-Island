@@ -986,12 +986,12 @@ pub impl GameRoomModelImpl of dojo::model::Model<GameRoom> {
 
     #[inline(always)]
     fn namespace() -> ByteArray {
-        "dojo_starter_rpg"
+        "tisland"
     }
 
     #[inline(always)]
     fn tag() -> ByteArray {
-        "dojo_starter_rpg-GameRoom"
+        "tisland-GameRoom"
     }
 
     #[inline(always)]
@@ -1001,7 +1001,7 @@ pub impl GameRoomModelImpl of dojo::model::Model<GameRoom> {
 
     #[inline(always)]
     fn selector() -> felt252 {
-        242408052190729320382235369155145077370141807397642240075431664551726219446
+        770502053187298040415591968614982108198050535478001215241549745602453118654
     }
 
     #[inline(always)]
@@ -1016,7 +1016,7 @@ pub impl GameRoomModelImpl of dojo::model::Model<GameRoom> {
 
     #[inline(always)]
     fn namespace_hash() -> felt252 {
-        478818318480335965857378696073169770196363091739687234837836645523859370417
+        785100407485574687708722636754133465572252000084726510320129847110016753675
     }
 
     #[inline(always)]
