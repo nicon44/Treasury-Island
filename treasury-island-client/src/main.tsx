@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { dojoConfig } from "../dojoConfig.ts";
 import App from "./App.tsx";
 import { DojoProvider } from "./dojo/DojoContext.tsx";
@@ -19,9 +20,11 @@ async function init() {
 
   root.render(
     <React.StrictMode>
-      <DojoProvider value={setupResult}>
-        <App />
-      </DojoProvider>
+      <BrowserRouter>
+        <DojoProvider value={setupResult}>
+          <App />
+        </DojoProvider>
+      </BrowserRouter>
     </React.StrictMode>
   );
 }
