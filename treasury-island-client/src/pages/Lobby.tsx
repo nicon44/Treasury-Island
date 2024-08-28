@@ -82,7 +82,7 @@ export default function Component() {
           <Card bg={cardBg} flex={1}>
             <CardHeader>
               <Heading size="lg" color="orange.500">
-                Create Your Game
+                Create Your Room
               </Heading>
             </CardHeader>
             <CardBody>
@@ -109,7 +109,7 @@ export default function Component() {
           <Card bg={cardBg} flex={1}>
             <CardHeader>
               <Heading size="lg" color="orange.500">
-                Active Games
+                Active Rooms
               </Heading>
             </CardHeader>
             <CardBody>
