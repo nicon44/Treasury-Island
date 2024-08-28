@@ -5,13 +5,9 @@ import { useGameContext } from "../providers/GameProvider";
 import { Grid } from "./Grid";
 
 export const Game = () => {
-  const { setTreasureToBury, rotateTreasure } = useGameContext();
+  const { rotateTreasure } = useGameContext();
 
   useEffect(() => {
-    setTreasureToBury({
-      xSize: 4,
-      ySize: 1,
-    });
     const handleKeyDown = (event: { key: string; }) => {
       if (event.key === "r" || event.key === "R") {
         console.log("Rotating");
