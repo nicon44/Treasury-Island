@@ -1,4 +1,4 @@
 export interface PhaseProps {
-    hide: boolean;
-    seek: boolean;
+    hide?: boolean;
+    seek?: boolean;
 }

@@ -33,9 +33,9 @@ export const mapPhase = (phase: number): string => {
         case 0:
             return "NULL";
         case 1:
-            return "Hide Phase";
+            return "Hide";
         case 2:
-            return "Seek Phase";
+            return "Seek";
         default:
             return "NULL";
     }
