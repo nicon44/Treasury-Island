@@ -24,7 +24,7 @@ export const HideTile = ({ x, y }: TileProps) => {
   } = useGameContext();
   const [hovered, setHovered] = useState(false);
 
-  const {
+/*   const {
     setup: {
       clientComponents: { IslandCoords, Player },
     },
@@ -64,7 +64,7 @@ export const HideTile = ({ x, y }: TileProps) => {
   ]);
 
   const terrain = useComponentValue(IslandCoords, entityKey ?? "");
-  console.log(terrain);
+  console.log(terrain); */
 
   const canBeBuried = useMemo(
     () => checkIfCanBeBuried(x, y),

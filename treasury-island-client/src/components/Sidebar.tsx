@@ -50,6 +50,16 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const isPlayer1 = account.address == bigintToHex(game?.player1);
 
+  function getImgId(xSize: number, ySize: number) {
+    if ((xSize === 2 && ySize === 1) || (xSize === 1 && ySize === 2)) {
+      return 2;
+    } else if ((xSize === 3 && ySize === 1) || (xSize === 1 && ySize === 3)) {
+      return 3;
+    } else {
+      return 1;
+    }
+  }
+
   return (
     <Flex
       width="300px"
@@ -64,8 +74,8 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       justifyContent={"space-between"}
     >
       <Flex direction="column" gap={2}>
-        <Flex w='100%' justifyContent='center'>
-          <Img src='/logo.png' width='90%'  />
+        <Flex w="100%" justifyContent="center">
+          <Img src="/logo.png" width="90%" />
         </Flex>
         <hr />
         <Text>Game state: {gameState}</Text>
@@ -110,13 +120,20 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         {hide && (
           <Flex direction="column" gap={2}>
             {availableTreasures.map((treasure) => (
-              <Button
-                variant="outline"
-                key={treasure.id}
-                onClick={() => pickTreasure(treasure)}
-              >
-                {`Treasure ${treasure.id} (${treasure.xSize}x${treasure.ySize})`}
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  key={treasure.id}
+                  onClick={() => pickTreasure(treasure)}
+                >
+                  {`${treasure.xSize}x${treasure.ySize}`}
+                  <Img
+                    height="30px"
+                    src={`/chest${getImgId(treasure.xSize, treasure.ySize)}.png`}
+                    ml={2}
+                  />
+                </Button>
+              </>
             ))}
           </Flex>
         )}
