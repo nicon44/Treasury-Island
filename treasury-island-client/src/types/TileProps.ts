@@ -4,3 +4,9 @@ export interface TileProps {
   hovered?: boolean;
   setHovered?: (hovered: boolean) => void;
 }
+
+export interface SandProps extends TileProps {
+  combined?: boolean;
+  hit?: boolean;
+  miss?: boolean;
+}

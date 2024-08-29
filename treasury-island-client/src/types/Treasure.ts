@@ -1,4 +1,5 @@
 export interface ITreasure {
+  id: number;
   xSize: number;
   ySize: number;
 }

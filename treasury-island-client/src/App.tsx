@@ -1,14 +1,37 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { Route, Routes } from "react-router-dom";
 import { Game } from "./components/Game";
 import { Sidebar } from "./components/Sidebar";
+import Lobby from "./pages/Lobby";
 import { GameProvider } from "./providers/GameProvider";
+import { ControlsHelp } from "./components/ControlsHelp";
 
 function App() {
   return (
     <ChakraProvider>
       <GameProvider>
-        <Sidebar />
-        <Game />
+        <Routes>
+          <Route path="/" element={<Lobby />} />
+          <Route
+            path="/hide"
+            element={
+              <>
+                <Sidebar hide />
+                <Game hide />
+                <ControlsHelp />
+              </>
+            }
+          />
+          <Route
+            path="/seek"
+            element={
+              <>
+                <Sidebar seek />
+                <Game seek />
+              </>
+            }
+          />
+        </Routes>
       </GameProvider>
     </ChakraProvider>
   );
