@@ -7,6 +7,7 @@ import {
   Container,
   Flex,
   Heading,
+  HStack,
   Input,
   Text,
   useColorModeValue,
@@ -111,20 +112,16 @@ export default function Component() {
             <CardBody>
               <VStack spacing={4}>
                 {!playerRegistered ? (
-                  <>
+                  <HStack width='100%' spacing={2}>
                     <Input
                       placeholder="Enter your captain name"
                       value={nameValue}
                       onChange={handleNameTypingInput}
                     />
-                    <Button
-                      colorScheme="orange"
-                      onClick={handleRegister}
-                      width="full"
-                    >
-                      Register player
+                    <Button colorScheme="orange" onClick={handleRegister}>
+                      Login
                     </Button>
-                  </>
+                  </HStack>
                 ) : (
                   <Button
                     colorScheme="orange"
