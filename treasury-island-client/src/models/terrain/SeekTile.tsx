@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
+import { useDojo } from "../../dojo/useDojo";
 import { Terrain } from "../../enums/terrain";
+import { useRoomId } from "../../hooks/useRoomId";
 import { useGameContext } from "../../providers/GameProvider";
 import { TileProps } from "../../types/TileProps";
-import { Treasure } from "../Treasure";
 import { Palm } from "./Palm";
 import { Sand } from "./Sand";
 import { Stone } from "./Stone";
@@ -10,9 +11,24 @@ import { Water } from "./Water";
 
 export const SeekTile = ({ x, y }: TileProps) => {
   const {
-    grid,
-  } = useGameContext();
+    setup: { client },
+    account: { account },
+  } = useDojo();
+  const roomId = useRoomId();
+
+  const { grid } = useGameContext();
   const [hovered, setHovered] = useState(false);
+
+  const handleDig = async (event) => {
+    event.stopPropagation();
+    const found = await client.gameroom.dig_for_loot({
+      account,
+      game_id: BigInt(roomId ?? ""),
+      x: x,
+      y: y,
+    });
+    console.log("found: ", found);
+  };
 
   const TERRAIN_MAP = useMemo(() => {
     return {
@@ -31,14 +47,5 @@ export const SeekTile = ({ x, y }: TileProps) => {
     };
   }, [x, y, hovered, setHovered]);
 
-  return (
-    <group
-      onClick={(event) => {
-        event.stopPropagation();
-        console.log('DIIIGGGGGGGGG')
-      }}
-    >
-      {TERRAIN_MAP[grid[x][y]]}
-    </group>
-  );
+  return <group onClick={handleDig}>{TERRAIN_MAP[grid[x][y]]}</group>;
 };
