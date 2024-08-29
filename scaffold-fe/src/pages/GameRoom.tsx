@@ -74,6 +74,11 @@ export const GameRoom = () => {
     console.log("player2: ", Number(player2Address));
     console.log("player2: ", player2);
 
+        
+    const playerTries = account.address == bigintToHex(game?.player1) ? gameRound?.player1_tries:
+                        gameRound?.player2_tries ?? 0;
+    const opponentTries = account.address == bigintToHex(game?.player1) ? gameRound?.player2_tries:
+                        gameRound?.player1_tries ?? 0;
 
     // === LOOT Objects and Tracker ===
     
@@ -101,7 +106,10 @@ export const GameRoom = () => {
     console.log("loot objects: ", lootObjects);
     
     const playerLootObjects = lootObjects.filter((loot)=>{
-        return loot?.player_id == BigInt(player.player_id??"");
+        return (loot?.player_id == BigInt(player.player_id??"")
+        &&
+        loot?.game_id == BigInt(roomId??"")
+    );
     })
     console.log("player loot objects: ", playerLootObjects);
     const playerHiddenIndices = playerLootObjects.map((loot)=>{
@@ -141,6 +149,22 @@ export const GameRoom = () => {
     // === Guesses Tracker ===
     const HasGuesses = useEntityQuery([Has(Guesses)]);
     console.log("HasGuesses: ", HasGuesses);
+
+    const GuessesObject = HasGuesses.map((entity)=>{
+        const guesses = getComponentValue(Guesses, entity);
+        return guesses;
+    })
+    console.log("GuessesObject: ", GuessesObject);
+
+    const playerGuesses = GuessesObject.filter((guess)=>{
+        return (guess?.player_id == BigInt(player?.player_id??"")
+        && guess?.game_id == BigInt(roomId??"")
+        );
+    }).map((guess)=>{
+        return {x: guess?.x, y: guess?.y, correct: guess?.correct};
+    })
+
+    console.log("playerGuesses: ", playerGuesses);
     
     
     // === UI Functions ===
@@ -171,6 +195,7 @@ export const GameRoom = () => {
         const yLength = yLarge - ySmall +1;
         const longestLength = xLength > yLength? xLength: yLength;
         console.log("loot_lenght: ", longestLength);
+        console.log("x0: ", xSmall, "y0: ", ySmall, "x1: ", xLarge, "y1: ", yLarge);
 
         await client.gameroom.hide_loot({
             account,
@@ -184,14 +209,21 @@ export const GameRoom = () => {
     }
 
     const handleDigToSeek = async () => {
-        console.log("digging for loot..", x,y)
-        const found = await client.gameroom.dig_for_loot({
+        console.log("digging for loot..", x0, x1, y0, y1)
+
+        const xSmall = x0 < x1? x0: x1;
+        const xLarge = x0 > x1? x0: x1;
+        const ySmall = y0 < y1? y0: y1;
+        const yLarge = y0 > y1? y0: y1;
+
+        console.log("hence digging at: ", xSmall, ySmall)
+
+        await client.gameroom.dig_for_loot({
             account,
             game_id: BigInt(roomId??""),
-            x: x,
-            y: y,
-        });
-        console.log("found: ", found);
+            x: xSmall,
+            y: ySmall,
+        })
     }
 
     const handleEndRound = async () => {
@@ -234,6 +266,13 @@ export const GameRoom = () => {
         return arr.some(item => item.x === x && item.y === y);
     }
 
+    const isInArrayAndTrue = (arr:Array<{x:number,y:number, correct:boolean}>, x:number, y:number)=> {
+        return arr.some(item => item.x === x && item.y === y && item.correct === true);
+    }
+    const isInArrayAndFalse = (arr:Array<{x:number,y:number, correct:boolean}>, x:number, y:number)=> {
+        return arr.some(item => item.x === x && item.y === y && item.correct === false);
+    }
+
     return (
         <div className="flex flex-col items-start p-2 gap-y-1">
             <div className="border p-2 rounded-lg">GameRoom: {roomId}</div>
@@ -262,6 +301,12 @@ export const GameRoom = () => {
                     <span className="mx-2">Phase: </span>
                     <span className="p-2 bg-green-600 rounded-lg">
                         {mapPhase(game?.phase??"")}</span>
+
+                    <span className="mx-2">Winner: {
+                    game?.winner == game?.player1? feltToString(player1?.name?? ""):
+                    game?.winner == game?.player2? feltToString(player2?.name?? ""):
+                    "No Winner Yet"
+                    }</span>
                 </div>
             </div>
             
@@ -358,15 +403,13 @@ export const GameRoom = () => {
 
             </div>
             
+            {/* Stats */}
             <div className="w-full">
                 <p>Loot Stats</p>
 
                 <div className="flex justify-start px-2 gap-x-4">
                     <div className="flex flex-col border rounded-lg p-3">
-                        <p>{feltToString(player?.name?? "")??""}'s tries: {
-                            account.address == bigintToHex(game?.player1) ? gameRound?.player1_tries: 
-                            account.address == bigintToHex(game?.player2) ? gameRound?.player2_tries: "Null"
-                            }</p>
+                        <p>{feltToString(player?.name?? "")??""}'s tries: {playerTries}</p>
                             <p>
                                 <span className="mx-2">4x1: </span>
                                 <span>{playerLootTracker?.loot_count?.four??""}</span>
@@ -397,10 +440,7 @@ export const GameRoom = () => {
                     </div>
                     
                     <div className="flex flex-col border rounded-lg p-3">
-                        <p>{feltToString(opponent?.name?? "")??""}'s tries: {
-                            account.address == bigintToHex(game?.player1) ? gameRound?.player1_tries: 
-                            account.address == bigintToHex(game?.player2) ? gameRound?.player2_tries: "Null"
-                            }</p>
+                        <p>{feltToString(opponent?.name?? "")??""}'s tries: {opponentTries}</p>
                             <p>
                                 <span className="mx-2">4x1: </span>
                                 <span>{opponentLootTracker?.loot_count?.four??""}</span>
@@ -474,27 +514,19 @@ export const GameRoom = () => {
                                 {
                                     Array.from({length: 14}).map((_, x) => {
 
-                                        const targetTile = getComponentValue(IslandCoords, 
-                                            getEntityIdFromKeys([
-                                                BigInt(roomId??""),
-                                                BigInt(account.address),
-                                                BigInt(x),
-                                                BigInt(y)
-                                            ]))
-                                        
-                                        targetTile ?console.log("targetTile: ", targetTile ):null;
-                                        const isHiddenLoot = targetTile ? targetTile?.terrain == 1 : false;
-                                        console.log(targetTile?.loot_id);
-
                                         return (
                                             <div key={"square"+x+y} 
                                             className={`w-10 h-10 border border-gray-400 rounded-md
-                                        
-                                            bg-green-400
+                                            
+
+                                            ${  
+                                                isInArrayAndTrue(playerGuesses, x, y) ? 'bg-rose-600':
+                                                isInArrayAndFalse(playerGuesses, x, y) ? 'bg-gray-700/40':
+                                                isInArray(coordArrays, x, y) ? 'bg-cyan-500': 'bg-green-400'}
                                             hover:bg-green-300
                                             hover:cursor-pointer
                                             `}
-                                            onClick={()=>handleDigToSeek({x,y})}
+                                            
                                             >
                                                 {/* {x},{y} */}
                                             </div>

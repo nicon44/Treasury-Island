@@ -226,25 +226,30 @@ mod gameroom {
                     
                     // update loot object hidden indices
                     let mut x=x0;
-                    let mut y=y0;
                     while x < x1+1 {
+                        let mut y=y0;
                         while y < y1+1 {
+                            println!("x: {} y: {}", x, y);
                             let newIndex = utils::XY_TO_INDEX(x, y);
 
-                            // checking if contains
-                            let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
-                            let contains_object = loop {
-                                match hidden_indices_span.pop_front() {
-                                    Option::Some(v) => { if v == @newIndex {
-                                        break true;
-                                    } },
-                                    Option::None => { break false; },
-                                };
-                            };
+                            // checking if contains (29/08/2024:1447hrs - don't have to check if contains)
+                            // let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
+                            // let contains_object = loop {
+                            //     match hidden_indices_span.pop_front() {
+                            //         Option::Some(v) => { if v == @newIndex {
+                            //             break true;
+                            //         } },
+                            //         Option::None => { break false; },
+                            //     };
+                            // };
 
-                            if(contains_object != true){
+                            // if(contains_object != true){
                                 actual_loot_object.hidden_indices.append(newIndex);
-                            };
+                                
+                                // also update island coords with loot id
+                                let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 1, using_loot_id); // specify correct loot_id
+                                set!(self.world(), (island_coords));
+                            // };
                             y += 1;
                         };
                         x += 1;
@@ -254,7 +259,9 @@ mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
+                    
                     //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it is found
+                    
                     // update counters in loot_tracker
                     player_loottracker.loot_count.one -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.one += 1; // add hidden count
@@ -293,25 +300,30 @@ mod gameroom {
                     
                     // update loot object hidden indices
                     let mut x=x0;
-                    let mut y=y0;
                     while x < x1+1 {
+                        let mut y=y0;
                         while y < y1+1 {
+                            println!("x: {} y: {}", x, y);
                             let newIndex = utils::XY_TO_INDEX(x, y);
 
-                            // checking if contains
-                            let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
-                            let contains_object = loop {
-                                match hidden_indices_span.pop_front() {
-                                    Option::Some(v) => { if v == @newIndex {
-                                        break true;
-                                    } },
-                                    Option::None => { break false; },
-                                };
-                            };
+                            // checking if contains (29/08/2024:1447hrs - don't have to check if contains)
+                            // let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
+                            // let contains_object = loop {
+                            //     match hidden_indices_span.pop_front() {
+                            //         Option::Some(v) => { if v == @newIndex {
+                            //             break true;
+                            //         } },
+                            //         Option::None => { break false; },
+                            //     };
+                            // };
 
-                            if(contains_object != true){
+                            // if(contains_object != true){
                                 actual_loot_object.hidden_indices.append(newIndex);
-                            };
+                                
+                                // also update island coords with loot id
+                                let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 1, using_loot_id); // specify correct loot_id
+                                set!(self.world(), (island_coords));
+                            // };
                             y += 1;
                         };
                         x += 1;
@@ -321,15 +333,17 @@ mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
+                    
                     //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it is found
+                    
                     // update counters in loot_tracker
                     player_loottracker.loot_count.two -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.two += 1; // add hidden count
 
 
                     // Update Island Coords with Loot Id
-                    let island_coords = IslandCoordsTrait::new(game_id, player, x0, y0, 1, using_loot_id); // specify correct loot_id
-                    set!(self.world(), (island_coords, player_loottracker, actual_loot_object));
+                    // let island_coords = IslandCoordsTrait::new(game_id, player, x0, y0, 1, using_loot_id); // specify correct loot_id
+                    set!(self.world(), (player_loottracker, actual_loot_object));
                 },
 
                 3 => {
@@ -360,25 +374,30 @@ mod gameroom {
                     
                     // update loot object hidden indices
                     let mut x=x0;
-                    let mut y=y0;
                     while x < x1+1 {
+                        let mut y=y0;
                         while y < y1+1 {
+                            println!("x: {} y: {}", x, y);
                             let newIndex = utils::XY_TO_INDEX(x, y);
 
-                            // checking if contains
-                            let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
-                            let contains_object = loop {
-                                match hidden_indices_span.pop_front() {
-                                    Option::Some(v) => { if v == @newIndex {
-                                        break true;
-                                    } },
-                                    Option::None => { break false; },
-                                };
-                            };
+                            // checking if contains (29/08/2024:1447hrs - don't have to check if contains)
+                            // let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
+                            // let contains_object = loop {
+                            //     match hidden_indices_span.pop_front() {
+                            //         Option::Some(v) => { if v == @newIndex {
+                            //             break true;
+                            //         } },
+                            //         Option::None => { break false; },
+                            //     };
+                            // };
 
-                            if(contains_object != true){
+                            // if(contains_object != true){
                                 actual_loot_object.hidden_indices.append(newIndex);
-                            };
+                                
+                                // also update island coords with loot id
+                                let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 1, using_loot_id); // specify correct loot_id
+                                set!(self.world(), (island_coords));
+                            // };
                             y += 1;
                         };
                         x += 1;
@@ -388,7 +407,9 @@ mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
+                    
                     //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it is found
+                    
                     // update counters in loot_tracker
                     player_loottracker.loot_count.three -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.three += 1; // add hidden count
@@ -427,25 +448,30 @@ mod gameroom {
                     
                     // update loot object hidden indices
                     let mut x=x0;
-                    let mut y=y0;
                     while x < x1+1 {
+                        let mut y=y0;
                         while y < y1+1 {
+                            println!("x: {} y: {}", x, y);
                             let newIndex = utils::XY_TO_INDEX(x, y);
 
-                            // checking if contains
-                            let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
-                            let contains_object = loop {
-                                match hidden_indices_span.pop_front() {
-                                    Option::Some(v) => { if v == @newIndex {
-                                        break true;
-                                    } },
-                                    Option::None => { break false; },
-                                };
-                            };
+                            // checking if contains (29/08/2024:1447hrs - don't have to check if contains)
+                            // let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
+                            // let contains_object = loop {
+                            //     match hidden_indices_span.pop_front() {
+                            //         Option::Some(v) => { if v == @newIndex {
+                            //             break true;
+                            //         } },
+                            //         Option::None => { break false; },
+                            //     };
+                            // };
 
-                            if(contains_object != true){
+                            // if(contains_object != true){
                                 actual_loot_object.hidden_indices.append(newIndex);
-                            };
+
+                                // also update island coords with loot id
+                                let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 1, using_loot_id); // specify correct loot_id
+                                set!(self.world(), (island_coords));
+                            // };
                             y += 1;
                         };
                         x += 1;
@@ -455,7 +481,9 @@ mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
+                    
                     //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it is found
+                    
                     // update counters in loot_tracker
                     player_loottracker.loot_count.four -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.four += 1; // add hidden count
@@ -495,25 +523,30 @@ mod gameroom {
                     
                     // update loot object hidden indices
                     let mut x=x0;
-                    let mut y=y0;
                     while x < x1+1 {
+                        let mut y=y0;
                         while y < y1+1 {
+                            println!("x: {} y: {}", x, y);
                             let newIndex = utils::XY_TO_INDEX(x, y);
 
-                            // checking if contains
-                            let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
-                            let contains_object = loop {
-                                match hidden_indices_span.pop_front() {
-                                    Option::Some(v) => { if v == @newIndex {
-                                        break true;
-                                    } },
-                                    Option::None => { break false; },
-                                };
-                            };
+                            // checking if contains (29/08/2024:1447hrs - don't have to check if contains)
+                            // let mut hidden_indices_span = actual_loot_object.hidden_indices.span();
+                            // let contains_object = loop {
+                            //     match hidden_indices_span.pop_front() {
+                            //         Option::Some(v) => { if v == @newIndex {
+                            //             break true;
+                            //         } },
+                            //         Option::None => { break false; },
+                            //     };
+                            // };
 
-                            if(contains_object != true){
+                            // if(contains_object != true){
                                 actual_loot_object.hidden_indices.append(newIndex);
-                            };
+
+                                // also update island coords with loot id
+                                let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 1, using_loot_id); // specify correct loot_id
+                                set!(self.world(), (island_coords));
+                            // };
                             y += 1;
                         };
                         x += 1;
@@ -523,7 +556,9 @@ mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
+                    
                     //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it is found
+                    
                     // update counters in loot_tracker
                     player_loottracker.loot_count.five -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.five += 1; // add hidden count
