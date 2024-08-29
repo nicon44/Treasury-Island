@@ -5,7 +5,7 @@ use core::debug::PrintTrait;
 
 // Inernal imports
 
-use tisland::models::index::IslandCoords;
+use tisland::models::index::Guesses;
 use tisland::libs::utils;
 
 mod errors {
@@ -13,20 +13,20 @@ mod errors {
 }
 
 #[generate_trait]
-impl IslandCoordsImpl of IslandCoordsTrait {
+impl GuessesImpl of GuessesTrait {
     #[inline]
     fn new(game_id: u128, player_id: ContractAddress,
-        x:u8, y:u8, terrain:u8, loot_id:u8
-    ) -> IslandCoords {
+        x:u8, y:u8, round_number:u8, correct:bool
+    ) -> Guesses {
         // [Return] GameRoom
-        IslandCoords {
+        Guesses {
             game_id,
             player_id,
             x,
             y,
             index: utils::XY_TO_INDEX(x, y),
-            terrain,
-            loot_id
+            round_number,
+            correct
         }
     }
 

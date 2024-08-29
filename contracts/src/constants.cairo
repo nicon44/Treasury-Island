@@ -3,12 +3,20 @@
 const SEED_WEEK_SECONDS: u64 = 604800;
 const SEED_OFFSET_SECONDS: u64 = 345600;
 
-// Player
+// Loot Objects
 
-const DEFAULT_PLAYER_DAMAGE: u8 = 10;
-const DEFAULT_PLAYER_HEALTH: u8 = 100;
-const MAX_PLAYER_HEALTH: u8 = 200;
-const DEFAULT_PLAYER_GOLD: u16 = 0;
+const FOUR_BY_ONE: u8 = 1;
+const FOUR_BY_ONE_DIMS: u8 = 4;
+
+const THREE_BY_ONE: u8 = 1;
+const THREE_BY_ONE_DIMS: u8 = 3;
+
+const TWO_BY_ONE: u8 = 1;
+const TWO_BY_ONE_DIMS: u8 = 2;
+
+const ONE_BY_ONE: u8 = 2;
+const ONE_BY_ONE_DIMS: u8 = 1;
+
 
 // Island Dims
 

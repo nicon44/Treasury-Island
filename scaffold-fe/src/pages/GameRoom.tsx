@@ -16,7 +16,7 @@ export const GameRoom = () => {
     const { roomId } = useParams();
     const {
         setup: {
-        clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+        clientComponents: { Player, GameRoom, Round, IslandCoords, Loot, ArrayTester },
         client,
         },
         account: { account },
@@ -127,7 +127,13 @@ export const GameRoom = () => {
         });
     }
 
-    
+    const hasArrayTester = useEntityQuery([Has(ArrayTester)]);
+    const arrayTesters = hasArrayTester.map((entity)=>{
+        const arrayTester = getComponentValueStrict(ArrayTester, entity);
+        return arrayTester;
+    })
+    console.log("has Array Tester")
+    console.log(arrayTesters)
     return (
         <div className="flex flex-col items-start p-2 gap-y-1">
             <div className="border p-2 rounded-lg">GameRoom: {roomId}</div>
