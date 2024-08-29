@@ -122,7 +122,7 @@ pub mod gameroom {
                 );
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.four += 1;
-                player1_loottracker.loot_hidden_count.four += 1;
+                //player1_loottracker.loot_hidden_count.four +=1;
 
                 loot_id += 1;
                 let player2_loot = LootObjectTrait::new(
@@ -130,7 +130,7 @@ pub mod gameroom {
                 );
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.four += 1;
-                player2_loottracker.loot_hidden_count.four += 1;
+                //player2_loottracker.loot_hidden_count.four +=1;
 
                 set!(self.world(), (player1_loot, player2_loot));
                 loot4_count += 1;
@@ -144,7 +144,7 @@ pub mod gameroom {
                 );
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.three += 1;
-                player1_loottracker.loot_hidden_count.three += 1;
+                //player1_loottracker.loot_hidden_count.three +=1;
 
                 loot_id += 1;
                 let player2_loot = LootObjectTrait::new(
@@ -152,7 +152,7 @@ pub mod gameroom {
                 );
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.three += 1;
-                player2_loottracker.loot_hidden_count.three += 1;
+                //player2_loottracker.loot_hidden_count.three +=1;
 
                 set!(self.world(), (player1_loot, player2_loot));
                 loot3_count += 1;
@@ -165,7 +165,7 @@ pub mod gameroom {
                 );
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.two += 1;
-                player1_loottracker.loot_hidden_count.two += 1;
+                //player1_loottracker.loot_hidden_count.two +=1;
 
                 loot_id += 1;
                 let player2_loot = LootObjectTrait::new(
@@ -173,7 +173,7 @@ pub mod gameroom {
                 );
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.two += 1;
-                player2_loottracker.loot_hidden_count.two += 1;
+                //player2_loottracker.loot_hidden_count.two +=1;
 
                 set!(self.world(), (player1_loot, player2_loot));
                 loot2_count += 1;
@@ -187,7 +187,7 @@ pub mod gameroom {
                 );
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.one += 1;
-                player1_loottracker.loot_hidden_count.one += 1;
+                //player1_loottracker.loot_hidden_count.one +=1;
 
                 loot_id += 1;
                 let player2_loot = LootObjectTrait::new(
@@ -195,7 +195,7 @@ pub mod gameroom {
                 );
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.one += 1;
-                player2_loottracker.loot_hidden_count.one += 1;
+                //player2_loottracker.loot_hidden_count.one +=1;
 
                 set!(self.world(), (player1_loot, player2_loot));
                 loot1_count += 1;
@@ -247,7 +247,7 @@ pub mod gameroom {
                     while loot_ids_array_counter < player_loottracker.loot_ids.len() {
                         let current_loot_id: u8 = *player_loottracker
                             .loot_ids[loot_ids_array_counter];
-                        let mut loot_object = get!(
+                        let loot_object = get!(
                             self.world(), (game_id, player, current_loot_id), LootObject
                         );
 
@@ -297,7 +297,8 @@ pub mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
-                    player_loottracker.loot_ids = new_loot_ids;
+                    //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it
+                    //is found
                     // update counters in loot_tracker
                     player_loottracker.loot_count.one -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.one += 1; // add hidden count
@@ -318,7 +319,7 @@ pub mod gameroom {
                     while loot_ids_array_counter < player_loottracker.loot_ids.len() {
                         let current_loot_id: u8 = *player_loottracker
                             .loot_ids[loot_ids_array_counter];
-                        let mut loot_object = get!(
+                        let loot_object = get!(
                             self.world(), (game_id, player, current_loot_id), LootObject
                         );
 
@@ -368,7 +369,8 @@ pub mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
-                    player_loottracker.loot_ids = new_loot_ids;
+                    //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it
+                    //is found
                     // update counters in loot_tracker
                     player_loottracker.loot_count.two -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.two += 1; // add hidden count
@@ -389,7 +391,7 @@ pub mod gameroom {
                     while loot_ids_array_counter < player_loottracker.loot_ids.len() {
                         let current_loot_id: u8 = *player_loottracker
                             .loot_ids[loot_ids_array_counter];
-                        let mut loot_object = get!(
+                        let loot_object = get!(
                             self.world(), (game_id, player, current_loot_id), LootObject
                         );
 
@@ -439,7 +441,8 @@ pub mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
-                    player_loottracker.loot_ids = new_loot_ids;
+                    //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it
+                    //is found
                     // update counters in loot_tracker
                     player_loottracker.loot_count.three -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.three += 1; // add hidden count
@@ -460,7 +463,7 @@ pub mod gameroom {
                     while loot_ids_array_counter < player_loottracker.loot_ids.len() {
                         let current_loot_id: u8 = *player_loottracker
                             .loot_ids[loot_ids_array_counter];
-                        let mut loot_object = get!(
+                        let loot_object = get!(
                             self.world(), (game_id, player, current_loot_id), LootObject
                         );
 
@@ -510,7 +513,8 @@ pub mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
-                    player_loottracker.loot_ids = new_loot_ids;
+                    //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it
+                    //is found
                     // update counters in loot_tracker
                     player_loottracker.loot_count.four -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.four += 1; // add hidden count
@@ -531,7 +535,7 @@ pub mod gameroom {
                     while loot_ids_array_counter < player_loottracker.loot_ids.len() {
                         let current_loot_id: u8 = *player_loottracker
                             .loot_ids[loot_ids_array_counter];
-                        let mut loot_object = get!(
+                        let loot_object = get!(
                             self.world(), (game_id, player, current_loot_id), LootObject
                         );
 
@@ -581,7 +585,8 @@ pub mod gameroom {
                     actual_loot_object.hidden = true;
 
                     // Re-assign back loot_ids_array in loot_tracker
-                    player_loottracker.loot_ids = new_loot_ids;
+                    //player_loottracker.loot_ids = new_loot_ids; // don't have to reassign until it
+                    //is found
                     // update counters in loot_tracker
                     player_loottracker.loot_count.five -= 1; // decrement loot count
                     player_loottracker.loot_hidden_count.five += 1; // add hidden count

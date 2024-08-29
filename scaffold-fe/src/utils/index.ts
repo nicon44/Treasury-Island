@@ -1,9 +1,13 @@
 import { BigNumberish } from 'starknet';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Component, Entity, getComponentValue } from '@dojoengine/recs'
+import { MAX_X, MAX_Y } from '@/constants';
 
 export * from "./starknet";
 
+export const indexToXY = (index: number): [number, number] => {
+    return {x:index % MAX_X, y: Math.floor(index / MAX_X)};
+}
 
 export const mapGameState = (state: number): string => {
     switch(state){

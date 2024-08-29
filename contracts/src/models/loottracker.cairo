@@ -32,3 +32,6 @@ impl LootTrackerImpl of LootTrackerTrait {
 
 
 }
+
+// #[generate_trait]
+// impl ArrayU8Copy of Copy<Array<u8>>;
