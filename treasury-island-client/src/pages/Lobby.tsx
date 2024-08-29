@@ -8,6 +8,7 @@ import {
   Flex,
   Heading,
   HStack,
+  Img,
   Input,
   Text,
   useColorModeValue,
@@ -87,117 +88,111 @@ export default function Component() {
   };
 
   return (
-    <Box bg={bg} minH="100vh" py={10}>
+    <Flex bg={bg} minH="100vh" py={10} alignItems='center'>
       <Box m={2} position="absolute" bottom={0} right={0}>
         <Text>Wallet Address: {account.address}</Text>
       </Box>
       <Container maxW="container.xl">
-        <Heading
-          as="h1"
-          size="2xl"
-          textAlign="center"
-          mb={10}
-          color="orange.400"
-        >
-          Treasure Island Lobby
-        </Heading>
-
-        <Flex direction={{ base: "column", md: "row" }} gap={6}>
-          <Card bg={cardBg} flex={1}>
-            <CardHeader>
-              <Heading size="lg" color="orange.500">
-                Create Your Room
-              </Heading>
-            </CardHeader>
-            <CardBody>
-              <VStack spacing={4}>
-                {!playerRegistered ? (
-                  <HStack width='100%' spacing={2}>
-                    <Input
-                      placeholder="Enter your captain name"
-                      value={nameValue}
-                      onChange={handleNameTypingInput}
-                    />
-                    <Button colorScheme="orange" onClick={handleRegister}>
-                      Login
-                    </Button>
-                  </HStack>
-                ) : (
-                  <Button
-                    colorScheme="orange"
-                    onClick={handleCreateRoom}
-                    width="full"
-                  >
-                    Create Room
-                  </Button>
-                )}
-                {/* {error && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    <AlertTitle mr={2}>Error!</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )*/}
-              </VStack>
-            </CardBody>
-          </Card>
-
-          <Card bg={cardBg} flex={1}>
-            <CardHeader>
-              <Heading size="lg" color="orange.500">
-                Active Rooms
-              </Heading>
-            </CardHeader>
-            <CardBody>
-              <VStack spacing={4} align="stretch" maxH="300px" overflowY="auto">
-                {roomsDetails.map((room, index) => {
-                  const ownerName = getOwnerName(room?.player1 || BigInt(0));
-                  return (
-                    <Box
-                      key={"room-" + index}
-                      p={3}
-                      borderWidth={1}
-                      borderRadius="md"
-                      borderColor="orange.200"
+        <Flex gap={6}>
+          <Flex width="50%">
+            <Img src="/logo.png" width="80%" height='unset' />
+          </Flex>
+          <Flex flexDirection="column" width="50%" gap={6}>
+            <Card bg={cardBg} flex={1}>
+              <CardHeader>
+                <Heading size="lg" color="orange.500">
+                  Create Your Room
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <VStack spacing={4}>
+                  {!playerRegistered ? (
+                    <HStack width="100%" spacing={2}>
+                      <Input
+                        placeholder="Enter your captain name"
+                        value={nameValue}
+                        onChange={handleNameTypingInput}
+                      />
+                      <Button colorScheme="orange" onClick={handleRegister}>
+                        Login
+                      </Button>
+                    </HStack>
+                  ) : (
+                    <Button
+                      colorScheme="orange"
+                      onClick={handleCreateRoom}
+                      width="full"
                     >
-                      <Flex justify="space-between" align="center">
-                        <VStack align="start" spacing={0}>
-                          <Text fontWeight="bold" color="orange.400">
-                            Room: {bigintToHex(room?.game_id)}
-                          </Text>
+                      Create Room
+                    </Button>
+                  )}
+                </VStack>
+              </CardBody>
+            </Card>
+            <Card bg={cardBg} flex={1}>
+              <CardHeader>
+                <Heading size="lg" color="orange.500">
+                  Active Rooms
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <VStack
+                  spacing={4}
+                  align="stretch"
+                  maxH="300px"
+                  overflowY="auto"
+                >
+                  {roomsDetails.map((room, index) => {
+                    const ownerName = getOwnerName(room?.player1 || BigInt(0));
+                    return (
+                      <Box
+                        key={"room-" + index}
+                        p={3}
+                        borderWidth={1}
+                        borderRadius="md"
+                        borderColor="orange.200"
+                      >
+                        <Flex justify="space-between" align="center">
+                          <VStack align="start" spacing={0}>
+                            <Text fontWeight="bold" color="orange.400">
+                              Room: {bigintToHex(room?.game_id)}
+                            </Text>
 
-                          <Text fontSize="sm" color="gray.500">
-                            Owner: {ownerName}
-                          </Text>
-                        </VStack>
-                        <Button
-                          colorScheme="orange"
-                          size="sm"
-                          isDisabled={
-                            room?.player2 !== BigInt(0) || !playerRegistered
-                          }
-                          onClick={async () => {
-                            // If current player is not the owner, join the room
-                            if (room.player1 !== BigInt(account.address)) {
-                              await client.lobby.join_room({
-                                account,
-                                game_id: BigInt(room?.game_id ?? ""),
-                              });
+                            <Text fontSize="sm" color="gray.500">
+                              Owner: {ownerName}
+                            </Text>
+                          </VStack>
+                          <Button
+                            colorScheme="orange"
+                            size="sm"
+                            isDisabled={
+                              room?.player2 !== BigInt(0) || !playerRegistered
                             }
-                            navigate(`/hide?id=${bigintToHex(room?.game_id)}`);
-                          }}
-                        >
-                          Join Crew
-                        </Button>
-                      </Flex>
-                    </Box>
-                  );
-                })}
-              </VStack>
-            </CardBody>
-          </Card>
+                            onClick={async () => {
+                              // If current player is not the owner, join the room
+                              if (room.player1 !== BigInt(account.address)) {
+                                await client.lobby.join_room({
+                                  account,
+                                  game_id: BigInt(room?.game_id ?? ""),
+                                });
+                              }
+                              navigate(
+                                `/hide?id=${bigintToHex(room?.game_id)}`
+                              );
+                            }}
+                          >
+                            Join Crew
+                          </Button>
+                        </Flex>
+                      </Box>
+                    );
+                  })}
+                </VStack>
+              </CardBody>
+            </Card>
+          </Flex>
         </Flex>
       </Container>
-    </Box>
+    </Flex>
   );
 }

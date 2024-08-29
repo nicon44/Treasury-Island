@@ -1,7 +1,6 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
 import { Entity, getComponentValue } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
-import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
@@ -10,15 +9,14 @@ import { PhaseProps } from "../types/PhaseProps";
 import { bigintToHex, feltToString, mapGameState } from "../utils";
 
 export const Sidebar = ({ hide, seek }: PhaseProps) => {
-  const { pickTreasure, resetGrid, game, phase } = useGameContext();
+  const { pickTreasure, game, phase } = useGameContext();
   const id = useRoomId();
-  const navigate = useNavigate();
 
   const availableTreasures = useAvailableTreasures();
 
   const {
     setup: {
-      clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+      clientComponents: { Player },
       client,
     },
     account: { account },
@@ -50,13 +48,6 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       getEntityIdFromKeys([game?.player2]) ?? ("" as Entity)
     );
 
-  const player =
-    account.address == bigintToHex(game?.player1)
-      ? player1
-      : account.address == bigintToHex(game?.player2)
-        ? player2
-        : {};
-
   const isPlayer1 = account.address == bigintToHex(game?.player1);
 
   return (
@@ -73,10 +64,13 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       justifyContent={"space-between"}
     >
       <Flex direction="column" gap={2}>
-        <Heading>Treasury Island</Heading>
+        <Flex w='100%' justifyContent='center'>
+          <Img src='/logo.png' width='90%'  />
+        </Flex>
         <hr />
         <Text>Game state: {gameState}</Text>
-        {!player1 || !player2 && <Text>Waiting for other players to join...</Text>}
+        {!player1 ||
+          (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
         {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
