@@ -8,7 +8,7 @@ import {
   Flex,
   Heading,
   HStack,
-  Img,
+  Image,
   Input,
   Text,
   useColorModeValue,
@@ -34,13 +34,11 @@ export default function Component() {
 
   const navigate = useNavigate();
 
-  // entity id we are syncing
   const entityId = getEntityIdFromKeys([BigInt(account.address)]) as Entity;
 
-  const [playerRegistered, setPlayerRegistered] = useState(false);
-
-  // === PLAYER DETAILS ===
   const player = useComponentValue(Player, entityId);
+  console.log("bit player: ", !player);
+
   const hasPlayers = useEntityQuery([Has(Player)]);
   const playersDetails = hasPlayers.map((entity) => {
     const player = getComponentValueStrict(Player, entity);
@@ -61,14 +59,11 @@ export default function Component() {
   };
 
   const handleRegister = async () => {
-    const response = await client.lobby.register_player({
+    await client.lobby.register_player({
       account,
       name: BigInt(torii.cairoShortStringToFelt(nameValue)),
       pfp_num: 1,
     });
-    if (response) {
-      setPlayerRegistered(true);
-    }
   };
 
   const handleCreateRoom = async () => {
@@ -84,29 +79,46 @@ export default function Component() {
     const ownerPlayer = playersDetails.find(
       (player) => player.player_id === owner
     );
-    return ownerPlayer?.name ? feltToString(ownerPlayer.name) : "";
+    return ownerPlayer?.name
+      ? feltToString(ownerPlayer.name?.toString() ?? "")
+      : "";
   };
 
   return (
-    <Flex bg={bg} minH="100vh" py={10} alignItems='center'>
+    <Flex bg={bg} minH="100vh" py={10} alignItems="center">
       <Box m={2} position="absolute" bottom={0} right={0}>
         <Text>Wallet Address: {account.address}</Text>
       </Box>
       <Container maxW="container.xl">
-        <Flex gap={6}>
-          <Flex width="50%">
-            <Img src="/logo.png" width="80%" height='unset' />
+        <Flex
+          gap={6}
+          height="100%"
+          flexDirection={{ base: "column", md: "row" }}
+        >
+          <Flex
+            width={{ base: "100%", md: "50%" }}
+            height="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image src="/logo.png" width={{base: '150px', md: "80%"}} height="fit-content" />
           </Flex>
-          <Flex flexDirection="column" width="50%" gap={6}>
+          <Flex
+            flexDirection="column"
+            width={{ base: "100%", md: "50%" }}
+            gap={6}
+          >
             <Card bg={cardBg} flex={1}>
               <CardHeader>
                 <Heading size="lg" color="orange.500">
-                  Create Your Room
+                  {player
+                    ? `Hey ${feltToString(player.name?.toString() ?? "")}!`
+                    : "Create Your Character"}
                 </Heading>
               </CardHeader>
               <CardBody>
                 <VStack spacing={4}>
-                  {!playerRegistered ? (
+                  {!player ? (
                     <HStack width="100%" spacing={2}>
                       <Input
                         placeholder="Enter your captain name"
@@ -165,9 +177,7 @@ export default function Component() {
                           <Button
                             colorScheme="orange"
                             size="sm"
-                            isDisabled={
-                              room?.player2 !== BigInt(0) || !playerRegistered
-                            }
+                            isDisabled={room?.player2 !== BigInt(0) || !player}
                             onClick={async () => {
                               // If current player is not the owner, join the room
                               if (room.player1 !== BigInt(account.address)) {
