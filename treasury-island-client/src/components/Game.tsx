@@ -2,12 +2,13 @@ import { Canvas } from "@react-three/fiber";
 import { useEffect } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { useGameContext } from "../providers/GameProvider";
-import { Grid } from "./Grid";
 import { PhaseProps } from "../types/PhaseProps";
+import { Grid } from "./Grid";
 
 export const Game = ({hide, seek}: PhaseProps) => {
   const { rotateTreasure } = useGameContext();
 
+  
   useEffect(() => {
     const handleKeyDown = (event: { key: string }) => {
       if (event.key === "r" || event.key === "R") {
@@ -21,7 +22,7 @@ export const Game = ({hide, seek}: PhaseProps) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [rotateTreasure]);
 
   return (
     <div id="canvas-container">

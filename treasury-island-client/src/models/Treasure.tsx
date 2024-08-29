@@ -44,8 +44,7 @@ export const Treasure = ({ size = [1, 1], canBeBuried = true }) => {
       });
     }
   }, [chest1, canBeBuried]);
-  
-  //logic for chest2
+
   if ((xSize === 1 && ySize === 2) || (xSize === 2 && ySize === 1)) {
     return (
       <group position={[(xSize * 10) / 2 - 5, -5, (ySize * 10) / 2 - 5]}>
@@ -61,8 +60,7 @@ export const Treasure = ({ size = [1, 1], canBeBuried = true }) => {
     );
   }
 
-  // New logic for handling chest1 and chest3
-  if ((xSize === 1 && ySize === 1) || (xSize === 1 && ySize === 1)) {
+  if (xSize === 1 && ySize === 1) {
     return (
       <group position={[(xSize * 10) / 2 - 5, -5, (ySize * 10) / 2 - 5]}>
         {chest1 && (
@@ -77,15 +75,15 @@ export const Treasure = ({ size = [1, 1], canBeBuried = true }) => {
     );
   }
 
-  if ((xSize === 1 && ySize === 4) || (xSize === 4 && ySize === 1)) {
+  if ((xSize === 1 && ySize === 3) || (xSize === 3 && ySize === 1)) {
     return (
-      <group position={[(xSize * 25) / 2 - 5, -5, (ySize * 3) / 2 - 5]}>
+      <group position={[(xSize * 10) / 2 - 5, -5, (ySize * 10) / 2 - 5]}>
         {chest3 && (
           <primitive
             object={chest3}
             scale={[5, 7, 4]}
-            position={[2.5, 6, 0]}
-            rotation={[0, xSize === 4 ? -Math.PI / 2 : 0, 0]}
+            position={[0, 6, 0]}
+            rotation={[0, ySize === 3 ? -Math.PI / 2 : 0, 0]}
           />
         )}
       </group>
