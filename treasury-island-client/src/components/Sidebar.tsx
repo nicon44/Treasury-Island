@@ -76,7 +76,8 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         <Heading>Treasury Island</Heading>
         <hr />
         <Text>Game state: {gameState}</Text>
-        <Text>Phase: {phase}</Text>
+        {!player1 || !player2 && <Text>Waiting for other players to join...</Text>}
+        {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
         {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
           <Button

@@ -12,21 +12,23 @@ async function init() {
   if (!rootElement) throw new Error("React root not found");
   const root = ReactDOM.createRoot(rootElement as HTMLElement);
 
-  const setupResult = await setup(dojoConfig);
+  root.render(<div>Loading....</div>);
 
-  if (!setupResult) {
-    root.render(<div>Loading....</div>);
+  try {
+    const setupResult = await setup(dojoConfig);
+    root.render(
+      <React.StrictMode>
+        <BrowserRouter>
+          <DojoProvider value={setupResult}>
+            <App />
+          </DojoProvider>
+        </BrowserRouter>
+      </React.StrictMode>
+    );
+  } catch (e) {
+    console.error(e);
+    root.render(<div>Error loading game</div>);
   }
-
-  root.render(
-    <React.StrictMode>
-      <BrowserRouter>
-        <DojoProvider value={setupResult}>
-          <App />
-        </DojoProvider>
-      </BrowserRouter>
-    </React.StrictMode>
-  );
 }
 
 init();
