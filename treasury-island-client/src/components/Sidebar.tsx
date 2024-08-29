@@ -1,15 +1,23 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
-import { Entity, getComponentValue } from "@dojoengine/recs";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
 import { useGameContext } from "../providers/GameProvider";
 import { PhaseProps } from "../types/PhaseProps";
-import { bigintToHex, feltToString, mapGameState } from "../utils";
+import { feltToString, mapGameState } from "../utils";
 
 export const Sidebar = ({ hide, seek }: PhaseProps) => {
-  const { pickTreasure, game, phase } = useGameContext();
+  const {
+    pickTreasure,
+    game,
+    phase,
+    player1,
+    player1isHere,
+    player2,
+    player2isHere,
+    isPlayer1,
+    shovels,
+  } = useGameContext();
   const id = useRoomId();
 
   const availableTreasures = useAvailableTreasures();
@@ -24,31 +32,9 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const roomId = useRoomId();
 
-  const gameState = mapGameState(game?.state);
+  const gameState = mapGameState(Number(game?.state ?? 0));
 
-  const gameStarted = game?.state && mapGameState(game?.state) == "InProgress";
-
-  const player1Address: string =
-    Number(game?.player1) == 0 ? "" : bigintToHex(game?.player1);
-  const player1isHere: boolean = player1Address == "" ? false : true;
-  const player1 =
-    game?.player1 &&
-    getComponentValue(
-      Player,
-      getEntityIdFromKeys([game.player1]) ?? ("" as Entity)
-    );
-
-  const player2Address: string =
-    Number(game?.player2) == 0 ? "" : bigintToHex(game?.player2);
-  const player2isHere: boolean = player2Address == "" ? false : true;
-  const player2 =
-    game?.player2 &&
-    getComponentValue(
-      Player,
-      getEntityIdFromKeys([game?.player2]) ?? ("" as Entity)
-    );
-
-  const isPlayer1 = account.address == bigintToHex(game?.player1);
+  const gameStarted = game?.state && gameState == "InProgress";
 
   function getImgId(xSize: number, ySize: number) {
     if ((xSize === 2 && ySize === 1) || (xSize === 1 && ySize === 2)) {
@@ -137,10 +123,19 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
             ))}
           </Flex>
         )}
+        {seek && (
+          <Flex direction="column" gap={2}>
+            Shovels: {shovels}
+          </Flex>
+        )}
       </Flex>
       <Box m={2}>
-        <Text>Player 1: {feltToString(player1?.name ?? "") ?? ""}</Text>
-        <Text>Player 2: {feltToString(player2?.name ?? "") ?? ""}</Text>
+        <Text>
+          Player 1: {feltToString(player1?.name.toString() ?? "") ?? ""}
+        </Text>
+        <Text>
+          Player 2: {feltToString(player2?.name.toString() ?? "") ?? ""}
+        </Text>
         <Text>Room ID: {id}</Text>
       </Box>
     </Flex>

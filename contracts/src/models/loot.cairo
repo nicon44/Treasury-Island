@@ -21,28 +21,19 @@ impl LootImpl of LootTrait {
             
             four_one: 1,
             four_one_hidden: 0,
-            four_long_x0_a: 88,  
-            four_long_x1_a: 88,
-            four_long_y0_a: 88,
-            four_long_y1_a: 88,
-            four_long_x0_b: 88,
-            four_long_x1_b: 88,
-            four_long_y0_b: 88,
-            four_long_y1_b: 88,
+            four_one_indices: ArrayTrait::<u8>::new(),
 
             three_one: 1,
             three_one_hidden: 0,
-            three_long_x0_a: 88,
-            three_long_x1_a: 88,
-            three_long_y0_a: 88,
-            three_long_y1_a: 88,
-            three_long_x0_b: 88,
-            three_long_x1_b: 88,
-            three_long_y0_b: 88,
-            three_long_y1_b: 88,
+            three_one_indices: ArrayTrait::<u8>::new(),
 
+            two_one: 1,
+            two_one_hidden: 0,
+            two_one_indices: ArrayTrait::<u8>::new(),
+        
             one_one: 2,
             one_one_hidden: 0,
+            one_one_indices: ArrayTrait::<u8>::new(),
 
             shovels: 0,
             traps: 0

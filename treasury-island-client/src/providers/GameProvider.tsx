@@ -1,21 +1,21 @@
-import { useComponentValue } from "@dojoengine/react";
-import { Entity } from "@dojoengine/recs";
+import { useComponentValue, useEntityQuery } from "@dojoengine/react";
+import { Entity, getComponentValue, Has } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import {
-  PropsWithChildren,
   createContext,
+  PropsWithChildren,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { GameRoom } from "../dojo/typescript/models.gen";
+import { GameRoom, Player } from "../dojo/typescript/models.gen";
 import { useDojo } from "../dojo/useDojo";
 import { Terrain } from "../enums/terrain";
 import { useRoomId } from "../hooks/useRoomId";
 import { IBuriedTreasure, ITreasure } from "../types/Treasure";
-import { mapPhase } from "../utils";
+import { bigintToHex, mapPhase } from "../utils";
 
 const BASE_GRID = [
   [0, Terrain.PALM, 0, 0, 0, 0],
@@ -46,6 +46,12 @@ interface IGameContext {
   resetGrid: () => void;
   game: GameRoom | undefined;
   phase: string;
+  player1: Player | undefined;
+  player1isHere: boolean;
+  player2: Player | undefined;
+  player2isHere: boolean;
+  isPlayer1: boolean;
+  shovels: number;
 }
 
 const GameContext = createContext<IGameContext>({
@@ -60,13 +66,19 @@ const GameContext = createContext<IGameContext>({
   resetGrid: () => {},
   game: undefined,
   phase: "",
+  player1: undefined,
+  player1isHere: false,
+  player2: undefined,
+  player2isHere: false,
+  isPlayer1: false,
+  shovels: 0,
 });
 export const useGameContext = () => useContext(GameContext);
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
   const {
     setup: {
-      clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+      clientComponents: { Player, GameRoom, Round, Guesses, Loot },
       client,
     },
     account: { account },
@@ -97,18 +109,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  const getLootId = (xSize: number, ySize: number): number => {
-    if (xSize === 1 && ySize === 1) {
-      return 1;
-    } else if ((xSize === 3 && ySize === 1) || (xSize === 1 && ySize === 3)) {
-      return 2;
-    } else if ((xSize === 4 && ySize === 1) || (xSize === 1 && ySize === 4)) {
-      return 3;
-    } else {
-      return 0;
-    }
-  };
-
   const buryTreasure = async (x: number, y: number) => {
     if (treasureToBury) {
       /* setAvailableTreasures((prev) =>
@@ -126,7 +126,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       await client.gameroom.hide_loot({
         account,
         game_id: BigInt(roomId ?? ""),
-        loot_id: getLootId(xSize, ySize), // 1 is 1x1, 2 is 3x1, 3 is 4x1
+        loot_length: xSize > ySize ? xSize : ySize,
         x0: x,
         y0: y,
         x1: x + xSize - 1,
@@ -189,6 +189,68 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   }, [phase, roomId]);
 
+  const player1Address: string =
+    Number(game?.player1) == 0 ? "" : bigintToHex(BigInt(game?.player1 ?? ""));
+  const player1isHere: boolean = player1Address == "" ? false : true;
+  const player1 = useComponentValue(
+    Player,
+    getEntityIdFromKeys([BigInt(game?.player1 ?? "")]) ?? ("" as Entity)
+  );
+
+  const player2Address: string =
+    Number(game?.player2) == 0 ? "" : bigintToHex(BigInt(game?.player2 ?? ""));
+  const player2isHere: boolean = player2Address == "" ? false : true;
+  const player2 = useComponentValue(
+    Player,
+    getEntityIdFromKeys([BigInt(game?.player2 ?? "")]) ?? ("" as Entity)
+  );
+  const isPlayer1 =
+    account.address == bigintToHex(BigInt(game?.player1?.toString() ?? ""));
+
+  const player =
+    account.address == bigintToHex(game?.player1 ?? "") ? player1 : player2;
+
+  const gameRoundEntity = getEntityIdFromKeys([
+    BigInt(roomId ?? ""),
+    BigInt(Number(game?.round_num ?? 0)),
+  ]);
+  const gameRound = useComponentValue(Round, gameRoundEntity);
+
+  const shovels =
+    (isPlayer1 ? gameRound?.player1_tries : gameRound?.player2_tries) ?? 0;
+
+  const hasGuesses = useEntityQuery([Has(Guesses)]);
+
+  const guessesObject = hasGuesses.map((entity) => {
+    const guesses = getComponentValue(Guesses, entity);
+    return guesses;
+  });
+
+  const playerGuesses = guessesObject
+    .filter((guess) => {
+      return (
+        guess?.player_id == BigInt(player?.player_id ?? "") &&
+        guess?.game_id == BigInt(roomId ?? "")
+      );
+    })
+    .map((guess) => {
+      return { x: guess?.x, y: guess?.y, correct: guess?.correct };
+    });
+
+  useEffect(() => {
+    if (playerGuesses.length > 0) {
+      playerGuesses.forEach((guess) => {
+        if (guess.x && guess.y && grid[guess.x][guess.y] === Terrain.SAND) {
+          updateGridValue(
+            guess.x,
+            guess.y,
+            guess.correct ? Terrain.HIT : Terrain.MISS
+          );
+        }
+      });
+    }
+  }, [playerGuesses]);
+
   return (
     <GameContext.Provider
       value={{
@@ -203,6 +265,12 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         resetGrid,
         game,
         phase,
+        player1,
+        player1isHere,
+        player2,
+        player2isHere,
+        isPlayer1,
+        shovels,
       }}
     >
       {children}

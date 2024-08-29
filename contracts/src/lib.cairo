@@ -11,6 +11,10 @@ mod models {
     mod loot;
     mod islandcoords;
     mod round;
+    mod arraytester;
+    mod lootobjects;
+    mod loottracker;
+    mod guesses;
 }
 
 // mod components {
@@ -29,6 +33,8 @@ mod libs {
 
 mod utils {
     mod hash;
+    mod arrays;
+    mod math;
 }
 
 #[cfg(test)]

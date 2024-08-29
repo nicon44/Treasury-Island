@@ -37,7 +37,6 @@ export default function Component() {
   const entityId = getEntityIdFromKeys([BigInt(account.address)]) as Entity;
 
   const player = useComponentValue(Player, entityId);
-  console.log("bit player: ", !player);
 
   const hasPlayers = useEntityQuery([Has(Player)]);
   const playersDetails = hasPlayers.map((entity) => {
@@ -101,7 +100,11 @@ export default function Component() {
             alignItems="center"
             justifyContent="center"
           >
-            <Image src="/logo.png" width={{base: '150px', md: "80%"}} height="fit-content" />
+            <Image
+              src="/logo.png"
+              width={{ base: "150px", md: "80%" }}
+              height="fit-content"
+            />
           </Flex>
           <Flex
             flexDirection="column"

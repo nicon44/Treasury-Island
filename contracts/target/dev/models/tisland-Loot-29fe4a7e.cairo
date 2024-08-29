@@ -1,7 +1,7 @@
 impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
     #[inline(always)]
     fn size() -> Option<usize> {
-        Option::Some(24)
+        Option::None
     }
 
     fn layout() -> dojo::model::Layout {
@@ -16,36 +16,8 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 },
                 dojo::model::FieldLayout {
-                    selector: 1241956440717414649401821087157712792065902120844136661833000338960453963180,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1215051644599031876152661155509417220064644334461933914042442614850356355868,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1567525251407046718472255980249839426526033589088690371319080455922043564085,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 508869907409225205657141587932599779692464511436432376599984136755214266112,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1542334491706109965457306605091184430293079106240188404724776938454977393766,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 462373824500195455151217853215504093056414164642359579663968159675119102415,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1699504712446860833151138169531754219003802319106957913546994905029963165270,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1774609674933824975737299797650868345968876920242084082710411862950749915767,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
+                    selector: 129835180918240180846751671650096095683641783023326792022411668457621188601,
+                    layout: dojo::model::introspect::Introspect::<Array<u8>>::layout()
                 },
                 dojo::model::FieldLayout {
                     selector: 1568100635420892625751467931531528259864226634936345896694124495778964604767,
@@ -56,36 +28,20 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 },
                 dojo::model::FieldLayout {
-                    selector: 1061502024193105542696256637218978611635085533560524159115090264484481041382,
+                    selector: 665585709845758299888929599730301838374706746649052794260723019433669168430,
+                    layout: dojo::model::introspect::Introspect::<Array<u8>>::layout()
+                },
+                dojo::model::FieldLayout {
+                    selector: 676576665378006728240534494384738036810688713247318775954673529858799840570,
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 },
                 dojo::model::FieldLayout {
-                    selector: 1437642700260738708390209127883544418098894618347810519549174890422683144000,
+                    selector: 1238248357724250419161751187650727540266835296411044716311641188701782510921,
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
                 },
                 dojo::model::FieldLayout {
-                    selector: 1678004907679037917753053864647393318595723402153291941882242564514618940265,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1789673032247813205688392244992803083149272860128579868248498155583694145632,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1219960755367226214820432752403687345339141491143417130438263053262714386369,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 655548256510042807986373163960320809428861697319320373017922695707327387005,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 181491319371800474908717762454676992092431522732117961365770681091549925960,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
-                },
-                dojo::model::FieldLayout {
-                    selector: 1275048394100875764645852527066339812319082597708211412487916576979707047252,
-                    layout: dojo::model::introspect::Introspect::<u8>::layout()
+                    selector: 1177937054080231741536691033025248087071733718078388750282907674904256113050,
+                    layout: dojo::model::introspect::Introspect::<Array<u8>>::layout()
                 },
                 dojo::model::FieldLayout {
                     selector: 370705359371798132143448914155792234326585579857066310886303662661585769455,
@@ -94,6 +50,10 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                 dojo::model::FieldLayout {
                     selector: 1664315361452064597203378813480756589962388990467214693372844630478982945892,
                     layout: dojo::model::introspect::Introspect::<u8>::layout()
+                },
+                dojo::model::FieldLayout {
+                    selector: 673812320761689427070334240565643688732218845060786645574463298969580087327,
+                    layout: dojo::model::introspect::Introspect::<Array<u8>>::layout()
                 },
                 dojo::model::FieldLayout {
                     selector: 299960375717568744758137858487636614582198958944961298515835616687436813676,
@@ -136,44 +96,11 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'four_long_x0_a',
+                        name: 'four_one_indices',
                         attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_x1_a',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_y0_a',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_y1_a',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_x0_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_x1_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_y0_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'four_long_y1_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
+                        ty: dojo::model::introspect::Ty::Array(
+                            array![dojo::model::introspect::Introspect::<u8>::ty()].span()
+                        )
                     },
                     dojo::model::introspect::Member {
                         name: 'three_one',
@@ -186,44 +113,28 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'three_long_x0_a',
+                        name: 'three_one_indices',
+                        attrs: array![].span(),
+                        ty: dojo::model::introspect::Ty::Array(
+                            array![dojo::model::introspect::Introspect::<u8>::ty()].span()
+                        )
+                    },
+                    dojo::model::introspect::Member {
+                        name: 'two_one',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'three_long_x1_a',
+                        name: 'two_one_hidden',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
                     },
                     dojo::model::introspect::Member {
-                        name: 'three_long_y0_a',
+                        name: 'two_one_indices',
                         attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'three_long_y1_a',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'three_long_x0_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'three_long_x1_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'three_long_y0_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
-                    },
-                    dojo::model::introspect::Member {
-                        name: 'three_long_y1_b',
-                        attrs: array![].span(),
-                        ty: dojo::model::introspect::Introspect::<u8>::ty()
+                        ty: dojo::model::introspect::Ty::Array(
+                            array![dojo::model::introspect::Introspect::<u8>::ty()].span()
+                        )
                     },
                     dojo::model::introspect::Member {
                         name: 'one_one',
@@ -234,6 +145,13 @@ impl LootIntrospect<> of dojo::model::introspect::Introspect<Loot<>> {
                         name: 'one_one_hidden',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<u8>::ty()
+                    },
+                    dojo::model::introspect::Member {
+                        name: 'one_one_indices',
+                        attrs: array![].span(),
+                        ty: dojo::model::introspect::Ty::Array(
+                            array![dojo::model::introspect::Introspect::<u8>::ty()].span()
+                        )
                     },
                     dojo::model::introspect::Member {
                         name: 'shovels',
@@ -257,26 +175,16 @@ pub struct LootEntity {
     __id: felt252, // private field
     pub four_one: u8,
     pub four_one_hidden: u8,
-    pub four_long_x0_a: u8,
-    pub four_long_x1_a: u8,
-    pub four_long_y0_a: u8,
-    pub four_long_y1_a: u8,
-    pub four_long_x0_b: u8,
-    pub four_long_x1_b: u8,
-    pub four_long_y0_b: u8,
-    pub four_long_y1_b: u8,
+    pub four_one_indices: Array<u8>,
     pub three_one: u8,
     pub three_one_hidden: u8,
-    pub three_long_x0_a: u8,
-    pub three_long_x1_a: u8,
-    pub three_long_y0_a: u8,
-    pub three_long_y1_a: u8,
-    pub three_long_x0_b: u8,
-    pub three_long_x1_b: u8,
-    pub three_long_y0_b: u8,
-    pub three_long_y1_b: u8,
+    pub three_one_indices: Array<u8>,
+    pub two_one: u8,
+    pub two_one_hidden: u8,
+    pub two_one_indices: Array<u8>,
     pub one_one: u8,
     pub one_one_hidden: u8,
+    pub one_one_indices: Array<u8>,
     pub shovels: u8,
     pub traps: u8,
 }
@@ -346,234 +254,33 @@ pub impl LootEntityStoreImpl of LootEntityStore {
             );
     }
 
-    fn get_four_long_x0_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_four_one_indices(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> Array<u8> {
         let mut values = dojo::model::ModelEntity::<
             LootEntity
         >::get_member(
             world,
             entity_id,
-            1241956440717414649401821087157712792065902120844136661833000338960453963180
+            129835180918240180846751671650096095683641783023326792022411668457621188601
         );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x0_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::four_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_four_long_x0_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_four_one_indices(
+        self: @LootEntity, world: dojo::world::IWorldDispatcher, value: Array<u8>
+    ) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1241956440717414649401821087157712792065902120844136661833000338960453963180,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x1_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1215051644599031876152661155509417220064644334461933914042442614850356355868
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x1_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x1_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1215051644599031876152661155509417220064644334461933914042442614850356355868,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y0_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1567525251407046718472255980249839426526033589088690371319080455922043564085
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y0_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y0_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1567525251407046718472255980249839426526033589088690371319080455922043564085,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y1_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            508869907409225205657141587932599779692464511436432376599984136755214266112
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y1_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y1_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                508869907409225205657141587932599779692464511436432376599984136755214266112,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x0_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1542334491706109965457306605091184430293079106240188404724776938454977393766
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x0_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1542334491706109965457306605091184430293079106240188404724776938454977393766,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x1_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            462373824500195455151217853215504093056414164642359579663968159675119102415
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x1_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                462373824500195455151217853215504093056414164642359579663968159675119102415,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y0_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1699504712446860833151138169531754219003802319106957913546994905029963165270
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y0_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1699504712446860833151138169531754219003802319106957913546994905029963165270,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y1_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1774609674933824975737299797650868345968876920242084082710411862950749915767
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y1_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1774609674933824975737299797650868345968876920242084082710411862950749915767,
+                129835180918240180846751671650096095683641783023326792022411668457621188601,
                 serialized.span()
             );
     }
@@ -636,234 +343,124 @@ pub impl LootEntityStoreImpl of LootEntityStore {
             );
     }
 
-    fn get_three_long_x0_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_three_one_indices(
+        world: dojo::world::IWorldDispatcher, entity_id: felt252
+    ) -> Array<u8> {
         let mut values = dojo::model::ModelEntity::<
             LootEntity
         >::get_member(
             world,
             entity_id,
-            1061502024193105542696256637218978611635085533560524159115090264484481041382
+            665585709845758299888929599730301838374706746649052794260723019433669168430
         );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x0_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::three_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_three_long_x0_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_three_one_indices(
+        self: @LootEntity, world: dojo::world::IWorldDispatcher, value: Array<u8>
+    ) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1061502024193105542696256637218978611635085533560524159115090264484481041382,
+                665585709845758299888929599730301838374706746649052794260723019433669168430,
                 serialized.span()
             );
     }
 
-    fn get_three_long_x1_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_two_one(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
         let mut values = dojo::model::ModelEntity::<
             LootEntity
         >::get_member(
             world,
             entity_id,
-            1437642700260738708390209127883544418098894618347810519549174890422683144000
+            676576665378006728240534494384738036810688713247318775954673529858799840570
         );
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x1_a`: deserialization failed.");
+            panic!("Field `Loot::two_one`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_three_long_x1_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1437642700260738708390209127883544418098894618347810519549174890422683144000,
+                676576665378006728240534494384738036810688713247318775954673529858799840570,
                 serialized.span()
             );
     }
 
-    fn get_three_long_y0_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_two_one_hidden(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
         let mut values = dojo::model::ModelEntity::<
             LootEntity
         >::get_member(
             world,
             entity_id,
-            1678004907679037917753053864647393318595723402153291941882242564514618940265
+            1238248357724250419161751187650727540266835296411044716311641188701782510921
         );
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y0_a`: deserialization failed.");
+            panic!("Field `Loot::two_one_hidden`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_three_long_y0_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one_hidden(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1678004907679037917753053864647393318595723402153291941882242564514618940265,
+                1238248357724250419161751187650727540266835296411044716311641188701782510921,
                 serialized.span()
             );
     }
 
-    fn get_three_long_y1_a(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
+    fn get_two_one_indices(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> Array<u8> {
         let mut values = dojo::model::ModelEntity::<
             LootEntity
         >::get_member(
             world,
             entity_id,
-            1789673032247813205688392244992803083149272860128579868248498155583694145632
+            1177937054080231741536691033025248087071733718078388750282907674904256113050
         );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y1_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::two_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_three_long_y1_a(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one_indices(
+        self: @LootEntity, world: dojo::world::IWorldDispatcher, value: Array<u8>
+    ) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1789673032247813205688392244992803083149272860128579868248498155583694145632,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_x0_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1219960755367226214820432752403687345339141491143417130438263053262714386369
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_x0_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1219960755367226214820432752403687345339141491143417130438263053262714386369,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_x1_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            655548256510042807986373163960320809428861697319320373017922695707327387005
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_x1_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                655548256510042807986373163960320809428861697319320373017922695707327387005,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_y0_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            181491319371800474908717762454676992092431522732117961365770681091549925960
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_y0_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                181491319371800474908717762454676992092431522732117961365770681091549925960,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_y1_b(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u8 {
-        let mut values = dojo::model::ModelEntity::<
-            LootEntity
-        >::get_member(
-            world,
-            entity_id,
-            1275048394100875764645852527066339812319082597708211412487916576979707047252
-        );
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_y1_b(self: @LootEntity, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1275048394100875764645852527066339812319082597708211412487916576979707047252,
+                1177937054080231741536691033025248087071733718078388750282907674904256113050,
                 serialized.span()
             );
     }
@@ -922,6 +519,37 @@ pub impl LootEntityStoreImpl of LootEntityStore {
             .set_member(
                 world,
                 1664315361452064597203378813480756589962388990467214693372844630478982945892,
+                serialized.span()
+            );
+    }
+
+    fn get_one_one_indices(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> Array<u8> {
+        let mut values = dojo::model::ModelEntity::<
+            LootEntity
+        >::get_member(
+            world,
+            entity_id,
+            673812320761689427070334240565643688732218845060786645574463298969580087327
+        );
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
+
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::one_one_indices`: deserialization failed.");
+        }
+
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
+    }
+
+    fn set_one_one_indices(
+        self: @LootEntity, world: dojo::world::IWorldDispatcher, value: Array<u8>
+    ) {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@value, ref serialized);
+
+        self
+            .set_member(
+                world,
+                673812320761689427070334240565643688732218845060786645574463298969580087327,
                 serialized.span()
             );
     }
@@ -1095,9 +723,9 @@ pub impl LootStoreImpl of LootStore {
             );
     }
 
-    fn get_four_long_x0_a(
+    fn get_four_one_indices(
         world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
+    ) -> Array<u8> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
         core::serde::Serde::serialize(@player_id, ref serialized);
@@ -1107,278 +735,26 @@ pub impl LootStoreImpl of LootStore {
         >::get_member(
             world,
             serialized.span(),
-            1241956440717414649401821087157712792065902120844136661833000338960453963180
+            129835180918240180846751671650096095683641783023326792022411668457621188601
         );
 
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x0_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::four_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_four_long_x0_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_four_one_indices(self: @Loot, world: dojo::world::IWorldDispatcher, value: Array<u8>) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1241956440717414649401821087157712792065902120844136661833000338960453963180,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x1_a(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1215051644599031876152661155509417220064644334461933914042442614850356355868
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x1_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x1_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1215051644599031876152661155509417220064644334461933914042442614850356355868,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y0_a(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1567525251407046718472255980249839426526033589088690371319080455922043564085
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y0_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y0_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1567525251407046718472255980249839426526033589088690371319080455922043564085,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y1_a(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            508869907409225205657141587932599779692464511436432376599984136755214266112
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y1_a`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y1_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                508869907409225205657141587932599779692464511436432376599984136755214266112,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x0_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1542334491706109965457306605091184430293079106240188404724776938454977393766
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x0_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1542334491706109965457306605091184430293079106240188404724776938454977393766,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_x1_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            462373824500195455151217853215504093056414164642359579663968159675119102415
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_x1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_x1_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                462373824500195455151217853215504093056414164642359579663968159675119102415,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y0_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1699504712446860833151138169531754219003802319106957913546994905029963165270
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y0_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1699504712446860833151138169531754219003802319106957913546994905029963165270,
-                serialized.span()
-            );
-    }
-
-    fn get_four_long_y1_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1774609674933824975737299797650868345968876920242084082710411862950749915767
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::four_long_y1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_four_long_y1_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1774609674933824975737299797650868345968876920242084082710411862950749915767,
+                129835180918240180846751671650096095683641783023326792022411668457621188601,
                 serialized.span()
             );
     }
@@ -1455,9 +831,9 @@ pub impl LootStoreImpl of LootStore {
             );
     }
 
-    fn get_three_long_x0_a(
+    fn get_three_one_indices(
         world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
+    ) -> Array<u8> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
         core::serde::Serde::serialize(@player_id, ref serialized);
@@ -1467,31 +843,31 @@ pub impl LootStoreImpl of LootStore {
         >::get_member(
             world,
             serialized.span(),
-            1061502024193105542696256637218978611635085533560524159115090264484481041382
+            665585709845758299888929599730301838374706746649052794260723019433669168430
         );
 
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x0_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::three_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_three_long_x0_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_three_one_indices(self: @Loot, world: dojo::world::IWorldDispatcher, value: Array<u8>) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1061502024193105542696256637218978611635085533560524159115090264484481041382,
+                665585709845758299888929599730301838374706746649052794260723019433669168430,
                 serialized.span()
             );
     }
 
-    fn get_three_long_x1_a(
+    fn get_two_one(
         world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
     ) -> u8 {
         let mut serialized = core::array::ArrayTrait::new();
@@ -1503,31 +879,31 @@ pub impl LootStoreImpl of LootStore {
         >::get_member(
             world,
             serialized.span(),
-            1437642700260738708390209127883544418098894618347810519549174890422683144000
+            676576665378006728240534494384738036810688713247318775954673529858799840570
         );
 
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x1_a`: deserialization failed.");
+            panic!("Field `Loot::two_one`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_three_long_x1_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1437642700260738708390209127883544418098894618347810519549174890422683144000,
+                676576665378006728240534494384738036810688713247318775954673529858799840570,
                 serialized.span()
             );
     }
 
-    fn get_three_long_y0_a(
+    fn get_two_one_hidden(
         world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
     ) -> u8 {
         let mut serialized = core::array::ArrayTrait::new();
@@ -1539,33 +915,33 @@ pub impl LootStoreImpl of LootStore {
         >::get_member(
             world,
             serialized.span(),
-            1678004907679037917753053864647393318595723402153291941882242564514618940265
+            1238248357724250419161751187650727540266835296411044716311641188701782510921
         );
 
         let field_value = core::serde::Serde::<u8>::deserialize(ref values);
 
         if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y0_a`: deserialization failed.");
+            panic!("Field `Loot::two_one_hidden`: deserialization failed.");
         }
 
         core::option::OptionTrait::<u8>::unwrap(field_value)
     }
 
-    fn set_three_long_y0_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one_hidden(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1678004907679037917753053864647393318595723402153291941882242564514618940265,
+                1238248357724250419161751187650727540266835296411044716311641188701782510921,
                 serialized.span()
             );
     }
 
-    fn get_three_long_y1_a(
+    fn get_two_one_indices(
         world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
+    ) -> Array<u8> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
         core::serde::Serde::serialize(@player_id, ref serialized);
@@ -1575,170 +951,26 @@ pub impl LootStoreImpl of LootStore {
         >::get_member(
             world,
             serialized.span(),
-            1789673032247813205688392244992803083149272860128579868248498155583694145632
+            1177937054080231741536691033025248087071733718078388750282907674904256113050
         );
 
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
 
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y1_a`: deserialization failed.");
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::two_one_indices`: deserialization failed.");
         }
 
-        core::option::OptionTrait::<u8>::unwrap(field_value)
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
     }
 
-    fn set_three_long_y1_a(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
+    fn set_two_one_indices(self: @Loot, world: dojo::world::IWorldDispatcher, value: Array<u8>) {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@value, ref serialized);
 
         self
             .set_member(
                 world,
-                1789673032247813205688392244992803083149272860128579868248498155583694145632,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_x0_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1219960755367226214820432752403687345339141491143417130438263053262714386369
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_x0_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1219960755367226214820432752403687345339141491143417130438263053262714386369,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_x1_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            655548256510042807986373163960320809428861697319320373017922695707327387005
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_x1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_x1_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                655548256510042807986373163960320809428861697319320373017922695707327387005,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_y0_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            181491319371800474908717762454676992092431522732117961365770681091549925960
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y0_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_y0_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                181491319371800474908717762454676992092431522732117961365770681091549925960,
-                serialized.span()
-            );
-    }
-
-    fn get_three_long_y1_b(
-        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
-    ) -> u8 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
-        core::serde::Serde::serialize(@player_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Loot
-        >::get_member(
-            world,
-            serialized.span(),
-            1275048394100875764645852527066339812319082597708211412487916576979707047252
-        );
-
-        let field_value = core::serde::Serde::<u8>::deserialize(ref values);
-
-        if core::option::OptionTrait::<u8>::is_none(@field_value) {
-            panic!("Field `Loot::three_long_y1_b`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<u8>::unwrap(field_value)
-    }
-
-    fn set_three_long_y1_b(self: @Loot, world: dojo::world::IWorldDispatcher, value: u8) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                1275048394100875764645852527066339812319082597708211412487916576979707047252,
+                1177937054080231741536691033025248087071733718078388750282907674904256113050,
                 serialized.span()
             );
     }
@@ -1811,6 +1043,42 @@ pub impl LootStoreImpl of LootStore {
             .set_member(
                 world,
                 1664315361452064597203378813480756589962388990467214693372844630478982945892,
+                serialized.span()
+            );
+    }
+
+    fn get_one_one_indices(
+        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
+    ) -> Array<u8> {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@game_id, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+
+        let mut values = dojo::model::Model::<
+            Loot
+        >::get_member(
+            world,
+            serialized.span(),
+            673812320761689427070334240565643688732218845060786645574463298969580087327
+        );
+
+        let field_value = core::serde::Serde::<Array<u8>>::deserialize(ref values);
+
+        if core::option::OptionTrait::<Array<u8>>::is_none(@field_value) {
+            panic!("Field `Loot::one_one_indices`: deserialization failed.");
+        }
+
+        core::option::OptionTrait::<Array<u8>>::unwrap(field_value)
+    }
+
+    fn set_one_one_indices(self: @Loot, world: dojo::world::IWorldDispatcher, value: Array<u8>) {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@value, ref serialized);
+
+        self
+            .set_member(
+                world,
+                673812320761689427070334240565643688732218845060786645574463298969580087327,
                 serialized.span()
             );
     }
@@ -1897,26 +1165,16 @@ pub impl LootModelEntityImpl of dojo::model::ModelEntity<LootEntity> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(self.four_one, ref serialized);
         core::serde::Serde::serialize(self.four_one_hidden, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x0_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x1_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y0_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y1_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x0_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x1_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y0_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y1_b, ref serialized);
+        core::serde::Serde::serialize(self.four_one_indices, ref serialized);
         core::serde::Serde::serialize(self.three_one, ref serialized);
         core::serde::Serde::serialize(self.three_one_hidden, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x0_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x1_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y0_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y1_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x0_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x1_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y0_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y1_b, ref serialized);
+        core::serde::Serde::serialize(self.three_one_indices, ref serialized);
+        core::serde::Serde::serialize(self.two_one, ref serialized);
+        core::serde::Serde::serialize(self.two_one_hidden, ref serialized);
+        core::serde::Serde::serialize(self.two_one_indices, ref serialized);
         core::serde::Serde::serialize(self.one_one, ref serialized);
         core::serde::Serde::serialize(self.one_one_hidden, ref serialized);
+        core::serde::Serde::serialize(self.one_one_indices, ref serialized);
         core::serde::Serde::serialize(self.shovels, ref serialized);
         core::serde::Serde::serialize(self.traps, ref serialized);
 
@@ -2124,26 +1382,16 @@ pub impl LootModelImpl of dojo::model::Model<Loot> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(self.four_one, ref serialized);
         core::serde::Serde::serialize(self.four_one_hidden, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x0_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x1_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y0_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y1_a, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x0_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_x1_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y0_b, ref serialized);
-        core::serde::Serde::serialize(self.four_long_y1_b, ref serialized);
+        core::serde::Serde::serialize(self.four_one_indices, ref serialized);
         core::serde::Serde::serialize(self.three_one, ref serialized);
         core::serde::Serde::serialize(self.three_one_hidden, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x0_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x1_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y0_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y1_a, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x0_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_x1_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y0_b, ref serialized);
-        core::serde::Serde::serialize(self.three_long_y1_b, ref serialized);
+        core::serde::Serde::serialize(self.three_one_indices, ref serialized);
+        core::serde::Serde::serialize(self.two_one, ref serialized);
+        core::serde::Serde::serialize(self.two_one_hidden, ref serialized);
+        core::serde::Serde::serialize(self.two_one_indices, ref serialized);
         core::serde::Serde::serialize(self.one_one, ref serialized);
         core::serde::Serde::serialize(self.one_one_hidden, ref serialized);
+        core::serde::Serde::serialize(self.one_one_indices, ref serialized);
         core::serde::Serde::serialize(self.shovels, ref serialized);
         core::serde::Serde::serialize(self.traps, ref serialized);
 
