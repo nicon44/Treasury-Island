@@ -669,6 +669,7 @@ mod gameroom {
                     // }
                     // transfer loot_id to opponent
                     opponent_loottracker.loot_ids.append(found_loot_id);
+                    // pop loot_id from player
                     
                 }
 
@@ -707,8 +708,8 @@ mod gameroom {
             let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
             let opponent = if(game_room.player1 == caller){game_room.player2} else {game_room.player1};
 
-            let player_loot = get!(self.world(), (game_id, caller), Loot);
-            let opponent_loot = get!(self.world(), (game_id, opponent), Loot);
+            let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
+            let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
 
             if(game_room.phase == 1){
                 game_room.phase = 2;
@@ -724,17 +725,8 @@ mod gameroom {
                     // if round_num == 3 and phase ==2, tabulate score and end game
 
                     // ===== SCORE TABULATION and GameRoom Update =====
-                    let player_score = (
-                        player_loot.one_one + player_loot.one_one_hidden + 
-                        player_loot.three_one + player_loot.three_one_hidden + 
-                        player_loot.four_one + player_loot.four_one_hidden
-                    );
-
-                    let opponent_score = (
-                        opponent_loot.one_one + opponent_loot.one_one_hidden + 
-                        opponent_loot.three_one + opponent_loot.three_one_hidden + 
-                        opponent_loot.four_one + opponent_loot.four_one_hidden
-                    );
+                    let player_score = player_loottracker.loot_ids.len();
+                    let opponent_score = opponent_loottracker.loot_ids.len();
 
                     if (player_score > opponent_score){
                         game_room.winner = player;

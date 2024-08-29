@@ -714,6 +714,8 @@ pub mod gameroom {
                     // }
                     // transfer loot_id to opponent
                     opponent_loottracker.loot_ids.append(found_loot_id);
+                    // pop loot_id from player
+
                 }
 
                 // update related_loot_object
@@ -732,6 +734,62 @@ pub mod gameroom {
             }
 
             found_loot
+        }
+        fn end_round(ref self: ContractState, game_id: u128) {
+            let world = self.world_dispatcher.read();
+            let caller: ContractAddress = starknet::get_caller_address();
+
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+            // assert caller is in game
+            assert(
+                caller == game_room.player1 || caller == game_room.player2,
+                'Caller is not in the game'
+            );
+
+            // assert round_num is not 0 and phase is not 0
+            assert(game_room.round_num != 0 && game_room.phase != 0, 'Game has not started');
+
+            let player = if (game_room.player1 == caller) {
+                game_room.player1
+            } else {
+                game_room.player2
+            };
+            let opponent = if (game_room.player1 == caller) {
+                game_room.player2
+            } else {
+                game_room.player1
+            };
+
+            let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
+            let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
+
+            if (game_room.phase == 1) {
+                game_room.phase = 2;
+            } else if (game_room.phase == 2) {
+                if (game_room.round_num < 3) {
+                    game_room.phase = 1;
+                    game_room.round_num += 1;
+
+                    // init new round
+                    let round = RoundTrait::new(game_id, game_room.round_num);
+                    set!(self.world(), (round));
+                } else {
+                    // if round_num == 3 and phase ==2, tabulate score and end game
+
+                    // ===== SCORE TABULATION and GameRoom Update =====
+                    let player_score = player_loottracker.loot_ids.len();
+                    let opponent_score = opponent_loottracker.loot_ids.len();
+
+                    if (player_score > opponent_score) {
+                        game_room.winner = player;
+                    } else {
+                        game_room.winner = opponent;
+                    }
+                    game_room.state = 6;
+                }
+            }
+
+            set!(self.world(), (game_room));
         }
     }
     #[starknet::interface]
