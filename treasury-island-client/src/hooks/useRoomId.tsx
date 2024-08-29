@@ -4,5 +4,5 @@ export const useRoomId = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const roomId = queryParams.get("id");
-  return roomId;
+  return roomId ?? '';
 };

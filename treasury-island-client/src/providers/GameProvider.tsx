@@ -9,6 +9,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { GameRoom } from "../dojo/typescript/models.gen";
 import { useDojo } from "../dojo/useDojo";
 import { Terrain } from "../enums/terrain";
@@ -71,6 +72,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     account: { account },
   } = useDojo();
   const roomId = useRoomId();
+  const navigate = useNavigate();
 
   const game = useComponentValue(
     GameRoom,
@@ -180,8 +182,12 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   // Reset grid when phase changes
   useEffect(() => {
-    resetGrid();
-  }, [phase]);
+    console.log("phase changed: ", phase);
+    if (phase === "Hide" || phase === "Seek") {
+      navigate(`/${phase.toLowerCase()}?id=${roomId}`);
+      resetGrid();
+    }
+  }, [phase, roomId]);
 
   return (
     <GameContext.Provider

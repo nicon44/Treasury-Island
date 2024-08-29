@@ -105,8 +105,6 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
                         account,
                         game_id: BigInt(roomId ?? ""),
                       });
-                      resetGrid();
-                      navigate(`/seek?id=${roomId}`);
                     }}
                   >
                     End turn
