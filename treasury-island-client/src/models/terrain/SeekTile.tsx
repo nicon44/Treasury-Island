@@ -35,6 +35,12 @@ export const SeekTile = ({ x, y }: TileProps) => {
       [Terrain.SAND]: (
         <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} />
       ),
+      [Terrain.MISS]: (
+        <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} miss />
+      ),
+      [Terrain.HIT]: (
+        <Sand x={x} y={y} hovered={hovered} setHovered={setHovered} hit />
+      ),
       [Terrain.WATER]: (
         <Water x={x} y={y} hovered={hovered} setHovered={setHovered} />
       ),
