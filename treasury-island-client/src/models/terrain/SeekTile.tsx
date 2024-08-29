@@ -1,13 +1,9 @@
-import { useComponentValue } from "@dojoengine/react";
-import { Entity, getComponentValue } from "@dojoengine/recs";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useMemo, useState } from "react";
 import { useDojo } from "../../dojo/useDojo";
 import { Terrain } from "../../enums/terrain";
 import { useRoomId } from "../../hooks/useRoomId";
 import { useGameContext } from "../../providers/GameProvider";
 import { TileProps } from "../../types/TileProps";
-import { bigintToHex } from "../../utils";
 import { Palm } from "./Palm";
 import { Sand } from "./Sand";
 import { Stone } from "./Stone";
@@ -15,15 +11,12 @@ import { Water } from "./Water";
 
 export const SeekTile = ({ x, y }: TileProps) => {
   const {
-    setup: {
-      client,
-      clientComponents: { IslandCoords, Player },
-    },
+    setup: { client },
     account: { account },
   } = useDojo();
   const roomId = useRoomId();
 
-  const { grid, game } = useGameContext();
+  const { grid } = useGameContext();
   const [hovered, setHovered] = useState(false);
 
   const handleDig = async (event) => {
@@ -37,7 +30,7 @@ export const SeekTile = ({ x, y }: TileProps) => {
     console.log("found: ", found);
   };
 
-/*   const player1 =
+  /*   const player1 =
     game?.player1 &&
     getComponentValue(
       Player,
