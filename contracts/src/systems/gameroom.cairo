@@ -670,6 +670,16 @@ mod gameroom {
                     // transfer loot_id to opponent
                     opponent_loottracker.loot_ids.append(found_loot_id);
                     // pop loot_id from player
+                    let mut loot_ids_array_counter = 0;
+                    let mut new_loot_ids: Array<u8> = array![];
+                    while loot_ids_array_counter < player_loottracker.loot_ids.len() {
+                        let current_loot_id:u8 = *player_loottracker.loot_ids[loot_ids_array_counter];
+                        if (current_loot_id != found_loot_id){
+                            new_loot_ids.append(current_loot_id);
+                        }
+                        loot_ids_array_counter += 1;
+                    };
+                    player_loottracker.loot_ids = new_loot_ids;
                     
                 }
 
