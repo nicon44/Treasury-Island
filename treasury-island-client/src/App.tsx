@@ -4,6 +4,7 @@ import { Game } from "./components/Game";
 import { Sidebar } from "./components/Sidebar";
 import Lobby from "./pages/Lobby";
 import { GameProvider } from "./providers/GameProvider";
+import { ControlsHelp } from "./components/ControlsHelp";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               <>
                 <Sidebar hide />
                 <Game hide />
+                <ControlsHelp />
               </>
             }
           />
