@@ -3,4 +3,5 @@ export interface TileProps {
   y: number;
   hovered?: boolean;
   setHovered?: (hovered: boolean) => void;
+  combined?: boolean;
 }

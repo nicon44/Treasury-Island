@@ -3,18 +3,14 @@ import { useEffect } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { useGameContext } from "../providers/GameProvider";
 import { Grid } from "./Grid";
+import { PhaseProps } from "../types/PhaseProps";
 
-export const Game = () => {
-  const { setTreasureToBury, rotateTreasure } = useGameContext();
+export const Game = ({hide, seek}: PhaseProps) => {
+  const { rotateTreasure } = useGameContext();
 
   useEffect(() => {
-    setTreasureToBury({
-      xSize: 4,
-      ySize: 1,
-    });
-    const handleKeyDown = (event: { key: string; }) => {
+    const handleKeyDown = (event: { key: string }) => {
       if (event.key === "r" || event.key === "R") {
-        console.log("Rotating");
         rotateTreasure();
       }
     };
@@ -37,7 +33,7 @@ export const Game = () => {
       >
         <ambientLight intensity={0.5} />
         <directionalLight color="white" position={[5, 5, 5]} />
-        <Grid />
+        <Grid hide={hide} seek={seek} />
         <CameraControls />
       </Canvas>
     </div>
