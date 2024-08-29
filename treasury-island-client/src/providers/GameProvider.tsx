@@ -1,8 +1,20 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { useComponentValue } from "@dojoengine/react";
+import { Entity } from "@dojoengine/recs";
+import { getEntityIdFromKeys } from "@dojoengine/utils";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { GameRoom } from "../dojo/typescript/models.gen";
 import { useDojo } from "../dojo/useDojo";
 import { Terrain } from "../enums/terrain";
 import { useRoomId } from "../hooks/useRoomId";
 import { IBuriedTreasure, ITreasure } from "../types/Treasure";
+import { mapPhase } from "../utils";
 
 const BASE_GRID = [
   [0, Terrain.PALM, 0, 0, 0, 0],
@@ -31,6 +43,8 @@ interface IGameContext {
   updateGridValue: (x: number, y: number, newValue: Terrain) => void;
   checkIfCanBeBuried: (x: number, y: number) => boolean;
   resetGrid: () => void;
+  game: GameRoom | undefined;
+  phase: string;
 }
 
 const GameContext = createContext<IGameContext>({
@@ -43,6 +57,8 @@ const GameContext = createContext<IGameContext>({
   updateGridValue: () => {},
   checkIfCanBeBuried: () => false,
   resetGrid: () => {},
+  game: undefined,
+  phase: "",
 });
 export const useGameContext = () => useContext(GameContext);
 
@@ -56,6 +72,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   } = useDojo();
   const roomId = useRoomId();
 
+  const game = useComponentValue(
+    GameRoom,
+    (getEntityIdFromKeys([BigInt(roomId ?? "")]) as Entity) ?? {}
+  );
+
   const [treasureToBury, setTreasureToBury] = useState<ITreasure | undefined>();
   const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
 
@@ -63,7 +84,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const resetGrid = () => {
     setGrid(BASE_GRID);
-  }
+  };
 
   const updateGridValue = (x: number, y: number, newValue: Terrain) => {
     setGrid((prev) => {
@@ -155,6 +176,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setTreasureToBury(treasure);
   };
 
+  const phase = useMemo(() => mapPhase(game?.phase ?? 0), [game?.phase]);
+
+  // Reset grid when phase changes
+  useEffect(() => {
+    resetGrid();
+  }, [phase]);
+
   return (
     <GameContext.Provider
       value={{
@@ -167,6 +195,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         updateGridValue,
         checkIfCanBeBuried,
         resetGrid,
+        game,
+        phase,
       }}
     >
       {children}

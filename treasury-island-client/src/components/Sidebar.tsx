@@ -1,5 +1,4 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useComponentValue } from "@dojoengine/react";
 import { Entity, getComponentValue } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +7,10 @@ import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
 import { useGameContext } from "../providers/GameProvider";
 import { PhaseProps } from "../types/PhaseProps";
-import { bigintToHex, feltToString, mapGameState, mapPhase } from "../utils";
+import { bigintToHex, feltToString, mapGameState } from "../utils";
 
 export const Sidebar = ({ hide, seek }: PhaseProps) => {
-  const { pickTreasure, resetGrid } = useGameContext();
+  const { pickTreasure, resetGrid, game, phase } = useGameContext();
   const id = useRoomId();
   const navigate = useNavigate();
 
@@ -27,11 +26,6 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const roomId = useRoomId();
 
-  const game = useComponentValue(
-    GameRoom,
-    (getEntityIdFromKeys([BigInt(roomId ?? "")]) as Entity) ?? {}
-  ) ?? { state: 0, player1: BigInt(0), player2: BigInt(0) };
-
   const gameState = mapGameState(game?.state);
 
   const gameStarted = game?.state && mapGameState(game?.state) == "InProgress";
@@ -40,17 +34,17 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
     Number(game?.player1) == 0 ? "" : bigintToHex(game?.player1);
   const player1isHere: boolean = player1Address == "" ? false : true;
   const player1 =
-    player1isHere &&
+    game?.player1 &&
     getComponentValue(
       Player,
-      getEntityIdFromKeys([game?.player1]) ?? ("" as Entity)
+      getEntityIdFromKeys([game.player1]) ?? ("" as Entity)
     );
 
   const player2Address: string =
     Number(game?.player2) == 0 ? "" : bigintToHex(game?.player2);
   const player2isHere: boolean = player2Address == "" ? false : true;
   const player2 =
-    player2isHere &&
+    game?.player2 &&
     getComponentValue(
       Player,
       getEntityIdFromKeys([game?.player2]) ?? ("" as Entity)
@@ -82,7 +76,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         <Heading>Treasury Island</Heading>
         <hr />
         <Text>Game state: {gameState}</Text>
-        <Text>Phase: {mapPhase(game?.phase ?? "")}</Text>
+        <Text>Phase: {phase}</Text>
         {/* both players are here and I am player 1 */}
         {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
           <Button
@@ -100,24 +94,24 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         )}
         {gameStarted && hide && (
           <Heading mb={4} size="sm">
-            {availableTreasures.length ? (
-              "Select treasure to bury"
-            ) : (
-              <Button
-                variant="solid"
-                backgroundColor="teal.200"
-                onClick={async () => {
-                  await client.gameroom.end_round({
-                    account,
-                    game_id: BigInt(roomId ?? ""),
-                  });
-                  resetGrid();
-                  navigate(`/seek?id=${roomId}`);
-                }}
-              >
-                End turn
-              </Button>
-            )}
+            {availableTreasures.length
+              ? "Select treasure to bury"
+              : isPlayer1 && (
+                  <Button
+                    variant="solid"
+                    backgroundColor="teal.200"
+                    onClick={async () => {
+                      await client.gameroom.end_round({
+                        account,
+                        game_id: BigInt(roomId ?? ""),
+                      });
+                      resetGrid();
+                      navigate(`/seek?id=${roomId}`);
+                    }}
+                  >
+                    End turn
+                  </Button>
+                )}
           </Heading>
         )}
         {hide && (

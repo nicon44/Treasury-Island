@@ -4,11 +4,11 @@ import { CameraControls } from "../components/CameraControls";
 import { useGameContext } from "../providers/GameProvider";
 import { PhaseProps } from "../types/PhaseProps";
 import { Grid } from "./Grid";
+import CameraTransition from "./CameraTransition"; // Import the new component
 
-export const Game = ({hide, seek}: PhaseProps) => {
+export const Game = ({ hide, seek }: PhaseProps) => {
   const { rotateTreasure } = useGameContext();
 
-  
   useEffect(() => {
     const handleKeyDown = (event: { key: string }) => {
       if (event.key === "r" || event.key === "R") {
@@ -28,14 +28,15 @@ export const Game = ({hide, seek}: PhaseProps) => {
     <div id="canvas-container">
       <Canvas
         camera={{
-          position: [0, 80, 10], // Position the camera above and slightly back
-          rotation: [-Math.PI / 3, 0, 0], // Rotate the camera to look down at an angle
+          position: [40, 90, 130],
+          rotation: [-Math.PI / 3, 0, 0],
         }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight color="white" position={[5, 5, 5]} />
         <Grid hide={hide} seek={seek} />
         <CameraControls />
+        <CameraTransition />
       </Canvas>
     </div>
   );
