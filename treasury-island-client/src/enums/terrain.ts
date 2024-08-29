@@ -4,4 +4,6 @@ export enum Terrain {
   PALM = 2,
   STONE = 3,
   TREASURE = 4,
+  MISS = 5,
+  HIT = 6,
 }

@@ -12,20 +12,20 @@ function App() {
         <Routes>
           <Route path="/" element={<Lobby />} />
           <Route
-            path="/room"
+            path="/hide"
             element={
               <>
-                <Sidebar />
-                <Game />
+                <Sidebar hide />
+                <Game hide />
               </>
             }
           />
           <Route
-            path="/game"
+            path="/seek"
             element={
               <>
-                <Sidebar />
-                <Game />
+                <Sidebar seek />
+                <Game seek />
               </>
             }
           />

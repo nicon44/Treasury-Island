@@ -8,7 +8,7 @@ import { Sand } from "./Sand";
 import { Stone } from "./Stone";
 import { Water } from "./Water";
 
-export const Tile = ({ x, y }: TileProps) => {
+export const HideTile = ({ x, y }: TileProps) => {
   const {
     treasureToBury,
     buryTreasure,

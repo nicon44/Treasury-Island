@@ -30,7 +30,6 @@ export default function Component() {
     account: { account },
   } = useDojo();
 
-  console.log("account: ", account);
   const navigate = useNavigate();
 
   // entity id we are syncing
@@ -40,22 +39,17 @@ export default function Component() {
 
   // === PLAYER DETAILS ===
   const player = useComponentValue(Player, entityId);
-  console.log("player: ", player);
   const hasPlayers = useEntityQuery([Has(Player)]);
-  console.log(hasPlayers);
   const playersDetails = hasPlayers.map((entity) => {
     const player = getComponentValueStrict(Player, entity);
     return player;
   });
-  console.log("playersDetails: ", playersDetails);
 
   const hasRooms = useEntityQuery([Has(GameRoom)]);
-  console.log(hasRooms);
   const roomsDetails = hasRooms.map((entity) => {
     const room = getComponentValueStrict(GameRoom, entity);
     return room;
   });
-  console.log("roomsDetails: ", roomsDetails);
 
   const [nameValue, setNameValue] = useState("");
   const handleNameTypingInput = (
@@ -159,37 +153,49 @@ export default function Component() {
             </CardHeader>
             <CardBody>
               <VStack spacing={4} align="stretch" maxH="300px" overflowY="auto">
-                {roomsDetails.map((room, index) => (
-                  <Box
-                    key={"room-" + index}
-                    p={3}
-                    borderWidth={1}
-                    borderRadius="md"
-                    borderColor="orange.200"
-                  >
-                    <Flex justify="space-between" align="center">
-                      <VStack align="start" spacing={0}>
-                        <Text fontWeight="bold" color="orange.400">
-                          Room: {bigintToHex(room?.game_id)}
-                        </Text>
+                {roomsDetails.map((room, index) => {
+                  const ownerName = getOwnerName(room?.player1 || BigInt(0));
+                  return (
+                    <Box
+                      key={"room-" + index}
+                      p={3}
+                      borderWidth={1}
+                      borderRadius="md"
+                      borderColor="orange.200"
+                    >
+                      <Flex justify="space-between" align="center">
+                        <VStack align="start" spacing={0}>
+                          <Text fontWeight="bold" color="orange.400">
+                            Room: {bigintToHex(room?.game_id)}
+                          </Text>
 
-                        <Text fontSize="sm" color="gray.500">
-                          Owner: {getOwnerName(room?.player1 || BigInt(0))}
-                        </Text>
-                      </VStack>
-                      <Button
-                        colorScheme="orange"
-                        size="sm"
-                        isDisabled={room?.player2 !== BigInt(0) || !playerRegistered}
-                        onClick={() =>
-                          navigate(`/room?id=${bigintToHex(room?.game_id)}`)
-                        }
-                      >
-                        Join Crew
-                      </Button>
-                    </Flex>
-                  </Box>
-                ))}
+                          <Text fontSize="sm" color="gray.500">
+                            Owner: {ownerName}
+                          </Text>
+                        </VStack>
+                        <Button
+                          colorScheme="orange"
+                          size="sm"
+                          isDisabled={
+                            room?.player2 !== BigInt(0) || !playerRegistered
+                          }
+                          onClick={async () => {
+                            // If current player is not the owner, join the room
+                            if (room.player1 !== BigInt(account.address)) {
+                              await client.lobby.join_room({
+                                account,
+                                game_id: BigInt(room?.game_id ?? ""),
+                              });
+                            }
+                            navigate(`/hide?id=${bigintToHex(room?.game_id)}`);
+                          }}
+                        >
+                          Join Crew
+                        </Button>
+                      </Flex>
+                    </Box>
+                  );
+                })}
               </VStack>
             </CardBody>
           </Card>
