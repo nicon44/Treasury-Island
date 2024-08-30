@@ -65,7 +65,8 @@ mod gameroom {
         THREE_BY_ONE, THREE_BY_ONE_DIMS,
         TWO_BY_ONE, TWO_BY_ONE_DIMS,
         ONE_BY_ONE, ONE_BY_ONE_DIMS,
-        MAX_X, MAX_Y, DEFAULT_STARTING_GOLD
+        MAX_X, MAX_Y, 
+        SHOPEMODE, DEFAULT_STARTING_GOLD
     };
     //use tisland::libs::seeder::{make_seed};
 
@@ -802,10 +803,12 @@ mod gameroom {
 
             let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
+            
 
-            if(game_room.phase < 3){
+            let shopmode: u8 = if (SHOPEMODE) { 2 } else { 3 };
+            if(game_room.phase < shopmode){
                 game_room.phase += 1;
-            } else if (game_room.phase == 2){
+            } else if (game_room.phase == (shopmode-1)){
                 if (game_room.round_num < 3){
                     game_room.phase = 1; //reset phase
                     game_room.round_num +=1;

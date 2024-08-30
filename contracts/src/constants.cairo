@@ -38,7 +38,7 @@ const MAX_TRIES: u8 = 5;
 const DEFAULT_STARTING_GOLD: u32 = 50;
 
 // Shop
-
+const SHOPEMODE : bool = false;
 const DEFAULT_1x1_CHEST_COST: u32 = 15;
 const DEFAULT_2x1_CHEST_COST: u32 = 20;
 const DEFAULT_3x1_CHEST_COST: u32 = 35;
