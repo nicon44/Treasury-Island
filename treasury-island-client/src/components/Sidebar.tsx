@@ -1,10 +1,12 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
+import { useComponentValue } from "@dojoengine/react";
+import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
 import { useGameContext } from "../providers/GameProvider";
 import { PhaseProps } from "../types/PhaseProps";
-import { feltToString, mapGameState } from "../utils";
+import { bigintToHex, feltToString, mapGameState } from "../utils";
 
 export const Sidebar = ({ hide, seek }: PhaseProps) => {
   const {
@@ -24,7 +26,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const {
     setup: {
-      clientComponents: { Player },
+      clientComponents: { LootTracker },
       client,
     },
     account: { account },
@@ -45,6 +47,20 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       return 1;
     }
   }
+
+  const oponent =
+    account.address == bigintToHex(BigInt(game?.player1.toString() ?? 0))
+      ? player2
+      : player1;
+
+  const entityKey = getEntityIdFromKeys([
+    BigInt(roomId ?? ""),
+    BigInt(oponent?.player_id.toString() ?? 0),
+  ]);
+  const oponentLootTracker = useComponentValue(LootTracker, entityKey ?? "");
+  const oponentHidAll = oponentLootTracker?.loot_count?.four + oponentLootTracker?.loot_count?.three + oponentLootTracker?.loot_count?.two + oponentLootTracker?.loot_count?.one === 0;
+
+  console.log("oponentHidAll: ", oponentHidAll);
 
   return (
     <Flex
@@ -87,7 +103,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           <Heading mb={4} size="sm">
             {availableTreasures.length
               ? "Select treasure to bury"
-              : isPlayer1 && (
+              : isPlayer1 && oponentHidAll ?(
                   <Button
                     variant="solid"
                     backgroundColor="teal.200"
@@ -98,15 +114,15 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
                       });
                     }}
                   >
-                    End turn
+                    Go to SEEK phase
                   </Button>
-                )}
+                ) : 'Waiting for opponent to bury all the treasures...'}
           </Heading>
         )}
         {hide && (
           <Flex direction="column" gap={2}>
             {availableTreasures.map((treasure) => (
-              <>
+              <span key={treasure.id}>
                 <Button
                   variant="outline"
                   key={treasure.id}
@@ -119,7 +135,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
                     ml={2}
                   />
                 </Button>
-              </>
+              </span>
             ))}
           </Flex>
         )}

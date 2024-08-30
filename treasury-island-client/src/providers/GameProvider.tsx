@@ -240,7 +240,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (playerGuesses.length > 0) {
       playerGuesses.forEach((guess) => {
-        if (guess.x && guess.y && grid[guess.x][guess.y] === Terrain.SAND) {
+        if (
+          (guess.x || guess.x === 0) &&
+          (guess.y || guess.y === 0) &&
+          grid[guess.x][guess.y] === Terrain.SAND
+        ) {
           updateGridValue(
             guess.x,
             guess.y,
