@@ -259,7 +259,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 1) {
+                        if (loot_object.loot_length == 1 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -342,7 +342,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 2) {
+                        if (loot_object.loot_length == 2 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -424,7 +424,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 3) {
+                        if (loot_object.loot_length == 3 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -507,7 +507,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 4) {
+                        if (loot_object.loot_length == 4 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -590,7 +590,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 5) {
+                        if (loot_object.loot_length == 5 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
