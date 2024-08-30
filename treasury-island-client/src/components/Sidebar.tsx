@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
 import { useComponentValue } from "@dojoengine/react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
+import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
@@ -90,21 +91,24 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   return (
     <Flex
-      width="300px"
+      width={isMobile ? "100%" : "300px"}
+      height={isMobile ? "200px" : "100vh"}
       position="fixed"
-      height="100vh"
       bg="gray.100"
       left={0}
-      direction="column"
+      bottom={0}
+      direction={isMobile ? "row" : "column"}
       zIndex={9999}
       p={6}
       gap={2}
       justifyContent={"space-between"}
     >
       <Flex direction="column" gap={2}>
-        <Flex w="100%" justifyContent="center">
-          <Img src="/logo.png" width="90%" />
-        </Flex>
+        {!isMobile && (
+          <Flex w="100%" justifyContent="center">
+            <Img src="/logo.png" width="90%" />
+          </Flex>
+        )}
         <hr />
         <Text>Game state: {gameState}</Text>
         {gameStarted && !gameFinished && <Text>Round: {round}</Text>}

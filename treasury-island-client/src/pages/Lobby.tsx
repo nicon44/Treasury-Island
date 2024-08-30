@@ -19,6 +19,7 @@ import { Entity, getComponentValueStrict, Has } from "@dojoengine/recs";
 import * as torii from "@dojoengine/torii-client";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useGameContext } from "../providers/GameProvider";
@@ -92,26 +93,22 @@ export default function Lobby() {
         <Text>Wallet Address: {account.address}</Text>
       </Box>
       <Container maxW="container.xl">
-        <Flex
-          gap={6}
-          height="100%"
-          flexDirection={{ base: "column", md: "row" }}
-        >
+        <Flex gap={6} height="100%" flexDirection={isMobile ? "column" : "row"}>
           <Flex
-            width={{ base: "100%", md: "50%" }}
+            width={isMobile ? "100%" : "50%"}
             height="100%"
             alignItems="center"
             justifyContent="center"
           >
             <Image
               src="/logo.png"
-              width={{ base: "150px", md: "80%" }}
+              width={isMobile ? "150px" : "80%"}
               height="fit-content"
             />
           </Flex>
           <Flex
             flexDirection="column"
-            width={{ base: "100%", md: "50%" }}
+            width={isMobile ? "100%" : "50%"}
             gap={6}
           >
             <Card bg={cardBg} flex={1}>
