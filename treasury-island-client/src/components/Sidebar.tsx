@@ -183,7 +183,9 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           <Button
             mb={4}
             backgroundColor="teal.200"
-            onClick={() => navigate("/lobby")}
+            onClick={() => {
+              window.location.replace("/");
+            }}
           >
             Go back to lobby
           </Button>

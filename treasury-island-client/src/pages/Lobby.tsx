@@ -23,7 +23,7 @@ import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useGameContext } from "../providers/GameProvider";
-import { bigintToHex, feltToString } from "../utils";
+import { bigintToHex, feltToString, mapGameState } from "../utils";
 
 export default function Lobby() {
   const {
@@ -103,7 +103,7 @@ export default function Lobby() {
             <Image
               src="/logo.png"
               width={isMobile ? "150px" : "80%"}
-              height={isMobile ? "unset" : "fit-content"}
+              height={isMobile ? "unset" : " fit-content"}
             />
           </Flex>
           <Flex
@@ -157,50 +157,56 @@ export default function Lobby() {
                   maxH="300px"
                   overflowY="auto"
                 >
-                  {roomsDetails.map((room, index) => {
-                    const ownerName = getOwnerName(room?.player1 || BigInt(0));
-                    return (
-                      <Box
-                        key={"room-" + index}
-                        p={3}
-                        borderWidth={1}
-                        borderRadius="md"
-                        borderColor="orange.200"
-                      >
-                        <Flex justify="space-between" align="center">
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" color="orange.400">
-                              Room: {bigintToHex(room?.game_id)}
-                            </Text>
+                  {roomsDetails
+                    .filter((room) => mapGameState(room.state) === "Awaiting")
+                    .map((room, index) => {
+                      const ownerName = getOwnerName(
+                        room?.player1 || BigInt(0)
+                      );
+                      return (
+                        <Box
+                          key={"room-" + index}
+                          p={3}
+                          borderWidth={1}
+                          borderRadius="md"
+                          borderColor="orange.200"
+                        >
+                          <Flex justify="space-between" align="center">
+                            <VStack align="start" spacing={0}>
+                              <Text fontWeight="bold" color="orange.400">
+                                Room: {bigintToHex(room?.game_id)}
+                              </Text>
 
-                            <Text fontSize="sm" color="gray.500">
-                              Owner: {ownerName}
-                            </Text>
-                          </VStack>
-                          <Button
-                            colorScheme="orange"
-                            size="sm"
-                            isDisabled={room?.player2 !== BigInt(0) || !player}
-                            onClick={async () => {
-                              // If current player is not the owner, join the room
-                              if (room.player1 !== BigInt(account.address)) {
-                                await client.lobby.join_room({
-                                  account,
-                                  game_id: BigInt(room?.game_id ?? ""),
-                                });
+                              <Text fontSize="sm" color="gray.500">
+                                Owner: {ownerName}
+                              </Text>
+                            </VStack>
+                            <Button
+                              colorScheme="orange"
+                              size="sm"
+                              isDisabled={
+                                room?.player2 !== BigInt(0) || !player
                               }
-                              resetGrid();
-                              navigate(
-                                `/hide?id=${bigintToHex(room?.game_id)}`
-                              );
-                            }}
-                          >
-                            Join Crew
-                          </Button>
-                        </Flex>
-                      </Box>
-                    );
-                  })}
+                              onClick={async () => {
+                                // If current player is not the owner, join the room
+                                if (room.player1 !== BigInt(account.address)) {
+                                  await client.lobby.join_room({
+                                    account,
+                                    game_id: BigInt(room?.game_id ?? ""),
+                                  });
+                                }
+                                resetGrid();
+                                navigate(
+                                  `/hide?id=${bigintToHex(room?.game_id)}`
+                                );
+                              }}
+                            >
+                              Join Crew
+                            </Button>
+                          </Flex>
+                        </Box>
+                      );
+                    })}
                 </VStack>
               </CardBody>
             </Card>
