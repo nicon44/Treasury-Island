@@ -1,11 +1,14 @@
+// treasury-island-client/src/components/Game.tsx
+
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useEffect } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { useGameContext } from "../providers/GameProvider";
 import { PhaseProps } from "../types/PhaseProps";
-import CameraTransition from "./CameraTransition"; // Import the new component
+import CameraTransition from "./CameraTransition";
 import { Grid } from "./Grid";
+import Island from "./Island"; // Import the Island component
 
 export const Game = ({ hide, seek }: PhaseProps) => {
   const { rotateTreasure } = useGameContext();
@@ -46,6 +49,7 @@ export const Game = ({ hide, seek }: PhaseProps) => {
         <ambientLight intensity={0.5} />
         <directionalLight color="white" position={[5, 5, 5]} />
         <Grid hide={hide} seek={seek} />
+        <Island /> {/* Add the Island component here */}
         <CameraControls />
         <CameraTransition />
       </Canvas>
