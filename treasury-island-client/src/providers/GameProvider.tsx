@@ -15,7 +15,7 @@ import { useDojo } from "../dojo/useDojo";
 import { Terrain } from "../enums/terrain";
 import { useRoomId } from "../hooks/useRoomId";
 import { IBuriedTreasure, ITreasure } from "../types/Treasure";
-import { bigintToHex, mapPhase } from "../utils";
+import { bigintToHex, indexToXY, mapPhase } from "../utils";
 
 const BASE_GRID = [
   [0, Terrain.PALM, 0, 0, 0, 0],
@@ -80,7 +80,7 @@ export const useGameContext = () => useContext(GameContext);
 export const GameProvider = ({ children }: PropsWithChildren) => {
   const {
     setup: {
-      clientComponents: { Player, GameRoom, Round, Guesses, Loot },
+      clientComponents: { Player, GameRoom, Round, Guesses, LootObject },
       client,
     },
     account: { account },
@@ -94,7 +94,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   );
 
   const [treasureToBury, setTreasureToBury] = useState<ITreasure | undefined>();
-  const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
+  //const [buriedTreasures, setBuriedTreasures] = useState<IBuriedTreasure[]>([]);
 
   const [grid, setGrid] = useState<Terrain[][]>(BASE_GRID);
 
@@ -115,8 +115,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     if (treasureToBury) {
       /* setAvailableTreasures((prev) =>
         prev.filter((t) => t.id !== treasureToBury?.id)
-      ); */
-      setBuriedTreasures((prev) => [...prev, { x, y, ...treasureToBury }]);
+      ); 
+      setBuriedTreasures((prev) => [...prev, { x, y, ...treasureToBury }]);*/
       const { xSize, ySize } = treasureToBury;
       for (let i = 0; i < xSize; i++) {
         for (let j = 0; j < ySize; j++) {
@@ -125,6 +125,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           updateGridValue(currentX, currentY, Terrain.TREASURE);
         }
       }
+
       await client.gameroom.hide_loot({
         account,
         game_id: BigInt(roomId ?? ""),
@@ -241,8 +242,24 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       return { x: guess?.x, y: guess?.y, correct: guess?.correct };
     });
 
+  const opponent =
+    account.address == bigintToHex(BigInt(game?.player1.toString() ?? 0))
+      ? player2
+      : player1;
+
+  const opponentGuesses = guessesObject
+    .filter((guess) => {
+      return (
+        guess?.player_id == BigInt(opponent?.player_id ?? "") &&
+        guess?.game_id == BigInt(roomId ?? "")
+      );
+    })
+    .map((guess) => {
+      return { x: guess?.x, y: guess?.y, correct: guess?.correct };
+    });
+
   useEffect(() => {
-    if (playerGuesses.length > 0) {
+    if (phase === "Seek" && playerGuesses.length > 0) {
       playerGuesses.forEach((guess) => {
         if (
           (guess.x || guess.x === 0) &&
@@ -256,8 +273,78 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           );
         }
       });
+    } else if (phase === "Hide" && opponentGuesses.length > 0) {
+      opponentGuesses.forEach((guess) => {
+        if (
+          (guess.x || guess.x === 0) &&
+          (guess.y || guess.y === 0) &&
+          grid[guess.x][guess.y] === Terrain.SAND
+        ) {
+          updateGridValue(
+            guess.x,
+            guess.y,
+            guess.correct ? Terrain.HIT : Terrain.MISS
+          );
+        }
+      });
+    } else {
+      setGrid(BASE_GRID);
     }
-  }, [playerGuesses]);
+  }, [playerGuesses, phase]);
+
+  const hasLootObjects = useEntityQuery([Has(LootObject)]);
+
+  const lootObjects = hasLootObjects.map((entity) => {
+    const loot = getComponentValue(LootObject, entity);
+    return loot;
+  });
+  //console.log("loot objects: ", lootObjects);
+
+  const hiddenLootObjects = lootObjects
+    .filter((loot) => {
+      return (
+        loot &&
+        loot?.player_id == BigInt(player?.player_id ?? "") &&
+        loot?.game_id == BigInt(roomId ?? "") &&
+        loot?.hidden_indices.length > 0
+      );
+    })
+    .map((loot) => {
+      return {
+        id: loot!.loot_id,
+        length: loot!.loot_length,
+        indices: loot!.hidden_indices.map((indexArray: any) => {
+          return indexToXY(indexArray?.value);
+        }),
+      };
+    });
+  //console.log("hidden loot objects: ", hiddenLootObjects);
+
+  const buriedTreasures = hiddenLootObjects.map((loot) => {
+    const { x, y } = loot.indices.reduce(
+      (acc, point) => ({
+        x: Math.min(acc.x, point.x),
+        y: Math.min(acc.y, point.y),
+      }),
+      { x: Infinity, y: Infinity }
+    );
+
+    const xSize =
+      loot.length === 1 || loot.indices[0]?.x === loot.indices[1]?.x
+        ? 1
+        : loot.length;
+    const ySize = xSize === 1 ? loot.length : 1;
+
+    return {
+      id: loot.id,
+      x,
+      y,
+      xSize,
+      ySize,
+    };
+  });
+
+  //console.log("buriedTreasures: ", buriedTreasures);
 
   return (
     <GameContext.Provider

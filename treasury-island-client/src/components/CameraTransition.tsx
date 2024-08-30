@@ -22,7 +22,7 @@ const CameraTransition = () => {
         targetQuaternion.current.setFromEuler(new Euler(-Math.PI / 3, 0, 0));
         break;
       default:
-        targetPosition.current.set(5, 30, 80);
+        targetPosition.current.set(-25, 30, 80);
         targetQuaternion.current.setFromEuler(new Euler(-Math.PI / 10, 0, 0));
         break;
     }

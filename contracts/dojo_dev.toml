@@ -16,9 +16,16 @@ telegram = "https://t.me/dojoengine"
 default = "tisland"
 
 [env]
-rpc_url = "http://localhost:5050/"
+# slot katana
+# rpc_url = "https://api.cartridge.gg/x/battlechest/katana"
+# account_address = "0x644da5178f4c6a3ac86781a4f52edd92acd33eae2feda10fe5a993db8bdaadc"
+# private_key = "0x550c2e7d842e726ed3f57b87d1f098b5bbb035d140d9ba00df236b23fba4654"
+# world_address = "0x64ba78fe3ab8aedf19206180187d77a8b20b2a1f94877e18b86cb92dca82334"
+
+# local katana
+rpc_url = "http://0.0.0.0:5050"
+# Default account for katana with seed = 0
 account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
 private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = "0x64ba78fe3ab8aedf19206180187d77a8b20b2a1f94877e18b86cb92dca82334"
-
+# world_address = "0xb4079627ebab1cd3cf9fd075dda1ad2454a7a448bf659591f259efa2519b18"
 
