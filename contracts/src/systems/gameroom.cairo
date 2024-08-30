@@ -111,7 +111,7 @@ mod gameroom {
             let mut player2_loottracker = LootTrackerTrait::new(game_id, game_room.player2);
 
             // 5. init LootObjects
-            let mut loot_id = self.global_loot_id.read();
+            let mut loot_id = self.global_loot_id.read()+1;
             let mut loot4_count = 1;
             while loot4_count < constants::FOUR_BY_ONE+1 {
                 let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, constants::FOUR_BY_ONE_DIMS);
