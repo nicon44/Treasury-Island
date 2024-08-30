@@ -1,7 +1,6 @@
 # Treasury-Island
 Dojo Residency Game Jam project
-
- • Starting Resources:
+Starting Resources:
  • Gold: 50 units
  • Shovels: 10 shovels (plus a minimum of 3 shovels per turn)
  • Treasure Values:
