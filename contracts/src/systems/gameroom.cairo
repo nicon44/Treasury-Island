@@ -769,11 +769,11 @@ mod gameroom {
             let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
 
-            if(game_room.phase == 1){
-                game_room.phase = 2;
+            if(game_room.phase < 3){
+                game_room.phase += 1;
             } else if (game_room.phase == 2){
                 if (game_room.round_num < 3){
-                    game_room.phase = 1;
+                    game_room.phase = 1; //reset phase
                     game_room.round_num +=1;
 
                     // init new round
