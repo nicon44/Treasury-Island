@@ -5,6 +5,7 @@ import { Game } from "./components/Game";
 import { Sidebar } from "./components/Sidebar";
 import Lobby from "./pages/Lobby";
 import { GameProvider } from "./providers/GameProvider";
+import { Winner } from "./components/Winner";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <>
                 <Sidebar hide />
                 <Game hide />
+                <Winner />
                 <ControlsHelp hide />
               </>
             }
@@ -28,6 +30,7 @@ function App() {
               <>
                 <Sidebar seek />
                 <Game seek />
+                <Winner />
                 <ControlsHelp seek />
               </>
             }

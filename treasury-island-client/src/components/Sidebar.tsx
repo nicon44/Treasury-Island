@@ -38,6 +38,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
   const gameState = mapGameState(Number(game?.state ?? 0));
 
   const gameStarted = game?.state && gameState == "InProgress";
+  const gameFinished = game?.state && gameState == "Resolved";
 
   function getImgId(xSize: number, ySize: number) {
     if ((xSize === 2 && ySize === 1) || (xSize === 1 && ySize === 2)) {
@@ -104,7 +105,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
-        {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
+        {player1isHere && player2isHere && isPlayer1 && !gameStarted && !gameFinished && (
           <Button
             color="primary"
             backgroundColor="teal.200"
