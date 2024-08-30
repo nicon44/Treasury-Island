@@ -22,6 +22,10 @@ impl LootObjectIntrospect<> of dojo::model::introspect::Introspect<LootObject<>>
                 dojo::model::FieldLayout {
                     selector: 1801205247187906759946076809133204769177756677923733672487501520919685654843,
                     layout: dojo::model::introspect::Introspect::<bool>::layout()
+                },
+                dojo::model::FieldLayout {
+                    selector: 1049087840237126961539694639105830725211899747760805922658745417712327992245,
+                    layout: dojo::model::introspect::Introspect::<bool>::layout()
                 }
             ]
                 .span()
@@ -73,6 +77,11 @@ impl LootObjectIntrospect<> of dojo::model::introspect::Introspect<LootObject<>>
                         name: 'hidden',
                         attrs: array![].span(),
                         ty: dojo::model::introspect::Introspect::<bool>::ty()
+                    },
+                    dojo::model::introspect::Member {
+                        name: 'active',
+                        attrs: array![].span(),
+                        ty: dojo::model::introspect::Introspect::<bool>::ty()
                     }
                 ]
                     .span()
@@ -88,6 +97,7 @@ pub struct LootObjectEntity {
     pub hidden_indices: Array<u8>,
     pub revealed_indices: Array<u8>,
     pub hidden: bool,
+    pub active: bool,
 }
 
 #[generate_trait]
@@ -213,6 +223,35 @@ pub impl LootObjectEntityStoreImpl of LootObjectEntityStore {
             .set_member(
                 world,
                 1801205247187906759946076809133204769177756677923733672487501520919685654843,
+                serialized.span()
+            );
+    }
+
+    fn get_active(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> bool {
+        let mut values = dojo::model::ModelEntity::<
+            LootObjectEntity
+        >::get_member(
+            world,
+            entity_id,
+            1049087840237126961539694639105830725211899747760805922658745417712327992245
+        );
+        let field_value = core::serde::Serde::<bool>::deserialize(ref values);
+
+        if core::option::OptionTrait::<bool>::is_none(@field_value) {
+            panic!("Field `LootObject::active`: deserialization failed.");
+        }
+
+        core::option::OptionTrait::<bool>::unwrap(field_value)
+    }
+
+    fn set_active(self: @LootObjectEntity, world: dojo::world::IWorldDispatcher, value: bool) {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@value, ref serialized);
+
+        self
+            .set_member(
+                world,
+                1049087840237126961539694639105830725211899747760805922658745417712327992245,
                 serialized.span()
             );
     }
@@ -409,6 +448,43 @@ pub impl LootObjectStoreImpl of LootObjectStore {
                 serialized.span()
             );
     }
+
+    fn get_active(
+        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress, loot_id: u8
+    ) -> bool {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@game_id, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
+        core::serde::Serde::serialize(@loot_id, ref serialized);
+
+        let mut values = dojo::model::Model::<
+            LootObject
+        >::get_member(
+            world,
+            serialized.span(),
+            1049087840237126961539694639105830725211899747760805922658745417712327992245
+        );
+
+        let field_value = core::serde::Serde::<bool>::deserialize(ref values);
+
+        if core::option::OptionTrait::<bool>::is_none(@field_value) {
+            panic!("Field `LootObject::active`: deserialization failed.");
+        }
+
+        core::option::OptionTrait::<bool>::unwrap(field_value)
+    }
+
+    fn set_active(self: @LootObject, world: dojo::world::IWorldDispatcher, value: bool) {
+        let mut serialized = core::array::ArrayTrait::new();
+        core::serde::Serde::serialize(@value, ref serialized);
+
+        self
+            .set_member(
+                world,
+                1049087840237126961539694639105830725211899747760805922658745417712327992245,
+                serialized.span()
+            );
+    }
 }
 
 pub impl LootObjectModelEntityImpl of dojo::model::ModelEntity<LootObjectEntity> {
@@ -422,6 +498,7 @@ pub impl LootObjectModelEntityImpl of dojo::model::ModelEntity<LootObjectEntity>
         core::serde::Serde::serialize(self.hidden_indices, ref serialized);
         core::serde::Serde::serialize(self.revealed_indices, ref serialized);
         core::serde::Serde::serialize(self.hidden, ref serialized);
+        core::serde::Serde::serialize(self.active, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }
@@ -633,6 +710,7 @@ pub impl LootObjectModelImpl of dojo::model::Model<LootObject> {
         core::serde::Serde::serialize(self.hidden_indices, ref serialized);
         core::serde::Serde::serialize(self.revealed_indices, ref serialized);
         core::serde::Serde::serialize(self.hidden, ref serialized);
+        core::serde::Serde::serialize(self.active, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }

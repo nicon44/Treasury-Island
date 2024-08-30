@@ -100,7 +100,8 @@ pub struct LootObject {
     pub loot_length: u8,
     pub hidden_indices: Array<u8>, //those indices that are hidden
     pub revealed_indices: Array<u8>, //those indices that are revealed
-    pub hidden: bool
+    pub hidden: bool,
+    pub active: bool
 }
 
 

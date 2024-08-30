@@ -29,7 +29,8 @@ impl LootObjectImpl of LootObjectTrait {
             loot_length,
             hidden_indices: ArrayTrait::<u8>::new(),
             revealed_indices: ArrayTrait::<u8>::new(),
-            hidden: false
+            hidden: false,
+            active: true
         }
     }
 

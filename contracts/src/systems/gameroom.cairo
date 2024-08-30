@@ -778,6 +778,9 @@ mod gameroom {
                     // })));
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
+                    related_loot_object.active = false;
+
+                    let  mut player_gold = get!(self.world(), (game_id, player), Gold);
                     match related_loot_object.loot_length {
                         0 => {
                             //assert(false, 'Invalid loot length');
@@ -786,38 +789,51 @@ mod gameroom {
                         1 => {
                             println!("1x1 loot found");
                             opponent_loottracker.loot_hidden_count.one -= 1;
-                            player_loottracker.loot_count.one += 1;
+                            //player_loottracker.loot_count.one += 1;
+                            //reward user for finding loot
+                            player_gold.balance += constants::FOUND_1x1;
+
                         },
                         2 => {
                             println!("2x1 loot found");
                             opponent_loottracker.loot_hidden_count.two -= 1;
-                            player_loottracker.loot_count.two += 1;
+                            //player_loottracker.loot_count.two += 1;
+                            //reward user for finding loot
+                            player_gold.balance += constants::FOUND_2x1;
                         },
                         3 => {
                             println!("3x1 loot found");
                             opponent_loottracker.loot_hidden_count.three -= 1;
-                            player_loottracker.loot_count.three += 1;
+                            //player_loottracker.loot_count.three += 1;
+                            //reward user for finding loot
+                            player_gold.balance += constants::FOUND_3x1;
                         },
                         4 => {
                             println!("4x1 loot found");
                             opponent_loottracker.loot_hidden_count.four -= 1;
-                            player_loottracker.loot_count.four += 1;
+                            //player_loottracker.loot_count.four += 1;
+                            //reward user for finding loot
+                            player_gold.balance += constants::FOUND_4x1;
                         },
                         5 => {
                             println!("5x1 loot found");
                             opponent_loottracker.loot_hidden_count.five -= 1;
-                            player_loottracker.loot_count.five += 1;
+                            //player_loottracker.loot_count.five += 1;
+                            //reward user for finding loot
+                            player_gold.balance += constants::FOUND_5x1;
                         },
                         _ => {
                             //assert(false, 'Invalid loot length');
                         }
                     }
 
-                    // change owner of loot object
-                    let new_loot_object = LootObjectTrait::new(
-                        game_id, player, found_loot_id, related_loot_object.loot_length);
-                    
-                    set!(self.world(), (new_loot_object));
+                    // change owner of loot object by creating new loot object
+                    // let current_global_loot_id = self.global_loot_id.read();
+                    // let new_loot_object = LootObjectTrait::new(
+                    //     game_id, player, current_global_loot_id+1, related_loot_object.loot_length);
+                    // self.global_loot_id.write(current_global_loot_id+1);
+                    // set!(self.world(), (new_loot_object));
+
                     //delete!(self.world(), (related_loot_object));
                     
                     // transfer loot_id to player loot tracker
@@ -908,8 +924,17 @@ mod gameroom {
                     // if round_num == 3 and phase ==2, tabulate score and end game
 
                     // ===== SCORE TABULATION and GameRoom Update =====
-                    let player_score = player_loottracker.loot_ids.len();
-                    let opponent_score = opponent_loottracker.loot_ids.len();
+                    let player_score = player_loottracker.loot_hidden_count.one + 
+                        (player_loottracker.loot_hidden_count.two*2) + 
+                        (player_loottracker.loot_hidden_count.three *3) + 
+                        (player_loottracker.loot_hidden_count.four*4) + 
+                        (player_loottracker.loot_hidden_count.five*5);
+
+                    let opponent_score = opponent_loottracker.loot_hidden_count.one +
+                        (opponent_loottracker.loot_hidden_count.two*2) + 
+                        (opponent_loottracker.loot_hidden_count.three *3) + 
+                        (opponent_loottracker.loot_hidden_count.four*4) + 
+                        (opponent_loottracker.loot_hidden_count.five*5);
 
                     if (player_score < opponent_score){
                         game_room.winner = opponent;
