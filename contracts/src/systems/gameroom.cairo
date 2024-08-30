@@ -15,7 +15,7 @@ trait IGameRoom {
     fn start_game(ref world: IWorldDispatcher,game_id:u128);
     fn hide_loot(ref world: IWorldDispatcher, game_id:u128, loot_length: u8, x0: u8, y0: u8, x1:u8, y1:u8); // loot id: 1: one_one, 2: three_one, 3: four_one
     
-    fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8);
+    // fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8);
     fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) -> bool; //same as terrain type: 88-None, 1-Loot, 2-Obstacle, 3-Trap
     
     fn end_round(ref world: IWorldDispatcher, game_id:u128);
@@ -182,7 +182,6 @@ mod gameroom {
 
             let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
             let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
-            
             
             // assert loot_id is valid
             assert(loot_length >0, 'Invalid loot length');
@@ -580,33 +579,33 @@ mod gameroom {
 
         }
 
-        fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
+        // fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
             
-            // let caller: ContractAddress = starknet::get_caller_address();
+        //     // let caller: ContractAddress = starknet::get_caller_address();
             
-            // let mut game_room = get!(self.world(), (game_id), GameRoom);
-            // // assert caller is in game
-            // assert(caller == game_room.player1 || caller == game_room.player2, 
-            //     'Caller is not in the game');
+        //     // let mut game_room = get!(self.world(), (game_id), GameRoom);
+        //     // // assert caller is in game
+        //     // assert(caller == game_room.player1 || caller == game_room.player2, 
+        //     //     'Caller is not in the game');
 
-            // // assert if phase is 1: hide
-            // assert(game_room.phase == 1, 'Not in hide phase');
+        //     // // assert if phase is 1: hide
+        //     // assert(game_room.phase == 1, 'Not in hide phase');
 
-            // let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
-            // let mut player_loot = get!(self.world(), (game_id, player), Loot);
+        //     // let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
+        //     // let mut player_loot = get!(self.world(), (game_id, player), Loot);
             
-            // // assert coordinates are valid
-            // assert(x < constants::MAX_X && y < constants::MAX_Y, 
-            //     'Invalid coordinates');
+        //     // // assert coordinates are valid
+        //     // assert(x < constants::MAX_X && y < constants::MAX_Y, 
+        //     //     'Invalid coordinates');
             
-            // // assert traps are available
-            // assert(player_loot.traps > 0, 'No more traps available');
+        //     // // assert traps are available
+        //     // assert(player_loot.traps > 0, 'No more traps available');
             
-            // // set trap
-            // let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
-            // player_loot.traps -= 1;
-            // set!(self.world(), (island_coords, player_loot));
-        }
+        //     // // set trap
+        //     // let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
+        //     // player_loot.traps -= 1;
+        //     // set!(self.world(), (island_coords, player_loot));
+        // }
 
         fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x:u8, y:u8)-> bool {
             let caller: ContractAddress = starknet::get_caller_address();
@@ -662,69 +661,83 @@ mod gameroom {
                     }
                     h_indices_counter += 1;
                 };
-                related_loot_object.hidden_indices = new_hidden_indices;
                 
-                // check if entire loot is found
-                if(related_loot_object.hidden_indices.len() == 0){
+                related_loot_object.hidden_indices = new_hidden_indices.clone();
 
+                // check if entire loot is found
+                if(new_hidden_indices.len() == 0){
+                    println!("Entire loot is found");
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
                     match related_loot_object.loot_length {
                         0 => {
                             //assert(false, 'Invalid loot length');
+                            println!("Invalid loot length");
                         },
                         1 => {
-                            player_loottracker.loot_hidden_count.one -= 1;
-                            opponent_loottracker.loot_count.one += 1;
+                            println!("1x1 loot found");
+                            opponent_loottracker.loot_hidden_count.one -= 1;
+                            player_loottracker.loot_count.one += 1;
                         },
                         2 => {
-                            player_loottracker.loot_hidden_count.two -= 1;
-                            opponent_loottracker.loot_count.two += 1;
+                            println!("2x1 loot found");
+                            opponent_loottracker.loot_hidden_count.two -= 1;
+                            player_loottracker.loot_count.two += 1;
                         },
                         3 => {
-                            player_loottracker.loot_hidden_count.three -= 1;
-                            opponent_loottracker.loot_count.three += 1;
+                            println!("3x1 loot found");
+                            opponent_loottracker.loot_hidden_count.three -= 1;
+                            player_loottracker.loot_count.three += 1;
                         },
                         4 => {
-                            player_loottracker.loot_hidden_count.four -= 1;
-                            opponent_loottracker.loot_count.four += 1;
+                            println!("4x1 loot found");
+                            opponent_loottracker.loot_hidden_count.four -= 1;
+                            player_loottracker.loot_count.four += 1;
                         },
                         5 => {
-                            player_loottracker.loot_hidden_count.five -= 1;
-                            opponent_loottracker.loot_count.five += 1;
+                            println!("5x1 loot found");
+                            opponent_loottracker.loot_hidden_count.five -= 1;
+                            player_loottracker.loot_count.five += 1;
                         },
                         _ => {
                             //assert(false, 'Invalid loot length');
                         }
                     }
 
-                    // if(related_loot_object.loot_length ==1){
-                    //     //player_loottracker.loot_hidden_count.one -= 1;
-                    //     opponent_loottracker.loot_count.one += 1;
-                    // }
-                    // transfer loot_id to opponent
-                    opponent_loottracker.loot_ids.append(found_loot_id);
-                    // pop loot_id from player
+                    // change owner of loot object
+                    let new_loot_object = LootObjectTrait::new(
+                        game_id, player, found_loot_id, related_loot_object.loot_length);
+                    
+                    set!(self.world(), (new_loot_object));
+                    //delete!(self.world(), (related_loot_object));
+                    
+                    // transfer loot_id to player loot tracker
+                    player_loottracker.loot_ids.append(found_loot_id);
+
+                    // pop loot_id from opponent
                     let mut loot_ids_array_counter = 0;
                     let mut new_loot_ids: Array<u8> = array![];
-                    while loot_ids_array_counter < player_loottracker.loot_ids.len() {
-                        let current_loot_id:u8 = *player_loottracker.loot_ids[loot_ids_array_counter];
+                    while loot_ids_array_counter < opponent_loottracker.loot_ids.len() {
+                        let current_loot_id:u8 = *opponent_loottracker.loot_ids[loot_ids_array_counter];
                         if (current_loot_id != found_loot_id){
                             new_loot_ids.append(current_loot_id);
                         }
                         loot_ids_array_counter += 1;
                     };
-                    player_loottracker.loot_ids = new_loot_ids;
+                    opponent_loottracker.loot_ids = new_loot_ids;
                     
+                }else{
+                    println!("Loot only partially found");
                 }
 
                 // update related_loot_object
                 set!(self.world(), (related_loot_object));
+                // let previous_related_loot_object = get!(self.world(), 
+                //     (game_id, opponent, found_loot_id), LootObject);
+                // delete!(self.world(), (previous_related_loot_object));
 
                 // not sure why this is moved (problem with player_loottracker)
                 set!(self.world(), (player_loottracker, opponent_loottracker));
-                
-            
             
             } else {
                 //reduce tries
@@ -773,10 +786,10 @@ mod gameroom {
                     let player_score = player_loottracker.loot_ids.len();
                     let opponent_score = opponent_loottracker.loot_ids.len();
 
-                    if (player_score > opponent_score){
-                        game_room.winner = player;
-                    } else {
+                    if (player_score < opponent_score){
                         game_room.winner = opponent;
+                    } else {
+                        game_room.winner = player;
                     }
                     game_room.state = 6;
 
