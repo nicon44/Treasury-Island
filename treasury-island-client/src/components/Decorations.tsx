@@ -17,7 +17,7 @@ export const Decorations = () => {
           object={galleon}
           scale={[2, 2, 2]}
           rotation={[0, -Math.PI / 3, 0]}
-          position={[30, -2.5, 30]}
+          position={[-10, -2.5, 30]}
         />
       )}
       {sloop && (
