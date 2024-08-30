@@ -1,16 +1,12 @@
 impl GoldIntrospect<> of dojo::model::introspect::Introspect<Gold<>> {
     #[inline(always)]
     fn size() -> Option<usize> {
-        Option::Some(2)
+        Option::Some(1)
     }
 
     fn layout() -> dojo::model::Layout {
         dojo::model::Layout::Struct(
             array![
-                dojo::model::FieldLayout {
-                    selector: 707101162409551014950475138807685947556878024677686652522286720106255008680,
-                    layout: dojo::model::introspect::Introspect::<ContractAddress>::layout()
-                },
                 dojo::model::FieldLayout {
                     selector: 916907772491729262376534102982219947830828984996257231353398618781993312401,
                     layout: dojo::model::introspect::Introspect::<u32>::layout()
@@ -34,7 +30,7 @@ impl GoldIntrospect<> of dojo::model::introspect::Introspect<Gold<>> {
                     },
                     dojo::model::introspect::Member {
                         name: 'player_id',
-                        attrs: array![].span(),
+                        attrs: array!['key'].span(),
                         ty: dojo::model::introspect::Introspect::<ContractAddress>::ty()
                     },
                     dojo::model::introspect::Member {
@@ -52,7 +48,6 @@ impl GoldIntrospect<> of dojo::model::introspect::Introspect<Gold<>> {
 #[derive(Drop, Serde)]
 pub struct GoldEntity {
     __id: felt252, // private field
-    pub player_id: ContractAddress,
     pub balance: u32,
 }
 
@@ -62,37 +57,6 @@ pub impl GoldEntityStoreImpl of GoldEntityStore {
         GoldModelEntityImpl::get(world, entity_id)
     }
 
-
-    fn get_player_id(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> ContractAddress {
-        let mut values = dojo::model::ModelEntity::<
-            GoldEntity
-        >::get_member(
-            world,
-            entity_id,
-            707101162409551014950475138807685947556878024677686652522286720106255008680
-        );
-        let field_value = core::serde::Serde::<ContractAddress>::deserialize(ref values);
-
-        if core::option::OptionTrait::<ContractAddress>::is_none(@field_value) {
-            panic!("Field `Gold::player_id`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<ContractAddress>::unwrap(field_value)
-    }
-
-    fn set_player_id(
-        self: @GoldEntity, world: dojo::world::IWorldDispatcher, value: ContractAddress
-    ) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                707101162409551014950475138807685947556878024677686652522286720106255008680,
-                serialized.span()
-            );
-    }
 
     fn get_balance(world: dojo::world::IWorldDispatcher, entity_id: felt252) -> u32 {
         let mut values = dojo::model::ModelEntity::<
@@ -126,9 +90,10 @@ pub impl GoldEntityStoreImpl of GoldEntityStore {
 
 #[generate_trait]
 pub impl GoldStoreImpl of GoldStore {
-    fn entity_id_from_keys(game_id: u128) -> felt252 {
+    fn entity_id_from_keys(game_id: u128, player_id: ContractAddress) -> felt252 {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
 
         core::poseidon::poseidon_hash_span(serialized.span())
     }
@@ -150,50 +115,23 @@ pub impl GoldStoreImpl of GoldStore {
         core::option::OptionTrait::<Gold>::unwrap(entity)
     }
 
-    fn get(world: dojo::world::IWorldDispatcher, game_id: u128) -> Gold {
+    fn get(
+        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
+    ) -> Gold {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
 
         dojo::model::Model::<Gold>::get(world, serialized.span())
     }
 
 
-    fn get_player_id(world: dojo::world::IWorldDispatcher, game_id: u128) -> ContractAddress {
+    fn get_balance(
+        world: dojo::world::IWorldDispatcher, game_id: u128, player_id: ContractAddress
+    ) -> u32 {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(@game_id, ref serialized);
-
-        let mut values = dojo::model::Model::<
-            Gold
-        >::get_member(
-            world,
-            serialized.span(),
-            707101162409551014950475138807685947556878024677686652522286720106255008680
-        );
-
-        let field_value = core::serde::Serde::<ContractAddress>::deserialize(ref values);
-
-        if core::option::OptionTrait::<ContractAddress>::is_none(@field_value) {
-            panic!("Field `Gold::player_id`: deserialization failed.");
-        }
-
-        core::option::OptionTrait::<ContractAddress>::unwrap(field_value)
-    }
-
-    fn set_player_id(self: @Gold, world: dojo::world::IWorldDispatcher, value: ContractAddress) {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@value, ref serialized);
-
-        self
-            .set_member(
-                world,
-                707101162409551014950475138807685947556878024677686652522286720106255008680,
-                serialized.span()
-            );
-    }
-
-    fn get_balance(world: dojo::world::IWorldDispatcher, game_id: u128) -> u32 {
-        let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(@game_id, ref serialized);
+        core::serde::Serde::serialize(@player_id, ref serialized);
 
         let mut values = dojo::model::Model::<
             Gold
@@ -232,7 +170,6 @@ pub impl GoldModelEntityImpl of dojo::model::ModelEntity<GoldEntity> {
 
     fn values(self: @GoldEntity) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(self.player_id, ref serialized);
         core::serde::Serde::serialize(self.balance, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
@@ -429,6 +366,7 @@ pub impl GoldModelImpl of dojo::model::Model<Gold> {
     fn keys(self: @Gold) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
         core::serde::Serde::serialize(self.game_id, ref serialized);
+        core::serde::Serde::serialize(self.player_id, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)
     }
@@ -436,7 +374,6 @@ pub impl GoldModelImpl of dojo::model::Model<Gold> {
     #[inline(always)]
     fn values(self: @Gold) -> Span<felt252> {
         let mut serialized = core::array::ArrayTrait::new();
-        core::serde::Serde::serialize(self.player_id, ref serialized);
         core::serde::Serde::serialize(self.balance, ref serialized);
 
         core::array::ArrayTrait::span(@serialized)

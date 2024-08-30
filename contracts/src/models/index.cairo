@@ -38,6 +38,7 @@ pub struct GameRoom {
 pub struct Gold {
     #[key]
     pub game_id: u128,
+    #[key]
     pub player_id: ContractAddress,
     pub balance: u32
 }
