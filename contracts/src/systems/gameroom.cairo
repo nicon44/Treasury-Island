@@ -15,7 +15,7 @@ trait IGameRoom {
     fn start_game(ref world: IWorldDispatcher,game_id:u128);
     fn hide_loot(ref world: IWorldDispatcher, game_id:u128, loot_length: u8, x0: u8, y0: u8, x1:u8, y1:u8); // loot id: 1: one_one, 2: three_one, 3: four_one
     
-    // fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8);
+    fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8);
     fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) -> bool; //same as terrain type: 88-None, 1-Loot, 2-Obstacle, 3-Trap
     
     fn end_round(ref world: IWorldDispatcher, game_id:u128);
@@ -600,33 +600,35 @@ mod gameroom {
 
         }
 
-        // fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
+        fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
             
-        //     // let caller: ContractAddress = starknet::get_caller_address();
+            let caller: ContractAddress = starknet::get_caller_address();
             
-        //     // let mut game_room = get!(self.world(), (game_id), GameRoom);
-        //     // // assert caller is in game
-        //     // assert(caller == game_room.player1 || caller == game_room.player2, 
-        //     //     'Caller is not in the game');
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+            // assert caller is in game
+            assert(caller == game_room.player1 || caller == game_room.player2, 
+                'Caller is not in the game');
 
-        //     // // assert if phase is 1: hide
-        //     // assert(game_room.phase == 1, 'Not in hide phase');
+            // assert if phase is 1: hide
+            assert(game_room.phase == 1, 'Not in hide phase');
 
-        //     // let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
-        //     // let mut player_loot = get!(self.world(), (game_id, player), Loot);
+            let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
+            //let mut player_loot = get!(self.world(), (game_id, player), Loot);
+            let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
             
-        //     // // assert coordinates are valid
-        //     // assert(x < constants::MAX_X && y < constants::MAX_Y, 
-        //     //     'Invalid coordinates');
+            // assert coordinates are valid
+            assert(x < MAX_X && y < MAX_Y, 
+                'Invalid coordinates');
             
-        //     // // assert traps are available
-        //     // assert(player_loot.traps > 0, 'No more traps available');
-            
-        //     // // set trap
-        //     // let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
-        //     // player_loot.traps -= 1;
-        //     // set!(self.world(), (island_coords, player_loot));
-        // }
+            // assert traps are available
+            //assert(player_loot.traps > 0, 'No more traps available');
+            assert(player_loottracker.traps > 0, 'No more traps available');
+
+            // // set trap
+            // let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
+            // player_loot.traps -= 1;
+            // set!(self.world(), (island_coords, player_loot));
+        }
 
         fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x:u8, y:u8)-> bool {
             let caller: ContractAddress = starknet::get_caller_address();
@@ -805,7 +807,7 @@ mod gameroom {
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
             
 
-            let shopmode: u8 = if (SHOPEMODE) { 2 } else { 3 };
+            let shopmode: u8 = if (SHOPEMODE) { 3 } else { 2 };
             if(game_room.phase < shopmode){
                 game_room.phase += 1;
             } else if (game_room.phase == (shopmode-1)){

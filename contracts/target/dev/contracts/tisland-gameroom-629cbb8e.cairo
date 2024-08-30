@@ -664,6 +664,35 @@ pub mod gameroom {
                 }
             }
         }
+        fn set_trap(ref self: ContractState, game_id: u128, x: u8, y: u8) {
+            let world = self.world_dispatcher.read();
+            let caller: ContractAddress = starknet::get_caller_address();
+
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+            // assert caller is in game
+            assert(
+                caller == game_room.player1 || caller == game_room.player2,
+                'Caller is not in the game'
+            );
+
+            // assert if phase is 1: hide
+            assert(game_room.phase == 1, 'Not in hide phase');
+
+            let player = if (game_room.player1 == caller) {
+                game_room.player1
+            } else {
+                game_room.player2
+            };
+            //let mut player_loot = get!(self.world(), (game_id, player), Loot);
+            let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
+
+            // assert coordinates are valid
+            assert(x < MAX_X && y < MAX_Y, 'Invalid coordinates');
+
+            // assert traps are available
+            //assert(player_loot.traps > 0, 'No more traps available');
+            assert(player_loottracker.traps > 0, 'No more traps available');
+        }
         fn dig_for_loot(ref self: ContractState, game_id: u128, x: u8, y: u8) -> bool {
             let world = self.world_dispatcher.read();
             let caller: ContractAddress = starknet::get_caller_address();
@@ -871,9 +900,9 @@ pub mod gameroom {
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
 
             let shopmode: u8 = if (SHOPEMODE) {
-                2
-            } else {
                 3
+            } else {
+                2
             };
             if (game_room.phase < shopmode) {
                 game_room.phase += 1;
