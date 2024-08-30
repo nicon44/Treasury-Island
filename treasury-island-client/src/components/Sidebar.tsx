@@ -19,6 +19,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
     player2isHere,
     isPlayer1,
     shovels,
+    opponentShovels,
   } = useGameContext();
   const id = useRoomId();
 
@@ -58,9 +59,27 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
     BigInt(oponent?.player_id.toString() ?? 0),
   ]);
   const oponentLootTracker = useComponentValue(LootTracker, entityKey ?? "");
-  const oponentHidAll = oponentLootTracker?.loot_count?.four + oponentLootTracker?.loot_count?.three + oponentLootTracker?.loot_count?.two + oponentLootTracker?.loot_count?.one === 0;
+  const oponentHidAll =
+    oponentLootTracker?.loot_count?.four +
+      oponentLootTracker?.loot_count?.three +
+      oponentLootTracker?.loot_count?.two +
+      oponentLootTracker?.loot_count?.one ===
+    0;
 
-  console.log("oponentHidAll: ", oponentHidAll);
+  const endRoundButton = (
+    <Button
+      variant="solid"
+      backgroundColor="teal.200"
+      onClick={async () => {
+        await client.gameroom.end_round({
+          account,
+          game_id: BigInt(roomId ?? ""),
+        });
+      }}
+    >
+      Go to {hide ? "SEEK" : "HIDE"} phase
+    </Button>
+  );
 
   return (
     <Flex
@@ -103,20 +122,18 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           <Heading mb={4} size="sm">
             {availableTreasures.length
               ? "Select treasure to bury"
-              : isPlayer1 && oponentHidAll ?(
-                  <Button
-                    variant="solid"
-                    backgroundColor="teal.200"
-                    onClick={async () => {
-                      await client.gameroom.end_round({
-                        account,
-                        game_id: BigInt(roomId ?? ""),
-                      });
-                    }}
-                  >
-                    Go to SEEK phase
-                  </Button>
-                ) : 'Waiting for opponent to bury all the treasures...'}
+              : isPlayer1 && oponentHidAll
+                ? endRoundButton
+                : "Waiting for opponent to bury all the treasures..."}
+          </Heading>
+        )}
+        {gameStarted && seek && (
+          <Heading mb={4} size="sm">
+            {shovels > 0
+              ? "Select tiles to dig"
+              : isPlayer1 && opponentShovels === 0
+                ? endRoundButton
+                : "Waiting for opponent to dig..."}
           </Heading>
         )}
         {hide && (

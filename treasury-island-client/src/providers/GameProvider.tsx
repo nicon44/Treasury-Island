@@ -52,6 +52,7 @@ interface IGameContext {
   player2isHere: boolean;
   isPlayer1: boolean;
   shovels: number;
+  opponentShovels: number;
 }
 
 const GameContext = createContext<IGameContext>({
@@ -72,6 +73,7 @@ const GameContext = createContext<IGameContext>({
   player2isHere: false,
   isPlayer1: false,
   shovels: 0,
+  opponentShovels: 0,
 });
 export const useGameContext = () => useContext(GameContext);
 
@@ -218,6 +220,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const shovels =
     (isPlayer1 ? gameRound?.player1_tries : gameRound?.player2_tries) ?? 0;
+  const opponentShovels =
+    (isPlayer1 ? gameRound?.player2_tries : gameRound?.player1_tries) ?? 0;
 
   const hasGuesses = useEntityQuery([Has(Guesses)]);
 
@@ -275,6 +279,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         player2isHere,
         isPlayer1,
         shovels,
+        opponentShovels,
       }}
     >
       {children}
