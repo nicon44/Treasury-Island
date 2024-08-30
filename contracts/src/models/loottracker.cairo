@@ -6,7 +6,7 @@ use core::debug::PrintTrait;
 // Inernal imports
 
 use tisland::models::index::{LootTracker, LOcounter};
-use tisland::constants::MAX_TRIES;
+use tisland::constants::{MAX_TRIES, DEFAULT_STARTING_TRAPS};
 use tisland::libs::utils;
 
 mod errors {
@@ -26,7 +26,7 @@ impl LootTrackerImpl of LootTrackerTrait {
             loot_count: LOcounter{five:0,four:0,three:0,two:0,one:0},
             loot_hidden_count: LOcounter{five:0,four:0,three:0,two:0,one:0},
             shovels: 0,
-            traps: 0
+            traps: DEFAULT_STARTING_TRAPS
         }
     }
 

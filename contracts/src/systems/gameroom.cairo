@@ -14,8 +14,8 @@ trait IGameRoom {
     
     fn start_game(ref world: IWorldDispatcher,game_id:u128);
     fn hide_loot(ref world: IWorldDispatcher, game_id:u128, loot_length: u8, x0: u8, y0: u8, x1:u8, y1:u8); // loot id: 1: one_one, 2: three_one, 3: four_one
-    
     fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8);
+    fn buy_items(ref world: IWorldDispatcher, game_id:u128, item_id:u8);
     fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) -> bool; //same as terrain type: 88-None, 1-Loot, 2-Obstacle, 3-Trap
     
     fn end_round(ref world: IWorldDispatcher, game_id:u128);
@@ -61,16 +61,16 @@ mod gameroom {
 
     //use super::{ArrayTrait};
     //use tisland::utils::arrays::{ArrayTrait};
-    use tisland::constants::{FOUR_BY_ONE, FOUR_BY_ONE_DIMS,
-        THREE_BY_ONE, THREE_BY_ONE_DIMS,
-        TWO_BY_ONE, TWO_BY_ONE_DIMS,
-        ONE_BY_ONE, ONE_BY_ONE_DIMS,
-        MAX_X, MAX_Y, 
-        SHOPEMODE, DEFAULT_STARTING_GOLD
-    };
+    use tisland::{constants};
     //use tisland::libs::seeder::{make_seed};
 
     // Local imports
+
+    // storage
+    #[storage]
+    struct Storage {
+        global_loot_id: u8,
+    }
 
     // Implementations
 
@@ -111,16 +111,16 @@ mod gameroom {
             let mut player2_loottracker = LootTrackerTrait::new(game_id, game_room.player2);
 
             // 5. init LootObjects
-            let mut loot_id = 1;
+            let mut loot_id = self.global_loot_id.read();
             let mut loot4_count = 1;
-            while loot4_count < FOUR_BY_ONE+1 {
-                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, FOUR_BY_ONE_DIMS);
+            while loot4_count < constants::FOUR_BY_ONE+1 {
+                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, constants::FOUR_BY_ONE_DIMS);
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.four += 1;
                 //player1_loottracker.loot_hidden_count.four +=1;
 
                 loot_id+=1;
-                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, FOUR_BY_ONE_DIMS);
+                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, constants::FOUR_BY_ONE_DIMS);
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.four += 1;
                 //player2_loottracker.loot_hidden_count.four +=1;
@@ -131,14 +131,14 @@ mod gameroom {
             };
 
             let mut loot3_count = 1;
-            while loot3_count < THREE_BY_ONE+1 {
-                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, THREE_BY_ONE_DIMS);
+            while loot3_count < constants::THREE_BY_ONE+1 {
+                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, constants::THREE_BY_ONE_DIMS);
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.three += 1;
                 //player1_loottracker.loot_hidden_count.three +=1;
                 
                 loot_id+=1;
-                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, THREE_BY_ONE_DIMS);
+                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, constants::THREE_BY_ONE_DIMS);
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.three += 1;
                 //player2_loottracker.loot_hidden_count.three +=1;
@@ -148,14 +148,14 @@ mod gameroom {
                 loot_id+=1;
             };
             let mut loot2_count = 1;
-            while loot2_count < TWO_BY_ONE+1 {
-                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, TWO_BY_ONE_DIMS);
+            while loot2_count < constants::TWO_BY_ONE+1 {
+                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, constants::TWO_BY_ONE_DIMS);
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.two += 1;
                 //player1_loottracker.loot_hidden_count.two +=1;
                 
                 loot_id+=1;
-                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, TWO_BY_ONE_DIMS);
+                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, constants::TWO_BY_ONE_DIMS);
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.two += 1;
                 //player2_loottracker.loot_hidden_count.two +=1;
@@ -166,14 +166,14 @@ mod gameroom {
             };
 
             let mut loot1_count = 1;
-            while loot1_count < ONE_BY_ONE+1 {
-                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, ONE_BY_ONE_DIMS);
+            while loot1_count < constants::ONE_BY_ONE+1 {
+                let player1_loot = LootObjectTrait::new(game_id, game_room.player1, loot_id, constants::ONE_BY_ONE_DIMS);
                 player1_loottracker.loot_ids.append(loot_id);
                 player1_loottracker.loot_count.one += 1;
                 //player1_loottracker.loot_hidden_count.one +=1;
                 
                 loot_id+=1;
-                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, ONE_BY_ONE_DIMS);
+                let player2_loot = LootObjectTrait::new(game_id, game_room.player2, loot_id, constants::ONE_BY_ONE_DIMS);
                 player2_loottracker.loot_ids.append(loot_id);
                 player2_loottracker.loot_count.one += 1;
                 //player2_loottracker.loot_hidden_count.one +=1;
@@ -182,6 +182,7 @@ mod gameroom {
                 loot1_count += 1;
                 loot_id+=1;
             };
+            self.global_loot_id.write(loot_id+1);
 
             // [Save] Models
             set!(self.world(), (game_room, round, 
@@ -212,9 +213,9 @@ mod gameroom {
             assert(loot_length >0, 'Invalid loot length');
             
             // assert coordinates are valid
-            assert(x0 < MAX_X && y0 < MAX_Y, 
+            assert(x0 < constants::MAX_X && y0 < constants::MAX_Y, 
                 'Invalid coordinates');
-            assert(x1 < MAX_X && y1 < MAX_Y, 
+            assert(x1 < constants::MAX_X && y1 < constants::MAX_Y, 
                     'Invalid coordinates');
 
             match loot_length {
@@ -605,7 +606,7 @@ mod gameroom {
         }
 
         fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
-            assert(SHOPEMODE, 'Not Shop Mode');
+            //assert(constants::SHOPEMODE, 'Not Shop Mode');
             let caller: ContractAddress = starknet::get_caller_address();
             
             let mut game_room = get!(self.world(), (game_id), GameRoom);
@@ -621,7 +622,7 @@ mod gameroom {
             let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
             
             // assert coordinates are valid
-            assert(x < MAX_X && y < MAX_Y, 
+            assert(x < constants::MAX_X && y < constants::MAX_Y, 
                 'Invalid coordinates');
             
             // assert traps are available
@@ -633,6 +634,77 @@ mod gameroom {
             player_loottracker.traps -= 1;
             //set!(self.world(), (island_coords, player_loot));
             set!(self.world(), (island_coords, player_loottracker));
+        }
+
+        fn buy_items(ref world: IWorldDispatcher, game_id:u128, item_id:u8){
+            assert(constants::SHOPEMODE, 'Not Shop Mode');
+
+            let caller: ContractAddress = starknet::get_caller_address();
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+
+            // assert if phase is 3: hide
+            assert(game_room.phase == 1, 'Not in Shopping Phase');
+            // assert caller is in game
+            assert(caller == game_room.player1 || caller == game_room.player2, 
+                'Caller is not in the game');
+
+
+            let player = if(game_room.player1 == caller){game_room.player1} else {game_room.player2};
+            let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
+            let mut player_gold = get!(self.world(), (game_id, player), Gold);
+            
+            match item_id {
+                0 => {
+                    println!("Invalid item id");
+                },
+                //1x1 chest
+                1 => {
+                    assert(player_gold.balance >= constants::DEFAULT_1x1_CHEST_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_1x1_CHEST_COST;
+                },
+                //2x1
+                2 => {
+                    assert(player_gold.balance >= constants::DEFAULT_2x1_CHEST_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_2x1_CHEST_COST;
+                },
+                //3x1
+                3 => {
+                    assert(player_gold.balance >= constants::DEFAULT_3x1_CHEST_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_3x1_CHEST_COST;
+                },
+                //4x1
+                4 => {
+                    assert(player_gold.balance >= constants::DEFAULT_4x1_CHEST_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_4x1_CHEST_COST;
+                },
+                //5x1
+                5 => {
+                    assert(player_gold.balance >= constants::DEFAULT_5x1_CHEST_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_5x1_CHEST_COST;
+                },
+                //shovel
+                6 => {
+                    assert(player_gold.balance >= constants::DEFAULT_SHOVEL_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_SHOVEL_COST;
+                    player_loottracker.shovels += 1;
+                },
+                //trap
+                7 => {
+                    assert(player_gold.balance >= constants::DEFAULT_TRAP_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_TRAP_COST;
+                    player_loottracker.traps += 1;
+                },
+                //ability
+                8 => {
+                    assert(player_gold.balance >= constants::DEFAULT_ABILITY_COST, 'Not enough gold');
+                    player_gold.balance -= constants::DEFAULT_ABILITY_COST;
+                    //player_loottracker.abilities += 1;
+                },
+                _ => {
+                    assert(false, 'Invalid item id');
+                }
+            }
+            set!(self.world(), (player_loottracker, player_gold));
         }
 
         fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x:u8, y:u8)-> bool {
@@ -821,7 +893,7 @@ mod gameroom {
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
             
 
-            let shopmode: u8 = if (SHOPEMODE) { 3 } else { 2 };
+            let shopmode: u8 = if (constants::SHOPEMODE) { 3 } else { 2 };
             if(game_room.phase < shopmode){
                 game_room.phase += 1;
             } else if (game_room.phase == (shopmode)){

@@ -36,6 +36,7 @@ const MAX_TRIES: u8 = 5;
 // Player
 
 const DEFAULT_STARTING_GOLD: u32 = 50;
+const DEFAULT_STARTING_TRAPS: u8 = 2;
 
 // Shop
 const SHOPEMODE : bool = false;
