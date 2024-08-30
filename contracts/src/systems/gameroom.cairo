@@ -661,26 +661,61 @@ mod gameroom {
                 1 => {
                     assert(player_gold.balance >= constants::DEFAULT_1x1_CHEST_COST, 'Not enough gold');
                     player_gold.balance -= constants::DEFAULT_1x1_CHEST_COST;
+                    // create lootojbect
+                    let current_global_loot_id = self.global_loot_id.read();
+                    let newly_bought_loot_object = LootObjectTrait::new(game_id, player, current_global_loot_id+1, constants::ONE_BY_ONE_DIMS);
+                    self.global_loot_id.write(current_global_loot_id+1);
+                    player_loottracker.loot_ids.append(current_global_loot_id+1);
+                    player_loottracker.loot_count.one += 1;
+                    set!(self.world(), (newly_bought_loot_object));
                 },
                 //2x1
                 2 => {
                     assert(player_gold.balance >= constants::DEFAULT_2x1_CHEST_COST, 'Not enough gold');
                     player_gold.balance -= constants::DEFAULT_2x1_CHEST_COST;
+                    // create lootojbect
+                    let current_global_loot_id = self.global_loot_id.read();
+                    let newly_bought_loot_object = LootObjectTrait::new(game_id, player, current_global_loot_id+1, constants::TWO_BY_ONE_DIMS);
+                    self.global_loot_id.write(current_global_loot_id+1);
+                    player_loottracker.loot_ids.append(current_global_loot_id+1);
+                    player_loottracker.loot_count.two += 1;
+                    set!(self.world(), (newly_bought_loot_object));
                 },
                 //3x1
                 3 => {
                     assert(player_gold.balance >= constants::DEFAULT_3x1_CHEST_COST, 'Not enough gold');
                     player_gold.balance -= constants::DEFAULT_3x1_CHEST_COST;
+                    // create lootojbect
+                    let current_global_loot_id = self.global_loot_id.read();
+                    let newly_bought_loot_object = LootObjectTrait::new(game_id, player, current_global_loot_id+1, constants::THREE_BY_ONE_DIMS);
+                    self.global_loot_id.write(current_global_loot_id+1);
+                    player_loottracker.loot_ids.append(current_global_loot_id+1);
+                    player_loottracker.loot_count.three += 1;
+                    set!(self.world(), (newly_bought_loot_object));
                 },
                 //4x1
                 4 => {
                     assert(player_gold.balance >= constants::DEFAULT_4x1_CHEST_COST, 'Not enough gold');
                     player_gold.balance -= constants::DEFAULT_4x1_CHEST_COST;
+                    // create lootojbect
+                    let current_global_loot_id = self.global_loot_id.read();
+                    let newly_bought_loot_object = LootObjectTrait::new(game_id, player, current_global_loot_id+1, constants::FOUR_BY_ONE_DIMS);
+                    self.global_loot_id.write(current_global_loot_id+1);
+                    player_loottracker.loot_ids.append(current_global_loot_id+1);
+                    player_loottracker.loot_count.four += 1;
+                    set!(self.world(), (newly_bought_loot_object));
                 },
                 //5x1
                 5 => {
                     assert(player_gold.balance >= constants::DEFAULT_5x1_CHEST_COST, 'Not enough gold');
                     player_gold.balance -= constants::DEFAULT_5x1_CHEST_COST;
+                    // create lootojbect
+                    let current_global_loot_id = self.global_loot_id.read();
+                    let newly_bought_loot_object = LootObjectTrait::new(game_id, player, current_global_loot_id+1, constants::FIVE_BY_ONE_DIMS);
+                    self.global_loot_id.write(current_global_loot_id+1);
+                    player_loottracker.loot_ids.append(current_global_loot_id+1);
+                    player_loottracker.loot_count.five += 1;
+                    set!(self.world(), (newly_bought_loot_object));
                 },
                 //shovel
                 6 => {

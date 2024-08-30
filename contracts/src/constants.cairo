@@ -4,6 +4,8 @@ const SEED_WEEK_SECONDS: u64 = 604800;
 const SEED_OFFSET_SECONDS: u64 = 345600;
 
 // Loot Objects
+const FIVE_BY_ONE: u8 = 0;
+const FIVE_BY_ONE_DIMS: u8 = 5;
 
 const FOUR_BY_ONE: u8 = 0;
 const FOUR_BY_ONE_DIMS: u8 = 4;
