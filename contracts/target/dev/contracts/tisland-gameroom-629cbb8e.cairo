@@ -906,7 +906,7 @@ pub mod gameroom {
             };
             if (game_room.phase < shopmode) {
                 game_room.phase += 1;
-            } else if (game_room.phase == (shopmode - 1)) {
+            } else if (game_room.phase == (shopmode)) {
                 if (game_room.round_num < 3) {
                     game_room.phase = 1; //reset phase
                     game_room.round_num += 1;
