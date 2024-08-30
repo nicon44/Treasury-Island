@@ -27,7 +27,7 @@ import { bigintToHex, feltToString } from "../utils";
 export default function Lobby() {
   const {
     setup: {
-      clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
+      clientComponents: { Player, GameRoom },
       client,
     },
     account: { account },

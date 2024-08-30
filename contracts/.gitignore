@@ -1,1 +1,2 @@
-manifests/dev/*
+manifests/dev/base/*
+manifests/dev/deployment/abis/*
