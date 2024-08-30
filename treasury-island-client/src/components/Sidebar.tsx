@@ -27,6 +27,8 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const availableTreasures = useAvailableTreasures();
 
+  const round = Number(game?.round_num ?? 0);
+
   const {
     setup: {
       clientComponents: { LootTracker },
@@ -80,7 +82,9 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         });
       }}
     >
-      Go to {hide ? "SEEK" : "HIDE"} phase
+      {round === 3 && seek
+        ? "Reveal winner"
+        : `Go to ${hide ? "SEEK" : "HIDE"} phase`}
     </Button>
   );
 
@@ -103,6 +107,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         </Flex>
         <hr />
         <Text>Game state: {gameState}</Text>
+        {gameStarted && !gameFinished && <Text>Round: {round}</Text>}
         {!player1 ||
           (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
@@ -171,7 +176,11 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       </Flex>
       <Box m={2}>
         {gameFinished && (
-          <Button mb={4} backgroundColor="teal.200" onClick={() => navigate("/lobby")}>
+          <Button
+            mb={4}
+            backgroundColor="teal.200"
+            onClick={() => navigate("/lobby")}
+          >
             Go back to lobby
           </Button>
         )}
