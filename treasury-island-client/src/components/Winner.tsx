@@ -27,6 +27,7 @@ export const Winner = () => {
         width="100vw"
         justifyContent="center"
         alignItems="center"
+        pointerEvents='none'
       >
         <Heading fontSize={150} color='white'>YOU {playerWon ? "WON" : "LOST"}!</Heading>
       </Flex>

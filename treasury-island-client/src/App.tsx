@@ -1,11 +1,11 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ControlsHelp } from "./components/ControlsHelp";
 import { Game } from "./components/Game";
 import { Sidebar } from "./components/Sidebar";
+import { Winner } from "./components/Winner";
 import Lobby from "./pages/Lobby";
 import { GameProvider } from "./providers/GameProvider";
-import { Winner } from "./components/Winner";
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function App() {
               </>
             }
           />
+          <Route path="/lobby" element={<Navigate to="/" />} />
         </Routes>
       </GameProvider>
     </ChakraProvider>

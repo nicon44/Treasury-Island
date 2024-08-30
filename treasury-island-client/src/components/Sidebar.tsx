@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
 import { useComponentValue } from "@dojoengine/react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
+import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
@@ -22,6 +23,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
     opponentShovels,
   } = useGameContext();
   const id = useRoomId();
+  const navigate = useNavigate();
 
   const availableTreasures = useAvailableTreasures();
 
@@ -105,20 +107,24 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
-        {player1isHere && player2isHere && isPlayer1 && !gameStarted && !gameFinished && (
-          <Button
-            color="primary"
-            backgroundColor="teal.200"
-            onClick={async () => {
-              await client.gameroom.start_game({
-                account,
-                game_id: BigInt(roomId ?? ""),
-              });
-            }}
-          >
-            Start game
-          </Button>
-        )}
+        {player1isHere &&
+          player2isHere &&
+          isPlayer1 &&
+          !gameStarted &&
+          !gameFinished && (
+            <Button
+              color="primary"
+              backgroundColor="teal.200"
+              onClick={async () => {
+                await client.gameroom.start_game({
+                  account,
+                  game_id: BigInt(roomId ?? ""),
+                });
+              }}
+            >
+              Start game
+            </Button>
+          )}
         {gameStarted && hide && (
           <Heading mb={4} size="sm">
             {availableTreasures.length
@@ -164,6 +170,11 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         )}
       </Flex>
       <Box m={2}>
+        {gameFinished && (
+          <Button mb={4} backgroundColor="teal.200" onClick={() => navigate("/lobby")}>
+            Go back to lobby
+          </Button>
+        )}
         <Text>
           Player 1: {feltToString(player1?.name.toString() ?? "") ?? ""}
         </Text>
