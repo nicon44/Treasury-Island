@@ -103,7 +103,7 @@ export default function Lobby() {
             <Image
               src="/logo.png"
               width={isMobile ? "150px" : "80%"}
-              height="fit-content"
+              height={isMobile ? "unset" : "fit-content"}
             />
           </Flex>
           <Flex
