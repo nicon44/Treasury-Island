@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
 import { useComponentValue } from "@dojoengine/react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
+import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
@@ -22,8 +23,11 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
     opponentShovels,
   } = useGameContext();
   const id = useRoomId();
+  const navigate = useNavigate();
 
   const availableTreasures = useAvailableTreasures();
+
+  const round = Number(game?.round_num ?? 0);
 
   const {
     setup: {
@@ -38,6 +42,7 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
   const gameState = mapGameState(Number(game?.state ?? 0));
 
   const gameStarted = game?.state && gameState == "InProgress";
+  const gameFinished = game?.state && gameState == "Resolved";
 
   function getImgId(xSize: number, ySize: number) {
     if ((xSize === 2 && ySize === 1) || (xSize === 1 && ySize === 2)) {
@@ -77,7 +82,9 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         });
       }}
     >
-      Go to {hide ? "SEEK" : "HIDE"} phase
+      {round === 3 && seek
+        ? "Reveal winner"
+        : `Go to ${hide ? "SEEK" : "HIDE"} phase`}
     </Button>
   );
 
@@ -100,24 +107,29 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         </Flex>
         <hr />
         <Text>Game state: {gameState}</Text>
+        {gameStarted && !gameFinished && <Text>Round: {round}</Text>}
         {!player1 ||
           (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
-        {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
-          <Button
-            color="primary"
-            backgroundColor="teal.200"
-            onClick={async () => {
-              await client.gameroom.start_game({
-                account,
-                game_id: BigInt(roomId ?? ""),
-              });
-            }}
-          >
-            Start game
-          </Button>
-        )}
+        {player1isHere &&
+          player2isHere &&
+          isPlayer1 &&
+          !gameStarted &&
+          !gameFinished && (
+            <Button
+              color="primary"
+              backgroundColor="teal.200"
+              onClick={async () => {
+                await client.gameroom.start_game({
+                  account,
+                  game_id: BigInt(roomId ?? ""),
+                });
+              }}
+            >
+              Start game
+            </Button>
+          )}
         {gameStarted && hide && (
           <Heading mb={4} size="sm">
             {availableTreasures.length
@@ -163,6 +175,15 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
         )}
       </Flex>
       <Box m={2}>
+        {gameFinished && (
+          <Button
+            mb={4}
+            backgroundColor="teal.200"
+            onClick={() => navigate("/lobby")}
+          >
+            Go back to lobby
+          </Button>
+        )}
         <Text>
           Player 1: {feltToString(player1?.name.toString() ?? "") ?? ""}
         </Text>

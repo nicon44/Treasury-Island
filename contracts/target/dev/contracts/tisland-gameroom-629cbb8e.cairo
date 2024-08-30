@@ -657,9 +657,6 @@ pub mod gameroom {
                 }
             }
         }
-        fn set_trap(ref self: ContractState, game_id: u128, x: u8, y: u8) {
-            let world = self.world_dispatcher.read();
-        }
         fn dig_for_loot(ref self: ContractState, game_id: u128, x: u8, y: u8) -> bool {
             let world = self.world_dispatcher.read();
             let caller: ContractAddress = starknet::get_caller_address();
@@ -734,61 +731,80 @@ pub mod gameroom {
                     }
                     h_indices_counter += 1;
                 };
-                related_loot_object.hidden_indices = new_hidden_indices;
+
+                related_loot_object.hidden_indices = new_hidden_indices.clone();
 
                 // check if entire loot is found
-                if (related_loot_object.hidden_indices.len() == 0) {
+                if (new_hidden_indices.len() == 0) {
+                    println!("Entire loot is found");
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
                     match related_loot_object.loot_length {
-                        0 => {//assert(false, 'Invalid loot length');
+                        0 => {
+                            //assert(false, 'Invalid loot length');
+                            println!("Invalid loot length");
                         },
                         1 => {
-                            player_loottracker.loot_hidden_count.one -= 1;
-                            opponent_loottracker.loot_count.one += 1;
+                            println!("1x1 loot found");
+                            opponent_loottracker.loot_hidden_count.one -= 1;
+                            player_loottracker.loot_count.one += 1;
                         },
                         2 => {
-                            player_loottracker.loot_hidden_count.two -= 1;
-                            opponent_loottracker.loot_count.two += 1;
+                            println!("2x1 loot found");
+                            opponent_loottracker.loot_hidden_count.two -= 1;
+                            player_loottracker.loot_count.two += 1;
                         },
                         3 => {
-                            player_loottracker.loot_hidden_count.three -= 1;
-                            opponent_loottracker.loot_count.three += 1;
+                            println!("3x1 loot found");
+                            opponent_loottracker.loot_hidden_count.three -= 1;
+                            player_loottracker.loot_count.three += 1;
                         },
                         4 => {
-                            player_loottracker.loot_hidden_count.four -= 1;
-                            opponent_loottracker.loot_count.four += 1;
+                            println!("4x1 loot found");
+                            opponent_loottracker.loot_hidden_count.four -= 1;
+                            player_loottracker.loot_count.four += 1;
                         },
                         5 => {
-                            player_loottracker.loot_hidden_count.five -= 1;
-                            opponent_loottracker.loot_count.five += 1;
+                            println!("5x1 loot found");
+                            opponent_loottracker.loot_hidden_count.five -= 1;
+                            player_loottracker.loot_count.five += 1;
                         },
                         _ => {//assert(false, 'Invalid loot length');
                         }
                     }
 
-                    // if(related_loot_object.loot_length ==1){
-                    //     //player_loottracker.loot_hidden_count.one -= 1;
-                    //     opponent_loottracker.loot_count.one += 1;
-                    // }
-                    // transfer loot_id to opponent
-                    opponent_loottracker.loot_ids.append(found_loot_id);
-                    // pop loot_id from player
+                    // change owner of loot object
+                    let new_loot_object = LootObjectTrait::new(
+                        game_id, player, found_loot_id, related_loot_object.loot_length
+                    );
+
+                    set!(self.world(), (new_loot_object));
+                    //delete!(self.world(), (related_loot_object));
+
+                    // transfer loot_id to player loot tracker
+                    player_loottracker.loot_ids.append(found_loot_id);
+
+                    // pop loot_id from opponent
                     let mut loot_ids_array_counter = 0;
                     let mut new_loot_ids: Array<u8> = array![];
-                    while loot_ids_array_counter < player_loottracker.loot_ids.len() {
-                        let current_loot_id: u8 = *player_loottracker
+                    while loot_ids_array_counter < opponent_loottracker.loot_ids.len() {
+                        let current_loot_id: u8 = *opponent_loottracker
                             .loot_ids[loot_ids_array_counter];
                         if (current_loot_id != found_loot_id) {
                             new_loot_ids.append(current_loot_id);
                         }
                         loot_ids_array_counter += 1;
                     };
-                    player_loottracker.loot_ids = new_loot_ids;
+                    opponent_loottracker.loot_ids = new_loot_ids;
+                } else {
+                    println!("Loot only partially found");
                 }
 
                 // update related_loot_object
                 set!(self.world(), (related_loot_object));
+                // let previous_related_loot_object = get!(self.world(),
+                //     (game_id, opponent, found_loot_id), LootObject);
+                // delete!(self.world(), (previous_related_loot_object));
 
                 // not sure why this is moved (problem with player_loottracker)
                 set!(self.world(), (player_loottracker, opponent_loottracker));
@@ -849,10 +865,10 @@ pub mod gameroom {
                     let player_score = player_loottracker.loot_ids.len();
                     let opponent_score = opponent_loottracker.loot_ids.len();
 
-                    if (player_score > opponent_score) {
-                        game_room.winner = player;
-                    } else {
+                    if (player_score < opponent_score) {
                         game_room.winner = opponent;
+                    } else {
+                        game_room.winner = player;
                     }
                     game_room.state = 6;
                 }

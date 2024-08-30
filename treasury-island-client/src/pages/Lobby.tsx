@@ -21,9 +21,10 @@ import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
+import { useGameContext } from "../providers/GameProvider";
 import { bigintToHex, feltToString } from "../utils";
 
-export default function Component() {
+export default function Lobby() {
   const {
     setup: {
       clientComponents: { Player, GameRoom, Round, IslandCoords, Loot },
@@ -31,6 +32,8 @@ export default function Component() {
     },
     account: { account },
   } = useDojo();
+
+  const { resetGrid } = useGameContext();
 
   const navigate = useNavigate();
 
@@ -189,6 +192,7 @@ export default function Component() {
                                   game_id: BigInt(room?.game_id ?? ""),
                                 });
                               }
+                              resetGrid();
                               navigate(
                                 `/hide?id=${bigintToHex(room?.game_id)}`
                               );

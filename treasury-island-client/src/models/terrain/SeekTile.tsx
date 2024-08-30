@@ -16,18 +16,21 @@ export const SeekTile = ({ x, y }: TileProps) => {
   } = useDojo();
   const roomId = useRoomId();
 
-  const { grid } = useGameContext();
+  const { grid, shovels } = useGameContext();
   const [hovered, setHovered] = useState(false);
 
   const handleDig = async (event) => {
     event.stopPropagation();
-    const found = await client.gameroom.dig_for_loot({
-      account,
-      game_id: BigInt(roomId ?? ""),
-      x: x,
-      y: y,
-    });
-    console.log("found: ", found);
+    if (shovels > 0) {
+      await client.gameroom.dig_for_loot({
+        account,
+        game_id: BigInt(roomId ?? ""),
+        x: x,
+        y: y,
+      });
+    } else {
+      console.log('no shovels');
+    }
   };
 
   /*   const player1 =
