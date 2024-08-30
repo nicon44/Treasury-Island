@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Img, Text } from "@chakra-ui/react";
-import { Entity, getComponentValue } from "@dojoengine/recs";
+import { useComponentValue } from "@dojoengine/react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
+import { useNavigate } from "react-router-dom";
 import { useDojo } from "../dojo/useDojo";
 import { useAvailableTreasures } from "../hooks/useAvailableTreasures";
 import { useRoomId } from "../hooks/useRoomId";
@@ -9,14 +10,26 @@ import { PhaseProps } from "../types/PhaseProps";
 import { bigintToHex, feltToString, mapGameState } from "../utils";
 
 export const Sidebar = ({ hide, seek }: PhaseProps) => {
-  const { pickTreasure, game, phase } = useGameContext();
+  const {
+    pickTreasure,
+    game,
+    phase,
+    player1,
+    player1isHere,
+    player2,
+    player2isHere,
+    isPlayer1,
+    shovels,
+    opponentShovels,
+  } = useGameContext();
   const id = useRoomId();
+  const navigate = useNavigate();
 
   const availableTreasures = useAvailableTreasures();
 
   const {
     setup: {
-      clientComponents: { Player },
+      clientComponents: { LootTracker },
       client,
     },
     account: { account },
@@ -24,31 +37,10 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
 
   const roomId = useRoomId();
 
-  const gameState = mapGameState(game?.state);
+  const gameState = mapGameState(Number(game?.state ?? 0));
 
-  const gameStarted = game?.state && mapGameState(game?.state) == "InProgress";
-
-  const player1Address: string =
-    Number(game?.player1) == 0 ? "" : bigintToHex(game?.player1);
-  const player1isHere: boolean = player1Address == "" ? false : true;
-  const player1 =
-    game?.player1 &&
-    getComponentValue(
-      Player,
-      getEntityIdFromKeys([game.player1]) ?? ("" as Entity)
-    );
-
-  const player2Address: string =
-    Number(game?.player2) == 0 ? "" : bigintToHex(game?.player2);
-  const player2isHere: boolean = player2Address == "" ? false : true;
-  const player2 =
-    game?.player2 &&
-    getComponentValue(
-      Player,
-      getEntityIdFromKeys([game?.player2]) ?? ("" as Entity)
-    );
-
-  const isPlayer1 = account.address == bigintToHex(game?.player1);
+  const gameStarted = game?.state && gameState == "InProgress";
+  const gameFinished = game?.state && gameState == "Resolved";
 
   function getImgId(xSize: number, ySize: number) {
     if ((xSize === 2 && ySize === 1) || (xSize === 1 && ySize === 2)) {
@@ -59,6 +51,38 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
       return 1;
     }
   }
+
+  const oponent =
+    account.address == bigintToHex(BigInt(game?.player1.toString() ?? 0))
+      ? player2
+      : player1;
+
+  const entityKey = getEntityIdFromKeys([
+    BigInt(roomId ?? ""),
+    BigInt(oponent?.player_id.toString() ?? 0),
+  ]);
+  const oponentLootTracker = useComponentValue(LootTracker, entityKey ?? "");
+  const oponentHidAll =
+    oponentLootTracker?.loot_count?.four +
+      oponentLootTracker?.loot_count?.three +
+      oponentLootTracker?.loot_count?.two +
+      oponentLootTracker?.loot_count?.one ===
+    0;
+
+  const endRoundButton = (
+    <Button
+      variant="solid"
+      backgroundColor="teal.200"
+      onClick={async () => {
+        await client.gameroom.end_round({
+          account,
+          game_id: BigInt(roomId ?? ""),
+        });
+      }}
+    >
+      Go to {hide ? "SEEK" : "HIDE"} phase
+    </Button>
+  );
 
   return (
     <Flex
@@ -83,44 +107,46 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
           (!player2 && <Text>Waiting for other players to join...</Text>)}
         {phase !== "NULL" && <Text>Phase: {phase}</Text>}
         {/* both players are here and I am player 1 */}
-        {player1isHere && player2isHere && isPlayer1 && !gameStarted && (
-          <Button
-            color="primary"
-            backgroundColor="teal.200"
-            onClick={async () => {
-              await client.gameroom.start_game({
-                account,
-                game_id: BigInt(roomId ?? ""),
-              });
-            }}
-          >
-            Start game
-          </Button>
-        )}
+        {player1isHere &&
+          player2isHere &&
+          isPlayer1 &&
+          !gameStarted &&
+          !gameFinished && (
+            <Button
+              color="primary"
+              backgroundColor="teal.200"
+              onClick={async () => {
+                await client.gameroom.start_game({
+                  account,
+                  game_id: BigInt(roomId ?? ""),
+                });
+              }}
+            >
+              Start game
+            </Button>
+          )}
         {gameStarted && hide && (
           <Heading mb={4} size="sm">
             {availableTreasures.length
               ? "Select treasure to bury"
-              : isPlayer1 && (
-                  <Button
-                    variant="solid"
-                    backgroundColor="teal.200"
-                    onClick={async () => {
-                      await client.gameroom.end_round({
-                        account,
-                        game_id: BigInt(roomId ?? ""),
-                      });
-                    }}
-                  >
-                    End turn
-                  </Button>
-                )}
+              : isPlayer1 && oponentHidAll
+                ? endRoundButton
+                : "Waiting for opponent to bury all the treasures..."}
+          </Heading>
+        )}
+        {gameStarted && seek && (
+          <Heading mb={4} size="sm">
+            {shovels > 0
+              ? "Select tiles to dig"
+              : isPlayer1 && opponentShovels === 0
+                ? endRoundButton
+                : "Waiting for opponent to dig..."}
           </Heading>
         )}
         {hide && (
           <Flex direction="column" gap={2}>
             {availableTreasures.map((treasure) => (
-              <>
+              <span key={treasure.id}>
                 <Button
                   variant="outline"
                   key={treasure.id}
@@ -133,14 +159,28 @@ export const Sidebar = ({ hide, seek }: PhaseProps) => {
                     ml={2}
                   />
                 </Button>
-              </>
+              </span>
             ))}
+          </Flex>
+        )}
+        {seek && (
+          <Flex direction="column" gap={2}>
+            Shovels: {shovels}
           </Flex>
         )}
       </Flex>
       <Box m={2}>
-        <Text>Player 1: {feltToString(player1?.name ?? "") ?? ""}</Text>
-        <Text>Player 2: {feltToString(player2?.name ?? "") ?? ""}</Text>
+        {gameFinished && (
+          <Button mb={4} backgroundColor="teal.200" onClick={() => navigate("/lobby")}>
+            Go back to lobby
+          </Button>
+        )}
+        <Text>
+          Player 1: {feltToString(player1?.name.toString() ?? "") ?? ""}
+        </Text>
+        <Text>
+          Player 2: {feltToString(player2?.name.toString() ?? "") ?? ""}
+        </Text>
         <Text>Room ID: {id}</Text>
       </Box>
     </Flex>

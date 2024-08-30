@@ -1,12 +1,7 @@
-import { useComponentValue } from "@dojoengine/react";
-import { Entity, getComponentValue } from "@dojoengine/recs";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useMemo, useState } from "react";
-import { useDojo } from "../../dojo/useDojo";
 import { Terrain } from "../../enums/terrain";
 import { useGameContext } from "../../providers/GameProvider";
 import { TileProps } from "../../types/TileProps";
-import { bigintToHex } from "../../utils";
 import { Treasure } from "../Treasure";
 import { Palm } from "./Palm";
 import { Sand } from "./Sand";
@@ -20,11 +15,10 @@ export const HideTile = ({ x, y }: TileProps) => {
     buriedTreasures,
     grid,
     checkIfCanBeBuried,
-    game,
   } = useGameContext();
   const [hovered, setHovered] = useState(false);
 
-/*   const {
+  /*   const {
     setup: {
       clientComponents: { IslandCoords, Player },
     },
