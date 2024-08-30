@@ -45,7 +45,7 @@ mod gameroom {
     // Internal imports
     use starknet::{ContractAddress, get_block_timestamp, get_block_info};
     use tisland::models::index::{Player, GameRoom, IslandCoords, Loot, Round, ArrayTester,
-        LootObject, LootTracker, Guesses
+        LootObject, LootTracker, Guesses, Gold
     };
     use tisland::models::gameroom::{GameRoomTrait};
     use tisland::models::loot::{LootTrait};
@@ -55,6 +55,7 @@ mod gameroom {
     use tisland::models::arraytester::{ArrayTesterTrait};
     use tisland::models::lootobjects::{LootObjectTrait};
     use tisland::models::guesses::{GuessesTrait};
+    use tisland::models::gold::{GoldTrait};
     use tisland::libs::utils;
     use tisland::types::{events};
 
@@ -64,7 +65,7 @@ mod gameroom {
         THREE_BY_ONE, THREE_BY_ONE_DIMS,
         TWO_BY_ONE, TWO_BY_ONE_DIMS,
         ONE_BY_ONE, ONE_BY_ONE_DIMS,
-        MAX_X, MAX_Y
+        MAX_X, MAX_Y, DEFAULT_STARTING_GOLD
     };
     //use tisland::libs::seeder::{make_seed};
 
@@ -99,6 +100,9 @@ mod gameroom {
 
             // 3. init Round tracker
             let round = RoundTrait::new(game_id, game_room.round_num);
+
+            // 3b. init Starting Gold
+            let player1_gold = GoldTrait::new(game_id, game_room.player1);
 
             // 4. init LootTracker
             let mut player1_loottracker = LootTrackerTrait::new(game_id, game_room.player1);

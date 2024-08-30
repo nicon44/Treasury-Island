@@ -18650,7 +18650,7 @@
       ],
       [
         210,
-        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr118]>"
+        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr122]>"
       ],
       [
         211,
@@ -18666,15 +18666,15 @@
       ],
       [
         214,
-        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr181]>"
+        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr185]>"
       ],
       [
         215,
-        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr244]>"
+        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr248]>"
       ],
       [
         216,
-        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr307]>"
+        "function_call<user@tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr311]>"
       ],
       [
         217,
@@ -21404,19 +21404,19 @@
       ],
       [
         23,
-        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr118]"
+        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr122]"
       ],
       [
         24,
-        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr181]"
+        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr185]"
       ],
       [
         25,
-        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr244]"
+        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr248]"
       ],
       [
         26,
-        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr307]"
+        "tisland::systems::gameroom::gameroom::GameRoomImpl::start_game[expr311]"
       ],
       [
         27,
