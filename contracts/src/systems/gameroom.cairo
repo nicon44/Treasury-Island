@@ -104,6 +104,7 @@ mod gameroom {
 
             // 3b. init Starting Gold
             let player1_gold = GoldTrait::new(game_id, game_room.player1);
+            let player2_gold = GoldTrait::new(game_id, game_room.player2);
 
             // 4. init LootTracker
             let mut player1_loottracker = LootTrackerTrait::new(game_id, game_room.player1);
@@ -185,7 +186,10 @@ mod gameroom {
             // [Save] Models
             set!(self.world(), (game_room, round, 
                 player1_loottracker, 
-                player2_loottracker));
+                player2_loottracker,
+                player1_gold,
+                player2_gold
+            ));
         }
 
         fn hide_loot(ref world: IWorldDispatcher, game_id:u128, 
@@ -601,7 +605,7 @@ mod gameroom {
         }
 
         fn set_trap(ref world: IWorldDispatcher, game_id:u128, x: u8, y: u8) {
-            
+            assert(SHOPEMODE, 'Not Shop Mode');
             let caller: ContractAddress = starknet::get_caller_address();
             
             let mut game_room = get!(self.world(), (game_id), GameRoom);
@@ -625,9 +629,10 @@ mod gameroom {
             assert(player_loottracker.traps > 0, 'No more traps available');
 
             // // set trap
-            // let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
-            // player_loot.traps -= 1;
-            // set!(self.world(), (island_coords, player_loot));
+            let island_coords = IslandCoordsTrait::new(game_id, player, x, y, 3, 0);
+            player_loottracker.traps -= 1;
+            //set!(self.world(), (island_coords, player_loot));
+            set!(self.world(), (island_coords, player_loottracker));
         }
 
         fn dig_for_loot(ref world: IWorldDispatcher, game_id:u128, x:u8, y:u8)-> bool {
@@ -656,7 +661,8 @@ mod gameroom {
 
             // check to see if loot was found
             let mut island_coords = get!(self.world(), (game_id, opponent, x, y), IslandCoords);
-            let found_loot = (island_coords.terrain == 1);
+            let found_loot: bool = (island_coords.terrain == 1);
+            let found_trap: bool = (island_coords.terrain == 3);
             let player_guesses = GuessesTrait::new(game_id, player, x, y, game_room.round_num, found_loot);
             set!(self.world(), (player_guesses));
             
@@ -779,9 +785,17 @@ mod gameroom {
             } else {
                 //reduce tries
                 if (game_room.player1 == caller){
-                    round.player1_tries -= 1;
+                    if(found_trap){
+                        round.player1_tries = 0;
+                    } else {
+                        round.player1_tries -= 1;
+                    }
                 } else {
-                    round.player2_tries -= 1;
+                    if(found_trap){
+                        round.player2_tries = 0;
+                    } else {
+                        round.player2_tries -= 1;
+                    }
                 }
                 set!(self.world(), (round));
             }
