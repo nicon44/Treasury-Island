@@ -2,6 +2,7 @@ mod constants;
 //mod store;
 
 mod types {
+    mod events;
 }
 
 mod models {

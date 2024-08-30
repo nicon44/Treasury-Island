@@ -21,6 +21,20 @@ trait IGameRoom {
     fn end_round(ref world: IWorldDispatcher, game_id:u128);
 }
 
+// private/internal functions
+// #[dojo::interface]
+// trait IGameRoomInternal {
+//     fn _emitFoundEntireLootEvent(ref world: IWorldDispatcher, 
+//         game_id: u128, address: ContractAddress, 
+//         loot_length:u8,
+//         loot_id:u8,
+//         x: u8,
+//         y: u8);
+//     fn _emitFoundPartOfLootEvent(ref world: IWorldDispatcher, 
+//             game_id: u128, address: ContractAddress,
+//             x: u8,
+//             y: u8);
+// }
 
 // Contracts
 
@@ -42,6 +56,8 @@ mod gameroom {
     use tisland::models::lootobjects::{LootObjectTrait};
     use tisland::models::guesses::{GuessesTrait};
     use tisland::libs::utils;
+    use tisland::types::{events};
+
     //use super::{ArrayTrait};
     //use tisland::utils::arrays::{ArrayTrait};
     use tisland::constants::{FOUR_BY_ONE, FOUR_BY_ONE_DIMS,
@@ -667,6 +683,14 @@ mod gameroom {
                 // check if entire loot is found
                 if(new_hidden_indices.len() == 0){
                     println!("Entire loot is found");
+                    // emit!(self.world(), (Event::FoundEntireLootEvent(events::FoundEntireLootEvent{
+                    //     game_id: game_id,
+                    //     player_id: player,
+                    //     loot_id: found_loot_id,
+                    //     loot_length: related_loot_object.loot_length,
+                    //     x: x,
+                    //     y: y
+                    // })));
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
                     match related_loot_object.loot_length {
@@ -727,6 +751,12 @@ mod gameroom {
                     opponent_loottracker.loot_ids = new_loot_ids;
                     
                 }else{
+                    //emit!(self.world(), (Event::FoundPartOfLootEvent(events::FoundPartOfLootEvent{
+                        // game_id: game_id,
+                        // player_id: player,
+                        // x: x,
+                        // y: y
+                    // })));
                     println!("Loot only partially found");
                 }
 
@@ -800,5 +830,36 @@ mod gameroom {
         }
 
     }
+    
+
+    // #[event]
+    // #[derive(Drop, starknet::Event)]
+    // enum Event {
+    //     FoundPartOfLootEvent: event::FoundPartOfLootEvent,
+    //     FoundEntireLootEvent: event::FoundEntireLootEvent,
+    // }
+
+    // #[abi(embed_v0)] // commented to make this private
+    // impl GameRoomInternalImpl of super::IGameRoomInternal<ContractState> {
+    //     fn _emitFoundEntireLootEvent(ref world: IWorldDispatcher, address: ContractAddress, duelist: Duelist, is_new: bool) {
+    //         emit!(world, (Event::FoundEntireLootEvent(events::FoundEntireLootEvent{
+    //             game_id: u128, 
+    //             address: ContractAddress, 
+    //             loot_length:u8,
+    //             loot_id:u8,
+    //             x: u8,
+    //             y: u8
+    //         })));
+    //     }
+
+    //     fn _emitFoundPartOfLootEvent(ref world: IWorldDispatcher, address: ContractAddress, duelist: Duelist, is_new: bool) {
+    //         emit!(world, (Event::FoundPartOfLootEvent(events::FoundPartOfLootEvent{
+    //             game_id: u128, 
+    //             address: ContractAddress,
+    //             x: u8,
+    //             y: u8
+    //         })));
+    //     }
+    // }
 
 }

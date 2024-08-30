@@ -70,6 +70,8 @@ pub mod gameroom {
     use tisland::models::lootobjects::{LootObjectTrait};
     use tisland::models::guesses::{GuessesTrait};
     use tisland::libs::utils;
+    use tisland::types::{events};
+
     //use super::{ArrayTrait};
     //use tisland::utils::arrays::{ArrayTrait};
     use tisland::constants::{
@@ -737,6 +739,15 @@ pub mod gameroom {
                 // check if entire loot is found
                 if (new_hidden_indices.len() == 0) {
                     println!("Entire loot is found");
+                    // emit!(self.world(),
+                    // (Event::FoundEntireLootEvent(events::FoundEntireLootEvent{
+                    //     game_id: game_id,
+                    //     player_id: player,
+                    //     loot_id: found_loot_id,
+                    //     loot_length: related_loot_object.loot_length,
+                    //     x: x,
+                    //     y: y
+                    // })));
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
                     match related_loot_object.loot_length {
@@ -797,6 +808,12 @@ pub mod gameroom {
                     };
                     opponent_loottracker.loot_ids = new_loot_ids;
                 } else {
+                    //emit!(self.world(), (Event::FoundPartOfLootEvent(events::FoundPartOfLootEvent{
+                    // game_id: game_id,
+                    // player_id: player,
+                    // x: x,
+                    // y: y
+                    // })));
                     println!("Loot only partially found");
                 }
 
@@ -848,11 +865,11 @@ pub mod gameroom {
             let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
 
-            if (game_room.phase == 1) {
-                game_room.phase = 2;
+            if (game_room.phase < 3) {
+                game_room.phase += 1;
             } else if (game_room.phase == 2) {
                 if (game_room.round_num < 3) {
-                    game_room.phase = 1;
+                    game_room.phase = 1; //reset phase
                     game_room.round_num += 1;
 
                     // init new round
