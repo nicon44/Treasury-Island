@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { isMobile } from "react-device-detect";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ControlsHelp } from "./components/ControlsHelp";
 import { Game } from "./components/Game";
@@ -20,7 +21,7 @@ function App() {
                 <Sidebar hide />
                 <Game hide />
                 <Winner />
-                <ControlsHelp hide />
+                {!isMobile && <ControlsHelp hide />}
               </>
             }
           />
@@ -31,7 +32,7 @@ function App() {
                 <Sidebar seek />
                 <Game seek />
                 <Winner />
-                <ControlsHelp seek />
+                {!isMobile && <ControlsHelp seek />}
               </>
             }
           />
