@@ -2,6 +2,7 @@ mod constants;
 //mod store;
 
 mod types {
+    mod events;
 }
 
 mod models {
@@ -15,6 +16,7 @@ mod models {
     mod lootobjects;
     mod loottracker;
     mod guesses;
+    mod gold;
 }
 
 // mod components {

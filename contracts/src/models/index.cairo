@@ -33,6 +33,14 @@ pub struct GameRoom {
     pub timestamp_end: u64,
 }
 
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Gold {
+    #[key]
+    pub game_id: u128,
+    pub player_id: ContractAddress,
+    pub balance: u32
+}
 
 #[derive(Drop, Serde)]
 #[dojo::model]

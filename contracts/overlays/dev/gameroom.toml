@@ -3,6 +3,6 @@ writes = ["tisland-Player", "tisland-GameRoom",
 "tisland-Round", "tisland-IslandCoords",
 "tisland-Loot", "tisland-ArrayTester",
 "tisland-LootObject", "tisland-LootTracker",
-"tisland-Guesses"
+"tisland-Guesses", "tisland-Gold"
 ]
 calldata=[]

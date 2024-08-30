@@ -59,7 +59,8 @@ pub mod gameroom {
     // Internal imports
     use starknet::{ContractAddress, get_block_timestamp, get_block_info};
     use tisland::models::index::{
-        Player, GameRoom, IslandCoords, Loot, Round, ArrayTester, LootObject, LootTracker, Guesses
+        Player, GameRoom, IslandCoords, Loot, Round, ArrayTester, LootObject, LootTracker, Guesses,
+        Gold
     };
     use tisland::models::gameroom::{GameRoomTrait};
     use tisland::models::loot::{LootTrait};
@@ -69,12 +70,15 @@ pub mod gameroom {
     use tisland::models::arraytester::{ArrayTesterTrait};
     use tisland::models::lootobjects::{LootObjectTrait};
     use tisland::models::guesses::{GuessesTrait};
+    use tisland::models::gold::{GoldTrait};
     use tisland::libs::utils;
+    use tisland::types::{events};
+
     //use super::{ArrayTrait};
     //use tisland::utils::arrays::{ArrayTrait};
     use tisland::constants::{
         FOUR_BY_ONE, FOUR_BY_ONE_DIMS, THREE_BY_ONE, THREE_BY_ONE_DIMS, TWO_BY_ONE, TWO_BY_ONE_DIMS,
-        ONE_BY_ONE, ONE_BY_ONE_DIMS, MAX_X, MAX_Y
+        ONE_BY_ONE, ONE_BY_ONE_DIMS, MAX_X, MAX_Y, SHOPEMODE, DEFAULT_STARTING_GOLD
     };
     //use tisland::libs::seeder::{make_seed};
 
@@ -108,6 +112,9 @@ pub mod gameroom {
 
             // 3. init Round tracker
             let round = RoundTrait::new(game_id, game_room.round_num);
+
+            // 3b. init Starting Gold
+            let player1_gold = GoldTrait::new(game_id, game_room.player1);
 
             // 4. init LootTracker
             let mut player1_loottracker = LootTrackerTrait::new(game_id, game_room.player1);
@@ -252,7 +259,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 1) {
+                        if (loot_object.loot_length == 1 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -335,7 +342,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 2) {
+                        if (loot_object.loot_length == 2 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -417,7 +424,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 3) {
+                        if (loot_object.loot_length == 3 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -500,7 +507,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 4) {
+                        if (loot_object.loot_length == 4 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -583,7 +590,7 @@ pub mod gameroom {
                         );
 
                         // look for loot_id with correct length and return back new_loot_ids
-                        if (loot_object.loot_length == 5) {
+                        if (loot_object.loot_length == 5 && loot_object.hidden == false) {
                             using_loot_id = current_loot_id;
                         } else {
                             new_loot_ids.append(current_loot_id);
@@ -656,6 +663,35 @@ pub mod gameroom {
                     assert(false, 'Invalid loot length to hide');
                 }
             }
+        }
+        fn set_trap(ref self: ContractState, game_id: u128, x: u8, y: u8) {
+            let world = self.world_dispatcher.read();
+            let caller: ContractAddress = starknet::get_caller_address();
+
+            let mut game_room = get!(self.world(), (game_id), GameRoom);
+            // assert caller is in game
+            assert(
+                caller == game_room.player1 || caller == game_room.player2,
+                'Caller is not in the game'
+            );
+
+            // assert if phase is 1: hide
+            assert(game_room.phase == 1, 'Not in hide phase');
+
+            let player = if (game_room.player1 == caller) {
+                game_room.player1
+            } else {
+                game_room.player2
+            };
+            //let mut player_loot = get!(self.world(), (game_id, player), Loot);
+            let mut player_loottracker = get!(self.world(), (game_id, player), LootTracker);
+
+            // assert coordinates are valid
+            assert(x < MAX_X && y < MAX_Y, 'Invalid coordinates');
+
+            // assert traps are available
+            //assert(player_loot.traps > 0, 'No more traps available');
+            assert(player_loottracker.traps > 0, 'No more traps available');
         }
         fn dig_for_loot(ref self: ContractState, game_id: u128, x: u8, y: u8) -> bool {
             let world = self.world_dispatcher.read();
@@ -737,6 +773,15 @@ pub mod gameroom {
                 // check if entire loot is found
                 if (new_hidden_indices.len() == 0) {
                     println!("Entire loot is found");
+                    // emit!(self.world(),
+                    // (Event::FoundEntireLootEvent(events::FoundEntireLootEvent{
+                    //     game_id: game_id,
+                    //     player_id: player,
+                    //     loot_id: found_loot_id,
+                    //     loot_length: related_loot_object.loot_length,
+                    //     x: x,
+                    //     y: y
+                    // })));
                     // update loot hidden tracker stats
                     related_loot_object.hidden = false;
                     match related_loot_object.loot_length {
@@ -797,6 +842,12 @@ pub mod gameroom {
                     };
                     opponent_loottracker.loot_ids = new_loot_ids;
                 } else {
+                    //emit!(self.world(), (Event::FoundPartOfLootEvent(events::FoundPartOfLootEvent{
+                    // game_id: game_id,
+                    // player_id: player,
+                    // x: x,
+                    // y: y
+                    // })));
                     println!("Loot only partially found");
                 }
 
@@ -848,11 +899,16 @@ pub mod gameroom {
             let player_loottracker = get!(self.world(), (game_id, caller), LootTracker);
             let opponent_loottracker = get!(self.world(), (game_id, opponent), LootTracker);
 
-            if (game_room.phase == 1) {
-                game_room.phase = 2;
-            } else if (game_room.phase == 2) {
+            let shopmode: u8 = if (SHOPEMODE) {
+                3
+            } else {
+                2
+            };
+            if (game_room.phase < shopmode) {
+                game_room.phase += 1;
+            } else if (game_room.phase == (shopmode)) {
                 if (game_room.round_num < 3) {
-                    game_room.phase = 1;
+                    game_room.phase = 1; //reset phase
                     game_room.round_num += 1;
 
                     // init new round
